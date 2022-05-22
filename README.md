@@ -1,8 +1,8 @@
 #Monorepo Template
 
-This is an experiment for a super simple, no to low magic solution for a monorepo setup (multiple application / packages in a single repository). I would think of this as more a template for one possible way to structure a monorepo but I don't intend to add much automation of things (as stuff pops up I am add some simple scripts but I am going to avoid that as much as possible).
+This is an experiment for a super simple, a no to low blackbox solution for a monorepo setup (multiple application / packages in a single repository). I would think of this as more a template for one possible way to structure a monorepo. I might update this from time to time with new library updates or just random things I want to try.
 
-You probably should not use this but ¯\\\_(ツ)_/¯
+Maybe you shouldn't use this but maybe it will be useful to someone for some reason ¯\\\_(ツ)_/¯
 
 # What Is Included
 
@@ -14,13 +14,12 @@ The following is includes:
 - Webpack
 - Storybook
 - ESLint
-- Jest
-- Cypress (for storybook component testing)
+- Cypress (setup for unit testing only)
 - Example Application
   - Axios
   - Emotion CSS
   - Font Awesome Icons
-  - Immer
+  - Immer (data immutability)
   - Inter Font
   - Lodash
   - React
@@ -28,14 +27,14 @@ The following is includes:
   - React Hook Form
   - React Router
   - Zod (data validation)
+  - Downshift
 - .nvmrc
-- 
 
 # Setup Documentation
 
 These are the follow steps to setup this monorepo template.
 
-**NOTE: In order to simulate a login setup which I wanted to provide here, I am using Auth0 since it seemed relatively simple and has a free plan. You can modify the `packges/contexts/authentication.ts` file and associated usage fo it to provide your own authentication if you prefer.**
+**NOTE: In order to simulate a login setup which I wanted to provide here, I am using Auth0 since it seemed relatively simple and has a free plan. You can modify the `packges/contexts/authentication.ts` file and associated usage of it to provide your own authentication if you prefer.**
 
 ## Tools You Need
 
