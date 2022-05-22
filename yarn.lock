@@ -15622,7 +15622,7 @@ __metadata:
     webpack: 5.72.0
     webpack-cli: 4.9.2
     webpack-dev-server: 4.9.0
-    zod: 3.16.0
+    zod: 3.17.2
   languageName: unknown
   linkType: soft
 
@@ -21727,10 +21727,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"zod@npm:3.16.0":
-  version: 3.16.0
-  resolution: "zod@npm:3.16.0"
-  checksum: 2879a18e090ee67206375408eb0e506d32f3d6658634aa7f253250c4c223ebaef64dd0d76634a0b0bbd0ea64d26d512d8817a584a0490030b3b308fc62f83d1c
+"zod@npm:3.17.2":
+  version: 3.17.2
+  resolution: "zod@npm:3.17.2"
+  checksum: 25e89f180ce9811682b1a894e3014cbd57c473fd46880d1787c90bf4ef7eb0b9109acb230f5b663ff0cfdfa4cc6b0bca60ae8efcb45ae7ae66cc37e72b894ded
   languageName: node
   linkType: hard
 
