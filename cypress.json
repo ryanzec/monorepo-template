@@ -1,0 +1,12 @@
+{
+  "baseUrl": "http://localhost:4000",
+  "ignoreTestFiles": [
+    "**/1-getting-started/*.js",
+    "**/2-advanced-examples/*.js"
+  ],
+  "component": {
+    "testFiles": "**/*.cypress.spec.{js,ts,jsx,tsx}",
+    "componentFolder": "cypress"
+  },
+  "video": false
+}

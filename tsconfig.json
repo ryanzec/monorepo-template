@@ -1,0 +1,36 @@
+{
+  "compilerOptions": {
+    "baseUrl": ".",
+    "lib": ["dom", "dom.iterable", "esnext"],
+    "allowJs": true,
+    "allowSyntheticDefaultImports": true,
+    "skipLibCheck": true,
+    "esModuleInterop": true,
+    "strict": true,
+    "forceConsistentCasingInFileNames": true,
+    "moduleResolution": "node",
+    "resolveJsonModule": true,
+    "isolatedModules": true,
+    "noEmit": true,
+    "jsx": "react",
+    "noEmitOnError": true,
+    "target": "es6",
+    "module": "commonjs",
+    "paths": {
+      "$components/*": ["./packages/components/*"],
+      "$views/*": ["./packages/views/*"],
+      "$utils/*": ["./packages/utils/*"],
+      "$types/*": ["./packages/types/*"],
+      "$hooks/*": ["./packages/hooks/*"],
+      "$contexts/*": ["./packages/contexts/*"],
+      "$storybook-helpers/*": ["./packages/storybook-helpers/*"]
+    }
+  },
+  "exclude": ["**/*.cypress.spec.{ts,tsx}"],
+  "include": [
+    "./applications/web/src",
+    "./applications/api/src",
+    "./custom-types",
+    "./packages"
+  ],
+}

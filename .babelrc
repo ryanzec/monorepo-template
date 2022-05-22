@@ -1,0 +1,24 @@
+{
+  "presets": [
+    "@babel/preset-env",
+    "@babel/preset-react",
+    "@babel/preset-typescript"
+  ],
+  "plugins": [
+    "@emotion",
+    [
+      "@babel/plugin-transform-runtime",
+      {
+        "regenerator": true
+      }
+    ],
+    // this is need to make sure mocking exports works properly (without this, some mocks in cypress where not working)
+    [
+      "@babel/plugin-transform-modules-commonjs",
+      {
+        "loose": true
+      }
+    ],
+    "istanbul"
+  ]
+}
