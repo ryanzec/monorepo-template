@@ -8,7 +8,7 @@ Maybe you shouldn't use this but maybe it will be useful to someone for some rea
 
 The following is includes:
 
-- Yarn Zero-Installs
+- Yarn
 - TypeScript (w/ Babel)
 - Auto Code Formatting
 - Webpack
@@ -38,10 +38,14 @@ These are the follow steps to setup this monorepo template.
 
 ## Tools You Need
 
-- Node: Recommend NVM (https://github.com/nvm-sh/nvm#installing-and-updating)
+- Node 16.15.x+: Recommend NVM (https://github.com/nvm-sh/nvm#installing-and-updating)
 
 ## Running Locally
 
+### Enabling Yarn 2+
+- run `corepack enable`
+
+### Running the Code
 - run `yarn`
 - copy `.evn-template` to `.env` and fill in values
 - copy `applications/web/src/index.html-template` to `applications/web/src/index.html` and fill in values
