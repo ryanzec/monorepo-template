@@ -27,7 +27,8 @@ The following is includes:
   - React Hook Form
   - React Router
   - Zod (data validation)
-  - Downshift
+  - Downshift (auto complete)
+  - react-virtuoso (virtualized views)
 - .nvmrc
 
 # Setup Documentation
