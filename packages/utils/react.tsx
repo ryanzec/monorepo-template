@@ -1,5 +1,5 @@
 import React, { createContext, useContext } from 'react';
-import { OptionalChildrenComponent, ReactContext } from '$types/react';
+import type { GenericComponentProps, ReactContextImplementation } from '$/types/react';
 
 interface BuildProviderParams<T> {
   context: React.Context<T>;
@@ -8,13 +8,13 @@ interface BuildProviderParams<T> {
 
 const buildProvider =
   <T,>({ context, getState }: BuildProviderParams<T>) =>
-  ({ children }: OptionalChildrenComponent) => {
+  ({ children }: GenericComponentProps) => {
     const state = getState();
 
     return <context.Provider value={state}>{children}</context.Provider>;
   };
 
-export const buildContext = <T,>(defaultValue: T, getState: () => T): ReactContext<T> => {
+const buildContext = <T,>(defaultValue: T, getState: () => T): ReactContextImplementation<T> => {
   const context = createContext<T>(defaultValue);
   const provider = buildProvider<T>({ context, getState });
 
@@ -23,4 +23,8 @@ export const buildContext = <T,>(defaultValue: T, getState: () => T): ReactConte
     context,
     useContext: (): T => useContext(context),
   };
+};
+
+export const reactUtils = {
+  buildContext,
 };

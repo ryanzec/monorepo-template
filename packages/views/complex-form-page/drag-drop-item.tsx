@@ -1,16 +1,11 @@
 import React, { memo, useRef } from 'react';
 import { useDrag, useDrop, DragSourceMonitor, DropTargetMonitor } from 'react-dnd';
 import { FieldErrors, UseFormRegister } from 'react-hook-form';
-import { Input } from '$components/forms/input';
-import { ValidationMessage } from '$components/forms/validation-message';
-import { InputContainer } from '$components/forms/input-container';
-import { DragItem, FieldId, MoveItem, Todo } from '$views/complex-form-page/types';
-import { ComplexFormData } from '$views/complex-form-page/complex-form-page';
+import Form from '$/components/form/form';
+import { DragItem, FieldId, MoveItem, Todo } from '$/views/complex-form-page/common';
+import { ComplexFormData } from '$/views/complex-form-page/complex-form-page';
 import { Identifier } from 'dnd-core';
-import * as dragDropUtils from '$utils/drag-drop';
-
-// destructing for cleaner access
-const { DragDropType } = dragDropUtils;
+import { dragDropUtils, DragDropType } from '$/utils/drag-drop';
 
 export interface DragDropItemProps {
   item: Todo;
@@ -86,13 +81,13 @@ export const DragDropItem = memo(({ fieldId, item, register, errors, index, move
   const fieldName = fieldId === FieldId.TODOS ? 'todos' : 'todosCompleted';
 
   return (
-    <InputContainer data-id="item" forwardRef={ref} key={item.id}>
-      <Input type="text" property={`${fieldName}.${index}.name`} register={register} />
-      <Input type="checkbox" property={`${fieldName}.${index}.isCompleted`} register={register} /> Completed({item.id})
+    <Form.InputContainer data-id="item" selfRef={ref} key={item.id}>
+      <Form.Input type="text" property={`${fieldName}.${index}.name`} register={register} />
+      <Form.Input type="checkbox" property={`${fieldName}.${index}.isCompleted`} register={register} /> Completed
       {errors[fieldName]?.[index]?.name && (
-        <ValidationMessage>{errors[fieldName]?.[index].name?.message}</ValidationMessage>
+        <Form.ValidationMessage>{errors[fieldName]?.[index]?.name?.message}</Form.ValidationMessage>
       )}
-    </InputContainer>
+    </Form.InputContainer>
   );
 });
 

@@ -11,7 +11,7 @@ export interface ShouldChangePositionParams<T> {
   checkingIndex: number;
 }
 
-export const shouldChangePosition = <T>({
+const shouldChangePosition = <T>({
   checkingBoundingRect,
   monitor,
   draggingIndex,
@@ -26,4 +26,8 @@ export const shouldChangePosition = <T>({
   if (draggingIndex > checkingIndex && hoverActualY > hoverMiddleY) return false;
 
   return true;
+};
+
+export const dragDropUtils = {
+  shouldChangePosition,
 };

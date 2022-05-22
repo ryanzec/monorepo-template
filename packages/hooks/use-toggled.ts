@@ -6,7 +6,7 @@ export interface UseToggle {
   toggle: () => void;
 }
 
-export const useToggled = (defaultIsToggled = false): UseToggle => {
+const useToggled = (defaultIsToggled = false): UseToggle => {
   const [isToggled, setIsToggled] = useState<boolean>(defaultIsToggled);
 
   const toggle = useCallback(() => {
@@ -20,4 +20,6 @@ export const useToggled = (defaultIsToggled = false): UseToggle => {
   };
 };
 
-export default useToggled;
+export const useToggledHook = {
+  useToggled,
+};

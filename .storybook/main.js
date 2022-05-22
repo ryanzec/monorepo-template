@@ -1,5 +1,5 @@
-const webpackUtils = require('../webpackUtils');
-const path = require("path");
+const TsconfigPathsPlugin = require('tsconfig-paths-webpack-plugin');
+const { VanillaExtractPlugin } = require('@vanilla-extract/webpack-plugin');
 
 module.exports = {
   "stories": [
@@ -8,31 +8,18 @@ module.exports = {
   ],
   "addons": [
     "@storybook/addon-links",
-    "@storybook/addon-essentials"
+    "@storybook/addon-essentials",
+    "@storybook/addon-interactions"
   ],
-  webpackFinal: async (config, { configType }) => {
-    // `configType` has a value of 'DEVELOPMENT' or 'PRODUCTION'
-    // You can change the configuration based on that.
-    // 'PRODUCTION' is used when building the static version of storybook.
-
-    // Make whatever fine-grained changes you need
-    // config.module.rules.push({
-    //   test: /\.scss$/,
-    //   use: ['style-loader', 'css-loader', 'sass-loader'],
-    //   include: path.resolve(__dirname, '../'),
-    // });
-
-    config.resolve.alias = {
-      $components: webpackUtils.RESOLVE_ALIAS.$components,
-      $views: webpackUtils.RESOLVE_ALIAS.$views,
-      $utils: webpackUtils.RESOLVE_ALIAS.$utils,
-      $types: webpackUtils.RESOLVE_ALIAS.$types,
-      $hooks: webpackUtils.RESOLVE_ALIAS.$hooks,
-      $contexts: webpackUtils.RESOLVE_ALIAS.$contexts,
-      '$storybook-helpers': webpackUtils.RESOLVE_ALIAS["$storybook-helpers"],
-    };
-
-    // Return the altered config
-    return config;
+  "framework": "@storybook/react",
+  "core": {
+    "builder": "@storybook/builder-webpack5"
   },
+  webpackFinal: async (config, { configType }) => {
+    config.resolve.plugins = [new TsconfigPathsPlugin()];
+
+    config.plugins.push(new VanillaExtractPlugin());
+
+    return config;
+  }
 }

@@ -1,5 +1,5 @@
 import React from 'react';
-import { ComplexFormPage } from '$views/complex-form-page/complex-form-page';
+import ComplexFormPage from '$/views/complex-form-page/complex-form-page';
 
 export default {
   title: 'Packages/View/ComplexFormPage',

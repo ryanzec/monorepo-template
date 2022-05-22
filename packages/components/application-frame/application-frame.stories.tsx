@@ -1,7 +1,8 @@
 import React from 'react';
-import * as storybookUtils from '$utils/storybook';
-import FlexContainer from '$storybook-helpers/flex-container';
-import { ApplicationFrame } from '$components/application-frame/application-frame';
+import { storybookUtils } from '$/utils/storybook';
+import FlexContainer from '$/storybook-helpers/flex-container';
+import FlexContainerItem from '$/storybook-helpers/flex-container-item';
+import { ApplicationFrame } from '$/components/application-frame/application-frame';
 
 export default {
   title: 'Packages/Components/Application Frame',
@@ -11,7 +12,9 @@ export default {
 export const CypressDefault = () => {
   return (
     <FlexContainer>
-      <ApplicationFrame>Testing</ApplicationFrame>
+      <FlexContainerItem>
+        <ApplicationFrame>Testing</ApplicationFrame>
+      </FlexContainerItem>
     </FlexContainer>
   );
 };

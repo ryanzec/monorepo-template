@@ -2,7 +2,7 @@ import React from 'react';
 import { MemoryRouter, Route, Routes } from 'react-router';
 import { StoryFn } from '@storybook/react';
 
-export const reactRouterDecorator = (Story: StoryFn<Partial<unknown>>) => {
+const reactRouterDecorator = (Story: StoryFn<Partial<unknown>>) => {
   return (
     <MemoryRouter initialEntries={['/']}>
       <Routes>
@@ -10,4 +10,8 @@ export const reactRouterDecorator = (Story: StoryFn<Partial<unknown>>) => {
       </Routes>
     </MemoryRouter>
   );
+};
+
+export const storybookUtils = {
+  reactRouterDecorator,
 };
