@@ -63,7 +63,7 @@ export const onSubmitForm = (data: ComplexFormData) => {
 const todos: Todo[] = [];
 
 for (let i = 0; i < 2; i++) {
-  todos.push({ id: uuid(), name: uuid(), isCompleted: false });
+  todos.push({ id: `static values for visualing testing ${i}`, name: uuid(), isCompleted: false });
 }
 
 export const ComplexFormPage = () => {
