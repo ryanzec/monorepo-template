@@ -5,7 +5,7 @@
     "**/2-advanced-examples/*.js"
   ],
   "component": {
-    "testFiles": "**/*.cypress.spec.{js,ts,jsx,tsx}",
+    "testFiles": "unit/**/*.cypress.spec.{js,ts,jsx,tsx}",
     "componentFolder": "cypress"
   }
 }
