@@ -4,7 +4,7 @@
     "noEmit": true,
     // be explicit about types included
     // to avoid clashing with Jest types
-    "types": ["cypress", "cypress-real-events"]
+    "types": ["cypress", "cypress-real-events", "cypress-visual-regression"]
   },
   "include": [
     "../node_modules/cypress",

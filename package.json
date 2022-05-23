@@ -70,6 +70,7 @@
     "css-loader": "6.7.1",
     "cypress": "9.6.0",
     "cypress-real-events": "1.7.0",
+    "cypress-visual-regression": "1.7.0",
     "dotenv": "16.0.0",
     "eslint": "8.15.0",
     "eslint-config-prettier": "8.5.0",
@@ -110,7 +111,9 @@
     "lint:fix": "./node_modules/.bin/eslint --cache --fix --ext .jsx --ext .js --ext ts --ext tsx ./packages",
     "start:api": "nodemon applications/api/src/server.ts",
     "start:web": "webpack serve --config applications/web/webpack.config.dev.ts",
-    "test:unit": "./node_modules/.bin/cypress run-ct",
+    "test:unit": "./node_modules/.bin/cypress run-ct -C ./cypress.json",
+    "test:visual": "./node_modules/.bin/cypress run-ct -C ./cypress.visual.json --env type=actual",
+    "test:visual:update": "./node_modules/.bin/cypress run-ct -C ./cypress.visual.json --env type=base",
     "test:unit:videos": "./node_modules/.bin/cypress run-ct -C ./cypress.videos.json",
     "storybook": "start-storybook -p 6006"
   },

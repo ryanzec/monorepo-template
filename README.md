@@ -14,7 +14,7 @@ The following is includes:
 - Webpack
 - Storybook
 - ESLint
-- Cypress (setup for unit testing only)
+- Cypress (setup for unit and visual testing)
 - Example Application
   - Axios
   - Emotion CSS

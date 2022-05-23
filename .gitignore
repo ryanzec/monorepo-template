@@ -16,6 +16,8 @@ applications/web/src/index.html
 applications/web/build/*
 cypress/videos
 .nyc_output/*
+cypress/snapshots/actual
+cypress/snapshots/diff
 
 # yarn
 # reference (using Zero-Installs version): https://yarnpkg.com/getting-started/qa#which-files-should-be-gitignored
@@ -27,9 +29,5 @@ cypress/videos
 !.yarn/sdks
 !.yarn/versions
 
-
-
-
-
-
+# tmp
 STYLE_GUIDE.md

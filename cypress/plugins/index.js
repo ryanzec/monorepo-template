@@ -12,6 +12,7 @@
 // This function is called when a project is opened or re-opened (e.g. due to
 // the project's config changing)
 import path from 'path';
+import getCompareSnapshotsPlugin from 'cypress-visual-regression/dist/plugin';
 
 /**
  * @type {Cypress.PluginConfig}
@@ -27,6 +28,8 @@ module.exports = (on, config) => {
   require('@cypress/react/plugins/load-webpack')(on, config, {
     webpackFilename: path.join(__dirname, '..', '..', 'applications', 'web', 'webpack.config.dev'),
   });
+
+  getCompareSnapshotsPlugin(on, config);
 
   // IMPORTANT to return the config object
   // with the any changed environment variables
