@@ -1,12 +1,9 @@
 import * as React from 'react';
 import * as routerUtils from '$utils/router';
-import { composeStories } from '@storybook/testing-react';
 import { mount } from '@cypress/react';
 import authenticationContext from '$contexts/authentication';
 import * as component from '$components/application-frame/application-frame';
-import * as stories from '$components/application-frame/application-frame.stories';
-
-const { CypressDefault } = composeStories(stories);
+import * as cypressUtils from '$utils/cypress';
 
 const selectors = {
   frame: '[data-id="frame"]',
@@ -25,7 +22,7 @@ describe('application frame', () => {
     });
 
     cy.viewport(1024, 768);
-    mount(<CypressDefault />);
+    mount(cypressUtils.addBasicWrapper(<component.ApplicationFrame>Testing</component.ApplicationFrame>));
 
     cy.get(selectors.frame).should('exist');
     cy.get(selectors.navigation).should('not.exist');
@@ -39,8 +36,12 @@ describe('application frame', () => {
       isAuthenticated: true,
     });
 
+    const navigateStub = cy.stub().as('navigateStub');
+
+    cy.stub(routerUtils, 'useNavigate', () => navigateStub).as('useNavigateStub');
+
     cy.viewport(1024, 768);
-    mount(<CypressDefault />);
+    mount(cypressUtils.addBasicWrapper(<component.ApplicationFrame>Testing</component.ApplicationFrame>));
 
     cy.get(selectors.frame).should('exist');
     cy.get(selectors.navigation).should('exist');
@@ -59,7 +60,7 @@ describe('application frame', () => {
     cy.stub(routerUtils, 'useNavigate', () => navigateStub).as('useNavigateStub');
 
     cy.viewport(1024, 768);
-    mount(<CypressDefault />);
+    mount(cypressUtils.addBasicWrapper(<component.ApplicationFrame>Testing</component.ApplicationFrame>));
 
     cy.get(selectors.navigationItems).eq(0).click();
 
@@ -73,8 +74,12 @@ describe('application frame', () => {
       isAuthenticated: true,
     });
 
+    const navigateStub = cy.stub().as('navigateStub');
+
+    cy.stub(routerUtils, 'useNavigate', () => navigateStub).as('useNavigateStub');
+
     cy.viewport(1024, 768);
-    mount(<CypressDefault />);
+    mount(cypressUtils.addBasicWrapper(<component.ApplicationFrame>Testing</component.ApplicationFrame>));
 
     cy.get(selectors.logoutButton).click();
 

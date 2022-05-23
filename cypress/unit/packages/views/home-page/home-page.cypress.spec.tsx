@@ -2,11 +2,9 @@ import React from 'react';
 import { composeStories } from '@storybook/testing-react';
 import { mount } from '@cypress/react';
 import * as useToggledHook from '$hooks/use-toggled';
-import * as cypressUtils from '$utils/cypress';
 import authenticationContext from '$contexts/authentication';
-import * as stories from '$views/home-page/home-page.stories';
-
-const { CypressDefault } = composeStories(stories);
+import * as cypressUtils from '$utils/cypress';
+import * as component from '$views/home-page/home-page';
 
 describe('home page', () => {
   it('clicking the test api button works', () => {
@@ -29,7 +27,7 @@ describe('home page', () => {
     });
 
     cy.viewport(1024, 768);
-    mount(<CypressDefault />);
+    mount(cypressUtils.addApplicationFrameWrapper(<component.HomePage />));
 
     cy.get('[data-id="test-api"]').click();
 
@@ -49,7 +47,7 @@ describe('home page', () => {
     });
 
     cy.viewport(1024, 768);
-    mount(<CypressDefault />);
+    mount(cypressUtils.addApplicationFrameWrapper(<component.HomePage />));
 
     cy.get('[data-id="test-api"]').should('be.disabled');
   });

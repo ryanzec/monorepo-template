@@ -1,10 +1,7 @@
 import React from 'react';
-import { composeStories } from '@storybook/testing-react';
 import { mount } from '@cypress/react';
-
-import * as stories from '$views/complex-form-page/complex-form-page.stories';
-
-const { CypressDefault } = composeStories(stories);
+import * as cypressUtils from '$utils/cypress';
+import * as component from '$views/complex-form-page/complex-form-page';
 
 const selectors = {
   todoEmptyState: '[data-id="complex-form-page"] [data-id="todos"] [data-id="empty-state"]',
@@ -18,7 +15,7 @@ describe('complex form page', () => {
   // worked so not sure this will work in all use cases but fingers crossed
   it('dragging todo items work properly', () => {
     cy.viewport(1024, 768);
-    mount(<CypressDefault />);
+    mount(cypressUtils.addApplicationFrameWrapper(<component.ComplexFormPage />));
 
     cy.get(selectors.todoEmptyState).should('not.exist');
     cy.get(selectors.todoItems).should('have.length', 2);
