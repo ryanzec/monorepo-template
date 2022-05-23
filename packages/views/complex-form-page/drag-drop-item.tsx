@@ -88,7 +88,7 @@ export const DragDropItem = memo(({ fieldId, item, register, errors, index, move
   return (
     <InputContainer data-id="item" forwardRef={ref} key={item.id}>
       <Input type="text" property={`${fieldName}.${index}.name`} register={register} />
-      <Input type="checkbox" property={`${fieldName}.${index}.isCompleted`} register={register} /> Completed({item.id})
+      <Input type="checkbox" property={`${fieldName}.${index}.isCompleted`} register={register} /> Completed
       {errors[fieldName]?.[index]?.name && (
         <ValidationMessage>{errors[fieldName]?.[index].name?.message}</ValidationMessage>
       )}

@@ -63,7 +63,7 @@ export const onSubmitForm = (data: ComplexFormData) => {
 const todos: Todo[] = [];
 
 for (let i = 0; i < 2; i++) {
-  todos.push({ id: `static values for visualing testing ${i}`, name: uuid(), isCompleted: false });
+  todos.push({ id: uuid(), name: `static values ${i}`, isCompleted: false });
 }
 
 export const ComplexFormPage = () => {
@@ -205,7 +205,7 @@ export const ComplexFormPage = () => {
         </div>
         <Button
           onClick={() => {
-            appendTodoValues({ id: uuid(), name: uuid(), isCompleted: false });
+            appendTodoValues({ id: uuid(), name: `static values ${todoValues.length}`, isCompleted: false });
           }}
         >
           Add Todo
