@@ -1,5 +1,4 @@
 import React from 'react';
-import sinon from 'sinon';
 import { Auth0Client } from '@auth0/auth0-spa-js';
 import * as authenticationUtils from '$utils/authentication';
 import { createAuthenticationContext } from '$contexts/authentication';
@@ -84,10 +83,9 @@ const selectors = {
 
 describe('authentication context', () => {
   it('works properly when logged in check is valid', () => {
-    const auth0ClientMock = sinon.createStubInstance(Auth0Client);
-
-    auth0ClientMock.isAuthenticated.resolves(true);
-
+    const auth0ClientMock = { handleRedirectCallback: () => {}, isAuthenticated: () => {} } as unknown as Auth0Client;
+    const handleRedirectCallbackStub = cy.stub(auth0ClientMock, 'handleRedirectCallback');
+    const isAuthenticatedStub = cy.stub(auth0ClientMock, 'isAuthenticated').resolves(true);
     const getClientStub = cy.stub(authenticationUtils, 'getClient').as('getClientStub');
 
     getClientStub.resolves(auth0ClientMock);
@@ -100,17 +98,16 @@ describe('authentication context', () => {
     cy.get('@getClientStub').then(() => {
       expect(getClientStub.callCount).to.equal(1);
       expect(getClientStub.getCall(0).args).to.deep.equal([]);
-      expect(auth0ClientMock.handleRedirectCallback.callCount).to.equal(0);
-      expect(auth0ClientMock.isAuthenticated.callCount).to.equal(1);
-      expect(auth0ClientMock.isAuthenticated.getCall(0).args).to.deep.equal([]);
+      expect(handleRedirectCallbackStub.callCount).to.equal(0);
+      expect(isAuthenticatedStub.callCount).to.equal(1);
+      expect(isAuthenticatedStub.getCall(0).args).to.deep.equal([]);
     });
   });
 
   it('works properly when logged in check fails', () => {
-    const auth0ClientMock = sinon.createStubInstance(Auth0Client);
-
-    auth0ClientMock.isAuthenticated.resolves(true);
-
+    const auth0ClientMock = { handleRedirectCallback: () => {}, isAuthenticated: () => {} } as unknown as Auth0Client;
+    const handleRedirectCallbackStub = cy.stub(auth0ClientMock, 'handleRedirectCallback');
+    const isAuthenticatedStub = cy.stub(auth0ClientMock, 'isAuthenticated').resolves(true);
     const getClientStub = cy.stub(authenticationUtils, 'getClient').as('getClientStub');
 
     getClientStub.rejects(auth0ClientMock);
@@ -123,16 +120,15 @@ describe('authentication context', () => {
     cy.get('@getClientStub').then(() => {
       expect(getClientStub.callCount).to.equal(1);
       expect(getClientStub.getCall(0).args).to.deep.equal([]);
-      expect(auth0ClientMock.handleRedirectCallback.callCount).to.equal(0);
-      expect(auth0ClientMock.isAuthenticated.callCount).to.equal(0);
+      expect(handleRedirectCallbackStub.callCount).to.equal(0);
+      expect(isAuthenticatedStub.callCount).to.equal(0);
     });
   });
 
   it('works properly when not logged in check is invalid', () => {
-    const auth0ClientMock = sinon.createStubInstance(Auth0Client);
-
-    auth0ClientMock.isAuthenticated.resolves(false);
-
+    const auth0ClientMock = { handleRedirectCallback: () => {}, isAuthenticated: () => {} } as unknown as Auth0Client;
+    const handleRedirectCallbackStub = cy.stub(auth0ClientMock, 'handleRedirectCallback');
+    const isAuthenticatedStub = cy.stub(auth0ClientMock, 'isAuthenticated').resolves(false);
     const getClientStub = cy.stub(authenticationUtils, 'getClient').as('getClientStub');
 
     getClientStub.resolves(auth0ClientMock);
@@ -145,17 +141,16 @@ describe('authentication context', () => {
     cy.get('@getClientStub').then(() => {
       expect(getClientStub.callCount).to.equal(1);
       expect(getClientStub.getCall(0).args).to.deep.equal([]);
-      expect(auth0ClientMock.handleRedirectCallback.callCount).to.equal(0);
-      expect(auth0ClientMock.isAuthenticated.callCount).to.equal(1);
-      expect(auth0ClientMock.isAuthenticated.getCall(0).args).to.deep.equal([]);
+      expect(handleRedirectCallbackStub.callCount).to.equal(0);
+      expect(isAuthenticatedStub.callCount).to.equal(1);
+      expect(isAuthenticatedStub.getCall(0).args).to.deep.equal([]);
     });
   });
 
   it('works properly when processing login', () => {
-    const auth0ClientMock = sinon.createStubInstance(Auth0Client);
-
-    auth0ClientMock.isAuthenticated.resolves(false);
-
+    const auth0ClientMock = { handleRedirectCallback: () => {}, isAuthenticated: () => {} } as unknown as Auth0Client;
+    const handleRedirectCallbackStub = cy.stub(auth0ClientMock, 'handleRedirectCallback');
+    const isAuthenticatedStub = cy.stub(auth0ClientMock, 'isAuthenticated').resolves(false);
     const getClientStub = cy.stub(authenticationUtils, 'getClient').as('getClientStub');
 
     getClientStub.resolves(auth0ClientMock);
@@ -168,19 +163,17 @@ describe('authentication context', () => {
     cy.get('@getClientStub').then(() => {
       expect(getClientStub.callCount).to.equal(1);
       expect(getClientStub.getCall(0).args).to.deep.equal([]);
-      expect(auth0ClientMock.handleRedirectCallback.callCount).to.equal(1);
-      expect(auth0ClientMock.handleRedirectCallback.getCall(0).args).to.deep.equal([]);
-      expect(auth0ClientMock.isAuthenticated.callCount).to.equal(2);
-      expect(auth0ClientMock.isAuthenticated.getCall(0).args).to.deep.equal([]);
-      expect(auth0ClientMock.isAuthenticated.getCall(1).args).to.deep.equal([]);
+      expect(handleRedirectCallbackStub.callCount).to.equal(1);
+      expect(handleRedirectCallbackStub.getCall(0).args).to.deep.equal([]);
+      expect(isAuthenticatedStub.callCount).to.equal(2);
+      expect(isAuthenticatedStub.getCall(0).args).to.deep.equal([]);
+      expect(isAuthenticatedStub.getCall(1).args).to.deep.equal([]);
     });
   });
 
   it('setting is loading works properly', () => {
-    const auth0ClientMock = sinon.createStubInstance(Auth0Client);
-
-    auth0ClientMock.isAuthenticated.resolves(false);
-
+    const auth0ClientMock = { isAuthenticated: () => {} } as unknown as Auth0Client;
+    const isAuthenticatedStub = cy.stub(auth0ClientMock, 'isAuthenticated').resolves(false);
     const getClientStub = cy.stub(authenticationUtils, 'getClient').as('getClientStub');
 
     getClientStub.resolves(auth0ClientMock);
@@ -196,16 +189,15 @@ describe('authentication context', () => {
     cy.get('@getClientStub').then(() => {
       expect(getClientStub.callCount).to.equal(1);
       expect(getClientStub.getCall(0).args).to.deep.equal([]);
-      expect(auth0ClientMock.isAuthenticated.callCount).to.equal(1);
-      expect(auth0ClientMock.isAuthenticated.getCall(0).args).to.deep.equal([]);
+      expect(isAuthenticatedStub.callCount).to.equal(1);
+      expect(isAuthenticatedStub.getCall(0).args).to.deep.equal([]);
     });
   });
 
   it('login works properly', () => {
-    const auth0ClientMock = sinon.createStubInstance(Auth0Client);
-
-    auth0ClientMock.isAuthenticated.resolves(false);
-
+    const auth0ClientMock = { loginWithRedirect: () => {}, isAuthenticated: () => {} } as unknown as Auth0Client;
+    const loginWithRedirectStub = cy.stub(auth0ClientMock, 'loginWithRedirect');
+    const isAuthenticatedStub = cy.stub(auth0ClientMock, 'isAuthenticated').resolves(false);
     const getClientStub = cy.stub(authenticationUtils, 'getClient').as('getClientStub');
 
     getClientStub.resolves(auth0ClientMock);
@@ -217,20 +209,17 @@ describe('authentication context', () => {
     cy.get('@getClientStub').then(() => {
       expect(getClientStub.callCount).to.equal(1);
       expect(getClientStub.getCall(0).args).to.deep.equal([]);
-      expect(auth0ClientMock.isAuthenticated.callCount).to.equal(1);
-      expect(auth0ClientMock.isAuthenticated.getCall(0).args).to.deep.equal([]);
-      expect(auth0ClientMock.loginWithRedirect.callCount).to.equal(1);
-      expect(auth0ClientMock.loginWithRedirect.getCall(0).args).to.deep.equal([
-        { redirect_uri: 'http://localhost:4000' },
-      ]);
+      expect(isAuthenticatedStub.callCount).to.equal(1);
+      expect(isAuthenticatedStub.getCall(0).args).to.deep.equal([]);
+      expect(loginWithRedirectStub.callCount).to.equal(1);
+      expect(loginWithRedirectStub.getCall(0).args).to.deep.equal([{ redirect_uri: 'http://localhost:4000' }]);
     });
   });
 
   it('logout works properly', () => {
-    const auth0ClientMock = sinon.createStubInstance(Auth0Client);
-
-    auth0ClientMock.isAuthenticated.resolves(true);
-
+    const auth0ClientMock = { logout: () => {}, isAuthenticated: () => {} } as unknown as Auth0Client;
+    const logoutStub = cy.stub(auth0ClientMock, 'logout');
+    const isAuthenticatedStub = cy.stub(auth0ClientMock, 'isAuthenticated').resolves(true);
     const getClientStub = cy.stub(authenticationUtils, 'getClient').as('getClientStub');
 
     getClientStub.resolves(auth0ClientMock);
@@ -242,18 +231,17 @@ describe('authentication context', () => {
     cy.get('@getClientStub').then(() => {
       expect(getClientStub.callCount).to.equal(1);
       expect(getClientStub.getCall(0).args).to.deep.equal([]);
-      expect(auth0ClientMock.isAuthenticated.callCount).to.equal(1);
-      expect(auth0ClientMock.isAuthenticated.getCall(0).args).to.deep.equal([]);
-      expect(auth0ClientMock.logout.callCount).to.equal(1);
-      expect(auth0ClientMock.logout.getCall(0).args).to.deep.equal([{ returnTo: 'http://localhost:4000/login' }]);
+      expect(isAuthenticatedStub.callCount).to.equal(1);
+      expect(isAuthenticatedStub.getCall(0).args).to.deep.equal([]);
+      expect(logoutStub.callCount).to.equal(1);
+      expect(logoutStub.getCall(0).args).to.deep.equal([{ returnTo: 'http://localhost:4000/login' }]);
     });
   });
 
   it('getting access token works properly', () => {
-    const auth0ClientMock = sinon.createStubInstance(Auth0Client);
-
-    auth0ClientMock.isAuthenticated.resolves(true);
-
+    const auth0ClientMock = { getTokenSilently: () => {}, isAuthenticated: () => {} } as unknown as Auth0Client;
+    const getTokenSilentlyStub = cy.stub(auth0ClientMock, 'getTokenSilently');
+    const isAuthenticatedStub = cy.stub(auth0ClientMock, 'isAuthenticated').resolves(true);
     const getClientStub = cy.stub(authenticationUtils, 'getClient').as('getClientStub');
 
     getClientStub.resolves(auth0ClientMock);
@@ -265,12 +253,10 @@ describe('authentication context', () => {
     cy.get('@getClientStub').then(() => {
       expect(getClientStub.callCount).to.equal(1);
       expect(getClientStub.getCall(0).args).to.deep.equal([]);
-      expect(auth0ClientMock.isAuthenticated.callCount).to.equal(1);
-      expect(auth0ClientMock.isAuthenticated.getCall(0).args).to.deep.equal([]);
-      expect(auth0ClientMock.getTokenSilently.callCount).to.equal(1);
-      expect(auth0ClientMock.getTokenSilently.getCall(0).args).to.deep.equal([
-        { redirect_uri: window.location.origin },
-      ]);
+      expect(isAuthenticatedStub.callCount).to.equal(1);
+      expect(isAuthenticatedStub.getCall(0).args).to.deep.equal([]);
+      expect(getTokenSilentlyStub.callCount).to.equal(1);
+      expect(getTokenSilentlyStub.getCall(0).args).to.deep.equal([{ redirect_uri: window.location.origin }]);
     });
   });
 });

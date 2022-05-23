@@ -1,5 +1,4 @@
 import React from 'react';
-import { composeStories } from '@storybook/testing-react';
 import { mount } from '@cypress/react';
 import * as useToggledHook from '$hooks/use-toggled';
 import authenticationContext from '$contexts/authentication';

@@ -12,13 +12,6 @@ interface SelectValue {
   value: number;
 }
 
-interface Todo {
-  title: string;
-  isCompleted: boolean;
-  createdBy: string;
-  assignedTo: string;
-}
-
 const Card = ({ selectedItemIndex = -1, label = '' }) => {
   const [items] = useState<SelectValue[]>([
     { display: 'test1', value: 11 },

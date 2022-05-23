@@ -4,6 +4,7 @@ import { mount } from '@cypress/react';
 
 const MockComponent = ({ children }: any) => {
   const { isToggled, setIsToggled, toggle } = useToggled(false);
+
   return (
     <div>
       <button data-id="set-id-toggled-button" onClick={() => setIsToggled(true)}>
