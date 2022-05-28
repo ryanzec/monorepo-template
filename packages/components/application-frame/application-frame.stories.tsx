@@ -1,5 +1,5 @@
 import React from 'react';
-import * as storybookUtils from '$utils/storybook';
+import { storybookUtils } from '$utils/storybook';
 import FlexContainer from '$storybook-helpers/flex-container';
 import { ApplicationFrame } from '$components/application-frame/application-frame';
 

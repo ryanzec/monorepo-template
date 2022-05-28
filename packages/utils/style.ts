@@ -1,8 +1,8 @@
-import { StyleTheme, StyleThemeGenericColor } from '$types/theme';
+import { StyleTheme, StyleThemeGenericColor, ThemeName } from '$types/theme';
 
 const SPACING_INTERVAL = 4;
 
-export const getSpacing = (level: number): string => {
+const getSpacing = (level: number): string => {
   return `${level * SPACING_INTERVAL}px`;
 };
 
@@ -156,7 +156,11 @@ export const darkTheme: StyleTheme = {
   },
 };
 
-export const theme = {
+export const theme: Record<ThemeName, StyleTheme> = {
   light: lightTheme,
   dark: darkTheme,
+};
+
+export const styleUtils = {
+  getSpacing,
 };

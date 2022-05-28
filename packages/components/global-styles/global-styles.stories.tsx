@@ -3,7 +3,7 @@ import { ThemeName } from '$types/theme';
 
 import React from 'react';
 
-import { theme } from '$utils/styles';
+import { theme } from '$utils/style';
 
 interface ColorBlockProps {
   color: string;

@@ -1,5 +1,5 @@
-import { BORDER_RADIUS, darkTheme, lightTheme } from '$utils/styles';
-import * as styleUtils from '$utils/styles';
+import { BORDER_RADIUS, darkTheme, lightTheme } from '$utils/style';
+import { styleUtils } from '$utils/style';
 
 export interface ButtonColorSet {
   color: string;
@@ -118,34 +118,34 @@ const theme: ButtonTheme = {
     primary: {
       solid: {
         color: darkTheme.color.text.light,
-        backgroundColor: darkTheme.color.notice.base,
+        backgroundColor: darkTheme.color.warning.base,
         borderColor: darkTheme.color.transparent,
-        backgroundColorHover: darkTheme.color.notice.dark,
-        backgroundColorPressed: darkTheme.color.notice.xDark,
+        backgroundColorHover: darkTheme.color.warning.dark,
+        backgroundColorPressed: darkTheme.color.warning.xDark,
       },
       outline: {
-        color: darkTheme.color.notice.dark,
+        color: darkTheme.color.warning.dark,
         backgroundColor: darkTheme.color.transparent,
-        borderColor: darkTheme.color.notice.dark,
-        backgroundColorHover: darkTheme.color.notice.xxxLight,
-        backgroundColorPressed: darkTheme.color.notice.xxLight,
+        borderColor: darkTheme.color.warning.dark,
+        backgroundColorHover: darkTheme.color.warning.xxxLight,
+        backgroundColorPressed: darkTheme.color.warning.xxLight,
       },
       link: darkLinkButtonColorSet,
     },
     safe: {
       solid: {
         color: darkTheme.color.text.light,
-        backgroundColor: darkTheme.color.safe.base,
+        backgroundColor: darkTheme.color.warning.base,
         borderColor: darkTheme.color.transparent,
-        backgroundColorHover: darkTheme.color.safe.dark,
-        backgroundColorPressed: darkTheme.color.safe.xDark,
+        backgroundColorHover: darkTheme.color.warning.dark,
+        backgroundColorPressed: darkTheme.color.warning.xDark,
       },
       outline: {
-        color: darkTheme.color.safe.dark,
+        color: darkTheme.color.warning.dark,
         backgroundColor: darkTheme.color.transparent,
-        borderColor: darkTheme.color.safe.dark,
-        backgroundColorHover: darkTheme.color.safe.xxxLight,
-        backgroundColorPressed: darkTheme.color.safe.xxLight,
+        borderColor: darkTheme.color.warning.dark,
+        backgroundColorHover: darkTheme.color.warning.xxxLight,
+        backgroundColorPressed: darkTheme.color.warning.xxLight,
       },
       link: darkLinkButtonColorSet,
     },
@@ -169,17 +169,17 @@ const theme: ButtonTheme = {
     danger: {
       solid: {
         color: darkTheme.color.text.light,
-        backgroundColor: darkTheme.color.danger.base,
+        backgroundColor: darkTheme.color.warning.base,
         borderColor: darkTheme.color.transparent,
-        backgroundColorHover: darkTheme.color.danger.dark,
-        backgroundColorPressed: darkTheme.color.danger.xDark,
+        backgroundColorHover: darkTheme.color.warning.dark,
+        backgroundColorPressed: darkTheme.color.warning.xDark,
       },
       outline: {
-        color: darkTheme.color.danger.dark,
+        color: darkTheme.color.warning.dark,
         backgroundColor: darkTheme.color.transparent,
-        borderColor: darkTheme.color.danger.dark,
-        backgroundColorHover: darkTheme.color.danger.xxxLight,
-        backgroundColorPressed: darkTheme.color.danger.xxLight,
+        borderColor: darkTheme.color.warning.dark,
+        backgroundColorHover: darkTheme.color.warning.xxxLight,
+        backgroundColorPressed: darkTheme.color.warning.xxLight,
       },
       link: darkLinkButtonColorSet,
     },

@@ -1,7 +1,7 @@
 import React from 'react';
 import { Global, css, withTheme, Theme } from '@emotion/react';
 
-import { theme } from '$utils/styles';
+import { theme } from '$utils/style';
 
 interface GlobalStyleProps {
   theme: Theme;

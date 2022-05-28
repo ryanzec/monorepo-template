@@ -3,7 +3,7 @@ import { useFieldArray, useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import * as zod from 'zod';
 import { v4 as uuid } from 'uuid';
-import * as zodUtils from '$utils/zod';
+import { zodUtils } from '$utils/zod';
 import { FieldId, Todo } from '$views/complex-form-page/types';
 import { Label } from '$components/forms/label';
 import { Input } from '$components/forms/input';
@@ -26,7 +26,7 @@ export interface ComplexFormData {
   todosCompleted: Todo[];
 }
 
-export const complexFormDataSchema = zodUtils.schemaForType<ComplexFormData>()(
+const complexFormDataSchema = zodUtils.schemaForType<ComplexFormData>()(
   zod.object({
     firstName: zod.string().min(1, 'Required fields'),
     lastName: zod.string(),
@@ -52,11 +52,11 @@ export const complexFormDataSchema = zodUtils.schemaForType<ComplexFormData>()(
   }),
 );
 
-export const TodoLists = styled.div`
+const TodoLists = styled.div`
   display: flex;
 `;
 
-export const onSubmitForm = (data: ComplexFormData) => {
+const onSubmitForm = (data: ComplexFormData) => {
   console.log(data);
 };
 
@@ -66,7 +66,7 @@ for (let i = 0; i < 2; i++) {
   todos.push({ id: uuid(), name: `static values ${i}`, isCompleted: false });
 }
 
-export const ComplexFormPage = () => {
+const ComplexFormPage = () => {
   const {
     control,
     register,
@@ -92,7 +92,6 @@ export const ComplexFormPage = () => {
   const {
     fields: todoCompletedValues,
     swap: swapTodoCompletedValues,
-    append: appendTodoCompletedValues,
     remove: removeTodoCompletedValues,
     insert: insertTodoCompletedValues,
   } = useFieldArray({
@@ -114,29 +113,18 @@ export const ComplexFormPage = () => {
       }
       // based on where we are dragging from determines certain functionality and data sources
       const removeFunction = draggingFieldId === FieldId.TODOS ? removeTodoValues : removeTodoCompletedValues;
-      const appendFunction = draggingFieldId === FieldId.TODOS ? appendTodoCompletedValues : appendTodoValues;
       const insertFunction = draggingFieldId === FieldId.TODOS ? insertTodoCompletedValues : insertTodoValues;
-      const destinationTodos = getValues(draggingFieldId === FieldId.TODOS ? 'todosCompleted' : 'todos');
 
       // we need to first get the data the is being moved between fields before doing any modifications
       const copyValue = sourceTodos[draggingIndex];
 
       removeFunction(draggingIndex);
-
-      if (destinationTodos.length <= 1) {
-        appendFunction(copyValue);
-
-        return;
-      }
-
       insertFunction(checkingIndex, copyValue);
     },
     [
       getValues,
       swapTodoValues,
       swapTodoCompletedValues,
-      appendTodoValues,
-      appendTodoCompletedValues,
       removeTodoValues,
       removeTodoCompletedValues,
       insertTodoCompletedValues,

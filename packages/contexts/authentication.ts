@@ -1,10 +1,10 @@
 import { useState, useCallback, useEffect, useRef } from 'react';
 
-import { ReactUseState } from '$types/react';
-import * as reactUtils from '$utils/react';
+import { CustomReactContext, ReactUseState, ReactContextImplementation } from '$types/react';
+import { reactUtils } from '$utils/react';
 import { Auth0Client } from '@auth0/auth0-spa-js';
-import { noop, noopStateSetter } from '$utils/default-values';
-import * as authenticationUtils from '$utils/authentication';
+import { defaultValuesUtils } from '$utils/default-values';
+import { authenticationUtils } from '$utils/authentication';
 
 export interface AuthenticationContext {
   setIsLoading: (value: boolean) => void;
@@ -15,23 +15,27 @@ export interface AuthenticationContext {
   getAccessToken: () => Promise<string> | undefined;
 }
 
-export const defaultAuthenticationContext: AuthenticationContext = {
-  setIsLoading: noopStateSetter,
+const defaultValues: AuthenticationContext = {
+  setIsLoading: defaultValuesUtils.noopStateSetter,
   isLoading: true,
   isAuthenticated: false,
   getAccessToken: () => {
     return undefined;
   },
-  login: noop,
-  logout: noop,
+  login: defaultValuesUtils.noop,
+  logout: defaultValuesUtils.noop,
 };
 
-export const createAuthenticationContext = (urlQueryString: string) =>
-  reactUtils.buildContext<AuthenticationContext>(defaultAuthenticationContext, () => {
+export type CreateAuthenticationContextFunc = (
+  urlQueryString: string,
+) => ReactContextImplementation<AuthenticationContext>;
+
+const createContext: CreateAuthenticationContextFunc = (urlQueryString: string) =>
+  reactUtils.buildContext<AuthenticationContext>(defaultValues, () => {
     const hasInitialized = useRef(false);
-    const [isLoading, setIsLoading]: ReactUseState<boolean> = useState<boolean>(defaultAuthenticationContext.isLoading);
+    const [isLoading, setIsLoading]: ReactUseState<boolean> = useState<boolean>(defaultValues.isLoading);
     const [isAuthenticated, setIsAuthenticated]: ReactUseState<boolean> = useState<boolean>(
-      defaultAuthenticationContext.isAuthenticated,
+      defaultValues.isAuthenticated,
     );
     const [authenticationClient, setAuthenticationClient]: ReactUseState<Auth0Client | null> =
       useState<Auth0Client | null>(null);
@@ -111,6 +115,9 @@ export const createAuthenticationContext = (urlQueryString: string) =>
     };
   });
 
-export const authenticationContext = createAuthenticationContext(window.location.search);
+const defaultContext = createContext(window.location.search);
 
-export default authenticationContext;
+export const authenticationContext: CustomReactContext<AuthenticationContext, CreateAuthenticationContextFunc> = {
+  ...defaultContext,
+  createContext,
+};

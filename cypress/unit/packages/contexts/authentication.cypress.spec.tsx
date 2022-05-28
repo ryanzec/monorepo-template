@@ -1,10 +1,10 @@
 import React from 'react';
 import { Auth0Client } from '@auth0/auth0-spa-js';
-import * as authenticationUtils from '$utils/authentication';
-import { createAuthenticationContext } from '$contexts/authentication';
+import { authenticationUtils } from '$utils/authentication';
+import { authenticationContext } from '$contexts/authentication';
 import { mount } from '@cypress/react';
 
-const authenticationContextNotLoggingIn = createAuthenticationContext('');
+const authenticationContextNotLoggingIn = authenticationContext.createContext('');
 
 const MockConsumerComponentNotLoggingIn = () => {
   const { setIsLoading, isLoading, isAuthenticated, login, logout, getAccessToken } =
@@ -38,7 +38,7 @@ const MockComponentNotLoggingIn = ({ children }: any) => {
   );
 };
 
-const authenticationContextLoggingIn = createAuthenticationContext('?code=code&state=state');
+const authenticationContextLoggingIn = authenticationContext.createContext('?code=code&state=state');
 
 const MockConsumerComponentLoggingIn = () => {
   const { setIsLoading, isLoading, isAuthenticated, login, logout, getAccessToken } =

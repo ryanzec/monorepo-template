@@ -1,12 +1,12 @@
 import React from 'react';
 import styled from '@emotion/styled';
-import * as stylesUtils from '$utils/styles';
+import { styleUtils, BORDER_RADIUS } from '$utils/style';
 import { UseFormRegister, Path } from 'react-hook-form';
 
 export const InputStyled = styled.input`
   border: 1px solid black;
-  border-radius: ${stylesUtils.BORDER_RADIUS.MEDIUM};
-  padding: ${stylesUtils.getSpacing(1)};
+  border-radius: ${BORDER_RADIUS.MEDIUM};
+  padding: ${styleUtils.getSpacing(1)};
   outline: none;
 
   &:active {

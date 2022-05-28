@@ -1,8 +1,8 @@
 import React from 'react';
 import { mount } from '@cypress/react';
-import * as cypressUtils from '$utils/cypress';
-import { LoginPage } from '$views/login-page/login-page';
-import authenticationContext from '$contexts/authentication';
+import { cypressUtils } from '$utils/cypress';
+import LoginPage from '$views/login-page/login-page';
+import { authenticationContext } from '$contexts/authentication';
 
 const selectors = {
   loginPage: '[data-id="login-page"]',

@@ -1,7 +1,7 @@
-import * as stylesUtils from '$utils/styles';
+import { styleUtils } from '$utils/style';
 
 describe('styles utils', () => {
   it('get spacing works properly', () => {
-    expect(stylesUtils.getSpacing(3)).to.equal('12px');
+    expect(styleUtils.getSpacing(3)).to.equal('12px');
   });
 });

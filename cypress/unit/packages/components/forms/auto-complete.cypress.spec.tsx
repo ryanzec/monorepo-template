@@ -2,10 +2,10 @@ import React, { useState } from 'react';
 import { mount } from '@cypress/react';
 import { useForm, Controller } from 'react-hook-form';
 import * as zod from 'zod';
-import * as cypressUtils from '$utils/cypress';
+import { cypressUtils } from '$utils/cypress';
 import { AutoComplete } from '$components/forms/auto-complete';
 import { zodResolver } from '@hookform/resolvers/zod';
-import * as zodUtils from '$utils/zod';
+import { zodUtils } from '$utils/zod';
 
 interface SelectValue {
   display: string;

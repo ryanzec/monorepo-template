@@ -4,7 +4,7 @@ import React from 'react';
 import styled from '@emotion/styled';
 import { css } from '@emotion/react';
 
-import * as styleUtils from '$utils/styles';
+import { styleUtils } from '$utils/style';
 
 import { ButtonGroupContext, ButtonGroupContextValue } from '$components/button/hooks';
 import { cssVariables } from '$components/button/styles';

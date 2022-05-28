@@ -13,20 +13,29 @@
 // the project's config changing)
 import path from 'path';
 import getCompareSnapshotsPlugin from 'cypress-visual-regression/dist/plugin';
+import { startDevServer } from '@cypress/vite-dev-server';
 
 /**
  * @type {Cypress.PluginConfig}
  */
 // eslint-disable-next-line no-unused-vars
-module.exports = (on, config) => {
+module.exports = (on: Cypress.PluginEvents, config: Cypress.PluginConfigOptions) => {
   // this is just requires to support code coverage in cypress so ignoring
   // eslint-disable-next-line @typescript-eslint/no-var-requires
   require('@cypress/code-coverage/task')(on, config);
 
   // this is just requires to support testing storybook stories in cypress so ignoring
   // eslint-disable-next-line @typescript-eslint/no-var-requires
-  require('@cypress/react/plugins/load-webpack')(on, config, {
-    webpackFilename: path.join(__dirname, '..', '..', 'applications', 'web', 'webpack.config.dev'),
+  // require('@cypress/react/plugins/load-webpack')(on, config, {
+  //   webpackFilename: path.join(__dirname, '..', '..', 'applications', 'web', 'webpack.config.dev'),
+  // });
+  on('dev-server:start', (options) => {
+    return startDevServer({
+      options,
+      viteConfig: {
+        configFile: path.resolve(__dirname, '..', '..', 'applications', 'web', 'vite.cypress.config.ts'),
+      },
+    });
   });
 
   getCompareSnapshotsPlugin(on, config);

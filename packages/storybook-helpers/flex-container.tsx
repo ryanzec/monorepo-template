@@ -3,7 +3,7 @@ import { RequiresChildrenComponent } from '$types/react';
 import styled from '@emotion/styled';
 import { css } from '@emotion/react';
 
-import * as styleUtils from '$utils/styles';
+import { styleUtils } from '$utils/style';
 
 export enum FlexContainerDirection {
   ROW = 'row',

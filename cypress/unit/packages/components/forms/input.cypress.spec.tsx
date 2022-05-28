@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { mount } from '@cypress/react';
-import * as cypressUtils from '$utils/cypress';
+import { cypressUtils } from '$utils/cypress';
 import { Label } from '$components/forms/label';
 import { Input } from '$components/forms/input';
 import { InputContainer } from '$components/forms/input-container';

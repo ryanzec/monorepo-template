@@ -1,4 +1,4 @@
-import * as styleUtils from '$utils/styles';
+import { styleUtils, ICON_SIZES } from '$utils/style';
 
 export interface ApplicationFrameColors {
   container: {
@@ -70,7 +70,7 @@ export const cssVariables: ApplicationFrameCss = {
     width: '60px',
   },
   navigationIcon: {
-    height: styleUtils.ICON_SIZES.MEDIUM,
+    height: ICON_SIZES.MEDIUM,
   },
   navigationItem: {
     paddingBottom: styleUtils.getSpacing(4),

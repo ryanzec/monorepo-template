@@ -1,9 +1,9 @@
 import React from 'react';
-import { useToggled } from '$hooks/use-toggled';
+import { useToggledHook } from '$hooks/use-toggled';
 import { mount } from '@cypress/react';
 
 const MockComponent = ({ children }: any) => {
-  const { isToggled, setIsToggled, toggle } = useToggled(false);
+  const { isToggled, setIsToggled, toggle } = useToggledHook.useToggled(false);
 
   return (
     <div>

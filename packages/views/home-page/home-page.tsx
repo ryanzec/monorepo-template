@@ -1,28 +1,28 @@
 import React, { useState } from 'react';
 import { useForm } from 'react-hook-form';
-import { appApi } from '$utils/api';
-import authenticationContext from '$contexts/authentication';
-import { useToggled } from '$hooks/use-toggled';
+import { apiUtils } from '$utils/api';
+import { authenticationContext } from '$contexts/authentication';
+import { useToggledHook } from '$hooks/use-toggled';
 import { Button } from '$components/button/button';
 import { ButtonContext } from '$components/button/types';
 
-export interface LoginFormData {
+interface LoginFormData {
   username: string;
   password: string;
 }
 
-export const onSubmitForm = (data: LoginFormData) => {
+const onSubmitForm = (data: LoginFormData) => {
   console.log(data);
 };
 
-export const HomePage = () => {
+const HomePage = () => {
   const {
     register,
     handleSubmit,
     // @todo(!!!) error example
     formState: { errors },
   } = useForm<LoginFormData>();
-  const { isToggled, toggle } = useToggled(false);
+  const { isToggled, toggle } = useToggledHook.useToggled(false);
   const { getAccessToken } = authenticationContext.useContext();
   const [loadedPawns, setLoadedPawns] = useState([]);
   console.log(errors);
@@ -53,7 +53,7 @@ export const HomePage = () => {
 
           console.log(accessToken);
 
-          const response = await appApi.get('/pawns', {
+          const response = await apiUtils.appApi.get('/pawns', {
             headers: {
               Authorization: `Bearer ${accessToken}`,
             },
@@ -77,7 +77,7 @@ export const HomePage = () => {
             return;
           }
 
-          const response = await appApi.get('/admin.generateBackendTokens', {
+          const response = await apiUtils.appApi.get('/admin.generateBackendTokens', {
             headers: {
               Authorization: `Bearer ${accessToken}`,
             },

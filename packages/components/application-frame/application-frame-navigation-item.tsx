@@ -1,10 +1,10 @@
 import React, { useCallback } from 'react';
-import * as routerUtils from '$utils/router';
+import { routerUtils } from '$utils/router';
 import { IconDefinition } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import styled from '@emotion/styled';
-import { ApplicationFrameColors, cssVariables } from '$components/application-frame/styles';
 import { css } from '@emotion/react';
+import { ApplicationFrameColors, cssVariables } from '$components/application-frame/styles';
 
 export const NavigationItem = styled.div`
   display: flex;

@@ -4,8 +4,9 @@ import { DndProvider } from 'react-dnd';
 import { HTML5Backend } from 'react-dnd-html5-backend';
 import { ThemeProvider } from '@emotion/react';
 import { ApplicationFrame } from '$components/application-frame/application-frame';
+import { applicationSettingsContext } from '$contexts/application-settings';
 
-export const buildResponseCollection = (test: Array<StaticResponse | HttpResponseInterceptor | undefined>) => {
+const buildResponseCollection = (test: Array<StaticResponse | HttpResponseInterceptor | undefined>) => {
   const responses = test;
   let nextResponseIndex = 0;
 
@@ -24,14 +25,22 @@ export const buildResponseCollection = (test: Array<StaticResponse | HttpRespons
   };
 };
 
-export const addBasicWrapper = (jsx: JSX.Element) => {
+const addBasicWrapper = (jsx: JSX.Element) => {
   return (
-    <DndProvider backend={HTML5Backend}>
-      <ThemeProvider theme={{ name: 'light' }}>{jsx}</ThemeProvider>
-    </DndProvider>
+    <applicationSettingsContext.Provider>
+      <DndProvider backend={HTML5Backend}>
+        <ThemeProvider theme={{ name: 'light' }}>{jsx}</ThemeProvider>
+      </DndProvider>
+    </applicationSettingsContext.Provider>
   );
 };
 
-export const addApplicationFrameWrapper = (jsx: JSX.Element) => {
+const addApplicationFrameWrapper = (jsx: JSX.Element) => {
   return addBasicWrapper(<ApplicationFrame>{jsx}</ApplicationFrame>);
+};
+
+export const cypressUtils = {
+  buildResponseCollection,
+  addBasicWrapper,
+  addApplicationFrameWrapper,
 };

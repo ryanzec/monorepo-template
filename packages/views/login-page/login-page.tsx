@@ -1,18 +1,17 @@
 import React, { useCallback } from 'react';
 import styled from '@emotion/styled';
 import { Button } from '$components/button/button';
-import authenticationContext from '$contexts/authentication';
+import { authenticationContext } from '$contexts/authentication';
 import { ButtonContext } from '$components/button/types';
 
-export const Container = styled.div`
+const Container = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
   height: 100%;
 `;
 
-export const LoginPage = () => {
-  console.log('tes');
+const LoginPage = () => {
   const { login } = authenticationContext.useContext();
 
   const onLogin = useCallback(async () => {

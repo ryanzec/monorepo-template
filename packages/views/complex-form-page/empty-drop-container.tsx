@@ -2,10 +2,7 @@ import React, { memo } from 'react';
 import { useDrop } from 'react-dnd';
 import { FieldId, DragItem, MoveItem } from '$views/complex-form-page/types';
 import { Identifier } from 'dnd-core';
-import * as dragDropUtils from '$utils/drag-drop';
-
-// destructing for cleaner access
-const { DragDropType } = dragDropUtils;
+import { DragDropType } from '$utils/drag-drop';
 
 export interface DragDropItemProps {
   moveItem: MoveItem;

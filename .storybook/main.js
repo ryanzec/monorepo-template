@@ -1,4 +1,3 @@
-const webpackUtils = require('../webpackUtils');
 const path = require("path");
 
 module.exports = {
@@ -23,13 +22,13 @@ module.exports = {
     // });
 
     config.resolve.alias = {
-      $components: webpackUtils.RESOLVE_ALIAS.$components,
-      $views: webpackUtils.RESOLVE_ALIAS.$views,
-      $utils: webpackUtils.RESOLVE_ALIAS.$utils,
-      $types: webpackUtils.RESOLVE_ALIAS.$types,
-      $hooks: webpackUtils.RESOLVE_ALIAS.$hooks,
-      $contexts: webpackUtils.RESOLVE_ALIAS.$contexts,
-      '$storybook-helpers': webpackUtils.RESOLVE_ALIAS["$storybook-helpers"],
+      $components: path.join(__dirname, '..', 'packages', 'components'),
+      $views: path.join(__dirname, '..', 'packages', 'views'),
+      $utils: path.join(__dirname, '..', 'packages', 'utils'),
+      $types: path.join(__dirname, '..', 'packages', 'types'),
+      $hooks: path.join(__dirname, '..', 'packages', 'hooks'),
+      $contexts: path.join(__dirname, '..', 'packages', 'contexts'),
+      '$storybook-helpers': path.join(__dirname, '..', 'packages', 'storybook-helpers'),
     };
 
     // Return the altered config

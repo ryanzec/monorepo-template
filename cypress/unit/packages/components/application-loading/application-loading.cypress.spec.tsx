@@ -1,7 +1,7 @@
 import React from 'react';
 import { mount } from '@cypress/react';
-import * as cypressUtils from '$utils/cypress';
-import { ApplicationLoading } from '$views/application-loading/application-loading';
+import { cypressUtils } from '$utils/cypress';
+import { ApplicationLoading } from '$components/application-loading/application-loading';
 
 const selector = {
   applicationLoading: '[data-id="application-loading"]',

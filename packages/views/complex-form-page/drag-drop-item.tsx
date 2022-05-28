@@ -7,10 +7,7 @@ import { InputContainer } from '$components/forms/input-container';
 import { DragItem, FieldId, MoveItem, Todo } from '$views/complex-form-page/types';
 import { ComplexFormData } from '$views/complex-form-page/complex-form-page';
 import { Identifier } from 'dnd-core';
-import * as dragDropUtils from '$utils/drag-drop';
-
-// destructing for cleaner access
-const { DragDropType } = dragDropUtils;
+import { dragDropUtils, DragDropType } from '$utils/drag-drop';
 
 export interface DragDropItemProps {
   item: Todo;

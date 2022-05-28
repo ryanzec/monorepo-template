@@ -25,7 +25,7 @@ export const navigationItems: NavigationItemProps[] = [
   {
     icon: faHouse,
     text: 'Home',
-    navigateTo: '/home',
+    navigateTo: '/',
   },
   {
     icon: faPenToSquare,

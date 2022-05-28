@@ -1,4 +1,4 @@
-import * as dragDropUtils from '$utils/drag-drop';
+import { dragDropUtils } from '$utils/drag-drop';
 import { DropTargetMonitor } from 'react-dnd';
 
 describe('drag drop utils', () => {

@@ -1,9 +1,10 @@
 import React from 'react';
 import { mount } from '@cypress/react';
-import * as useToggledHook from '$hooks/use-toggled';
-import authenticationContext from '$contexts/authentication';
-import * as cypressUtils from '$utils/cypress';
-import * as component from '$views/home-page/home-page';
+import { useToggledHook } from '$hooks/use-toggled';
+import { authenticationContext } from '$contexts/authentication';
+import { cypressUtils } from '$utils/cypress';
+import HomePage from '$views/home-page/home-page';
+import { apiUtils } from '$utils/api';
 
 describe('home page', () => {
   it('clicking the test api button works', () => {
@@ -16,17 +17,13 @@ describe('home page', () => {
       };
     });
 
-    // not really needed but using as an example of responding differently to the same url based on count
-    const getResponses = cypressUtils.buildResponseCollection([
-      { body: [{ id: 1 }] },
-      { body: [{ id: 1 }, { id: 1 }] },
-    ]);
-    cy.intercept('GET', '/api/v1/pawns', (request) => {
-      request.reply(getResponses.getNextResponse());
-    });
+    const apiGetStub = cy.stub(apiUtils.appApi, 'get').as('apiGetStub');
+
+    apiGetStub.onCall(0).resolves({ data: [{ id: 1 }] });
+    apiGetStub.onCall(1).resolves({ data: [{ id: 1 }, { id: 1 }] });
 
     cy.viewport(1024, 768);
-    mount(cypressUtils.addApplicationFrameWrapper(<component.HomePage />));
+    mount(cypressUtils.addApplicationFrameWrapper(<HomePage />));
 
     cy.get('[data-id="test-api"]').click();
 
@@ -36,7 +33,25 @@ describe('home page', () => {
 
     cy.get('[data-id="loaded-pawns"]').should('be.visible');
 
-    console.log(Cypress.$('[data-id="loaded-pawns"]'));
+    cy.get('@apiGetStub').then(() => {
+      expect(apiGetStub.callCount).to.equal(2);
+      expect(apiGetStub.getCall(0).args).to.deep.equal([
+        '/pawns',
+        {
+          headers: {
+            Authorization: `Bearer ${accessToken}`,
+          },
+        },
+      ]);
+      expect(apiGetStub.getCall(0).args).to.deep.equal([
+        '/pawns',
+        {
+          headers: {
+            Authorization: `Bearer ${accessToken}`,
+          },
+        },
+      ]);
+    });
   });
 
   it('clicking the test api button does not work when button is disabled', () => {
@@ -46,7 +61,7 @@ describe('home page', () => {
     });
 
     cy.viewport(1024, 768);
-    mount(cypressUtils.addApplicationFrameWrapper(<component.HomePage />));
+    mount(cypressUtils.addApplicationFrameWrapper(<HomePage />));
 
     cy.get('[data-id="test-api"]').should('be.disabled');
   });

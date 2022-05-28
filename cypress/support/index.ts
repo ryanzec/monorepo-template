@@ -21,9 +21,3 @@ import './commands';
 
 // Alternatively you can use CommonJS syntax:
 // require('./commands')
-
-// this add support for using cypress for react components
-import { setGlobalConfig } from '@storybook/testing-react';
-import * as sbPreview from '../../.storybook/preview';
-
-setGlobalConfig(sbPreview);

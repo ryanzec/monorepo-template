@@ -1,13 +1,13 @@
 import React, { RefObject } from 'react';
 import styled from '@emotion/styled';
-import * as stylesUtils from '$utils/styles';
+import { styleUtils } from '$utils/style';
 import { RequiresChildrenComponent } from '$types/react';
 
 export const Container = styled.div`
   display: block;
 
   :not(:last-child) {
-    padding-bottom: ${stylesUtils.getSpacing(4)};
+    padding-bottom: ${styleUtils.getSpacing(4)};
   }
 `;
 

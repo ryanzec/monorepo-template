@@ -2,7 +2,7 @@ import React, { useCallback, useRef, useState } from 'react';
 import produce from 'immer';
 import { useDrag, useDrop } from 'react-dnd';
 import { Identifier } from 'dnd-core';
-import * as dragDropUtils from '$utils/drag-drop';
+import { dragDropUtils } from '$utils/drag-drop';
 import styled from '@emotion/styled';
 import { v4 as uuid } from 'uuid';
 

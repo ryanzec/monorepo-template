@@ -6,7 +6,7 @@ import { faSpinner } from '@fortawesome/free-solid-svg-icons';
 
 import { RequiresChildrenComponent } from '$types/react';
 import { ButtonIconPosition, ButtonContext, ButtonSize, ButtonVariant } from '$components/button/types';
-import { theme } from '$utils/styles';
+import { theme } from '$utils/style';
 import { cssVariables, ButtonColorSet } from '$components/button/styles';
 import { useButtonGroupContext } from '$components/button/hooks';
 

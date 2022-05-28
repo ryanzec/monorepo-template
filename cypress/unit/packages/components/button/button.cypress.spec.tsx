@@ -2,7 +2,7 @@ import * as React from 'react';
 import { mount } from '@cypress/react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faHouse } from '@fortawesome/free-solid-svg-icons';
-import * as cypressUtils from '$utils/cypress';
+import { cypressUtils } from '$utils/cypress';
 import Button from '$components/button/button';
 import ButtonGroup from '$components/button/button-group';
 import { ButtonContext, ButtonIconPosition, ButtonSize, ButtonVariant } from '$components/button/types';
@@ -91,7 +91,7 @@ describe('button', () => {
       cypressUtils.addBasicWrapper(
         <>
           <Button variant={ButtonVariant.SOLID}>solid</Button>
-          <Button variant={ButtonVariant.OUTLINE}>ioutline</Button>
+          <Button variant={ButtonVariant.OUTLINE}>outline</Button>
           <Button variant={ButtonVariant.GHOST}>ghost</Button>
           <Button variant={ButtonVariant.LINK}>link</Button>
         </>,

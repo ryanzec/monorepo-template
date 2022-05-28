@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import * as reactUtils from '$utils/react';
+import { reactUtils } from '$utils/react';
 import { mount } from '@cypress/react';
 
 interface TestContext {

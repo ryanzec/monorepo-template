@@ -1,7 +1,7 @@
 // this file is used a proxy to make mocking in tests possible
 import createAuth0Client, { Auth0Client } from '@auth0/auth0-spa-js';
 
-export const getClient = async (): Promise<Auth0Client> => {
+const getClient = async (): Promise<Auth0Client> => {
   return await createAuth0Client({
     domain: window.globalConfiguration.auth0Domain,
     client_id: window.globalConfiguration.auth0ClientId,
@@ -14,4 +14,8 @@ export const getClient = async (): Promise<Auth0Client> => {
     // considered valid
     audience: window.globalConfiguration.audience,
   });
+};
+
+export const authenticationUtils = {
+  getClient,
 };

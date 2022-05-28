@@ -1,8 +1,9 @@
-import React, { useCallback, Suspense } from 'react';
+import React, { Suspense, useCallback } from 'react';
 import styled from '@emotion/styled';
 import { css } from '@emotion/react';
 import { RequiresChildrenComponent } from '$types/react';
-import authenticationContext from '$contexts/authentication';
+import { applicationSettingsContext } from '$contexts/application-settings';
+import { authenticationContext } from '$contexts/authentication';
 import { ApplicationFrameColors, cssVariables } from '$components/application-frame/styles';
 import { Button } from '$components/button/button';
 import { ButtonContext } from '$components/button/types';
@@ -58,6 +59,7 @@ export type ApplicationFrameProps = RequiresChildrenComponent;
 
 export const ApplicationFrame = ({ children }: ApplicationFrameProps) => {
   const { isAuthenticated, logout } = authenticationContext.useContext();
+  const { theme, setTheme } = applicationSettingsContext.useContext();
 
   const onLogout = useCallback(
     (event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
@@ -69,6 +71,16 @@ export const ApplicationFrame = ({ children }: ApplicationFrameProps) => {
     [logout],
   );
 
+  const onToggleTheme = useCallback(
+    (event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
+      event.preventDefault();
+      event.stopPropagation();
+
+      setTheme(theme === 'light' ? 'dark' : 'light');
+    },
+    [setTheme, theme],
+  );
+
   return (
     <Container data-id="frame">
       {isAuthenticated && <ApplicationFrameNavigation />}
@@ -77,6 +89,9 @@ export const ApplicationFrame = ({ children }: ApplicationFrameProps) => {
           <Header data-id="header">
             <Logo>LOGO TODO</Logo>
             <Actions data-id="actions">
+              <Button data-id="toggle-theme" context={ButtonContext.PRIMARY} onClick={onToggleTheme}>
+                Toggle Theme (current: {theme})
+              </Button>
               <Button data-id="logout" context={ButtonContext.DANGER} onClick={onLogout}>
                 Logout
               </Button>

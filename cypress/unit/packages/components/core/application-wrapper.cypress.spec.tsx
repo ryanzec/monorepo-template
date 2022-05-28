@@ -1,9 +1,9 @@
 import * as React from 'react';
 import { mount } from '@cypress/react';
-import * as cypressUtils from '$utils/cypress';
+import { cypressUtils } from '$utils/cypress';
 import { ApplicationWrapper } from '$components/core/application-wrapper';
-import authenticationContext from '$contexts/authentication';
-import * as routerUtils from '$utils/router';
+import { authenticationContext } from '$contexts/authentication';
+import { routerUtils } from '$utils/router';
 
 const selectors = {
   applicationLoading: '[data-id="application-loading"]',
