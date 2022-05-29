@@ -45,13 +45,13 @@ api.use(cors(options));
 api.use(express.json());
 api.use(express.urlencoded({ extended: true }));
 
-api.get('/', async (request: Request, response: Response): Promise<Response> => {
+api.get('/health', async (request: Request, response: Response): Promise<Response> => {
   return response.status(200).send({
     message: 'Hello World!',
   });
 });
 
-api.post('/api/v1/authenticate', async (request: Request, response: Response): Promise<Response> => {
+api.post('/api/authenticate', async (request: Request, response: Response): Promise<Response> => {
   // @todo(feature) check username / password
 
   const authenticationToken = faker.datatype.uuid();
@@ -67,7 +67,7 @@ api.post('/api/v1/authenticate', async (request: Request, response: Response): P
   });
 });
 
-api.get('/api/v1/authenticate/:checkToken', async (request: Request, response: Response): Promise<Response> => {
+api.get('/api/authenticate/:checkToken', async (request: Request, response: Response): Promise<Response> => {
   const checkToken = request.params.checkToken;
   const existingToken = db.data!.authenticationTokens.find(
     (authenticationToken) => authenticationToken.authenticationToken === checkToken,
@@ -80,7 +80,7 @@ api.get('/api/v1/authenticate/:checkToken', async (request: Request, response: R
   return response.status(200).send();
 });
 
-api.get('/api/v1/pawns', async (request: Request, response: Response): Promise<Response> => {
+api.get('/api/pawns', async (request: Request, response: Response): Promise<Response> => {
   const pawns = [
     {
       Id: '1',

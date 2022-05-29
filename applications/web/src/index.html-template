@@ -9,8 +9,11 @@
     <script type="text/javascript">
       // in production, the backend should in injecting this data so that we don't have to store this data in source
       // control
-      window.globalConfiguration = {};
+      window.globalConfiguration = {
+        apiBaseUri: 'http://localhost:3000/api'
+      };
     </script>
     <div id="application-mount"></div>
+  <script type="module" src="/src/entry.tsx"></script>
   </body>
 </html>

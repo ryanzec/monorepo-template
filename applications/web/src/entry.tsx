@@ -12,7 +12,9 @@ import { ErrorBoundary } from '$components/core/error-boundary';
 // make typescript aware of the global configuration that is injected into the window object
 declare global {
   interface Window {
-    globalConfiguration: {};
+    globalConfiguration?: {
+      apiBaseUri: string;
+    };
   }
 }
 

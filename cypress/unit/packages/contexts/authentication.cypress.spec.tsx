@@ -1,6 +1,5 @@
 import React from 'react';
 import { localStorageCacheUtils } from '$utils/local-storage-cache';
-import { authenticationUtils } from '$utils/authentication';
 import { authenticationContext, LOCAL_STORAGE_AUTHENTICATION_TOKEN_KEY } from '$contexts/authentication';
 import { mount } from '@cypress/react';
 import { apiUtils } from '$utils/api';
