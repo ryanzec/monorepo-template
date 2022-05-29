@@ -3,7 +3,9 @@ import { useForm } from 'react-hook-form';
 import { apiUtils } from '$utils/api';
 import { useToggledHook } from '$hooks/use-toggled';
 import { Button } from '$components/button/button';
-import { ButtonContext } from '$components/button/types';
+import { Button as ButtonLin } from '$components/button/button-lin';
+import { ButtonGroup as ButtonGroupLin } from '$components/button/button-group-lin';
+import { ButtonContext, ButtonSize, ButtonVariant } from '$components/button/types';
 
 interface LoginFormData {
   username: string;
@@ -63,6 +65,20 @@ const HomePage = () => {
       >
         Toggle API Button
       </Button>
+      <Button context={ButtonContext.SAFE}>Emotion</Button>
+      <Button context={ButtonContext.SAFE} disabled>
+        Emotion
+      </Button>
+      <ButtonLin context={ButtonContext.SAFE}>Linaria</ButtonLin>
+      <ButtonLin context={ButtonContext.SAFE} disabled>
+        Linaria
+      </ButtonLin>
+      <ButtonGroupLin isAttached size={ButtonSize.MEDIUM} variant={ButtonVariant.OUTLINE}>
+        <ButtonLin context={ButtonContext.SAFE}>Linaria</ButtonLin>
+        <ButtonLin context={ButtonContext.SAFE} disabled>
+          Linaria
+        </ButtonLin>
+      </ButtonGroupLin>
     </>
   );
 };

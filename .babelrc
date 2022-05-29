@@ -19,6 +19,20 @@
         "loose": true
       }
     ],
-    "istanbul"
+    "istanbul",
+    [
+      "module-resolver",
+      {
+        "alias": {
+          "$components": "./packages/components",
+          "$views": "./packages/views",
+          "$utils": "./packages/utils",
+          "$types": "./packages/types",
+          "$hooks": "./packages/hooks",
+          "$contexts": "./packages/contexts",
+          "$storybook-helpers": "./packages/storybook-helpers"
+        }
+      }
+    ]
   ]
 }

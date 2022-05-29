@@ -14,6 +14,9 @@ import { DragDropItem } from '$views/complex-form-page/drag-drop-item';
 import { Button } from '$components/button/button';
 import { EmptyDropContainer } from '$views/complex-form-page/empty-drop-container';
 import styled from '@emotion/styled';
+import { Button as ButtonLin } from '$components/button/button-lin';
+import { ButtonGroup as ButtonGroupLin } from '$components/button/button-group-lin';
+import { ButtonContext, ButtonSize, ButtonVariant } from '$components/button/types';
 
 export interface AutoCompleteValue {
   display: string;
@@ -147,6 +150,20 @@ const ComplexFormPage = () => {
 
   return (
     <div data-id="complex-form-page">
+      <Button context={ButtonContext.SAFE}>Emotion</Button>
+      <Button context={ButtonContext.SAFE} disabled>
+        Emotion
+      </Button>
+      <ButtonLin context={ButtonContext.SAFE}>Linaria</ButtonLin>
+      <ButtonLin context={ButtonContext.SAFE} disabled>
+        Linaria
+      </ButtonLin>
+      <ButtonGroupLin isAttached size={ButtonSize.MEDIUM} variant={ButtonVariant.OUTLINE}>
+        <ButtonLin context={ButtonContext.SAFE}>Linaria</ButtonLin>
+        <ButtonLin context={ButtonContext.SAFE} disabled>
+          Linaria
+        </ButtonLin>
+      </ButtonGroupLin>
       <InputContainer>
         <Label>First Name</Label>
         <Input type="text" placeholder="First name" property="firstName" register={register} />

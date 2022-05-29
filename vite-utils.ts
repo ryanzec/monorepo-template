@@ -1,5 +1,6 @@
 import path from 'path';
 import react from '@vitejs/plugin-react';
+import VitePluginLinaria from 'vite-plugin-linaria';
 
 const baseConfiguration = {
   resolve: {
@@ -13,13 +14,7 @@ const baseConfiguration = {
       '$storybook-helpers': path.join(__dirname, 'packages', 'storybook-helpers'),
     },
   },
-  plugins: [
-    react({
-      babel: {
-        plugins: ['@emotion/babel-plugin'],
-      },
-    }),
-  ],
+  plugins: [react(), VitePluginLinaria()],
   server: {
     watch: {
       ignored: ['**/coverage/**'],
