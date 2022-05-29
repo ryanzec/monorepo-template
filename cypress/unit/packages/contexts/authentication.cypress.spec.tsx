@@ -1,262 +1,172 @@
 import React from 'react';
-import { Auth0Client } from '@auth0/auth0-spa-js';
+import { localStorageCacheUtils } from '$utils/local-storage-cache';
 import { authenticationUtils } from '$utils/authentication';
-import { authenticationContext } from '$contexts/authentication';
+import { authenticationContext, LOCAL_STORAGE_AUTHENTICATION_TOKEN_KEY } from '$contexts/authentication';
 import { mount } from '@cypress/react';
+import { apiUtils } from '$utils/api';
 
-const authenticationContextNotLoggingIn = authenticationContext.createContext('');
+const authenticationContextMock = authenticationContext.createContext();
 
-const MockConsumerComponentNotLoggingIn = () => {
-  const { setIsLoading, isLoading, isAuthenticated, login, logout, getAccessToken } =
-    authenticationContextNotLoggingIn.useContext();
+const MockConsumerComponent = () => {
+  const { isLoading, isAuthenticated, login, logout, loginRedirectUrl, finishLogin } =
+    authenticationContextMock.useContext();
   return (
     <div>
-      <button data-id="set-is-loading-button" onClick={() => setIsLoading(true)}>
-        set is loading
-      </button>
       <button data-id="login-button" onClick={() => login()}>
         login
       </button>
-      <button data-id="logout-button" onClick={() => logout()}>
-        logout
+      <button data-id="finish-login-button" onClick={() => login()}>
+        finish login
       </button>
-      <button data-id="get-access-token-button" onClick={() => getAccessToken()}>
+      <button data-id="logout-button" onClick={() => logout()}>
         logout
       </button>
       testing
       <div data-id="is-loading-check">is loading: {JSON.stringify(isLoading)}</div>
       <div data-id="is-authenticated-check">is authenticated: {JSON.stringify(isAuthenticated)}</div>
+      <div data-id="redirect-check">redirect: {JSON.stringify(loginRedirectUrl)}</div>
     </div>
   );
 };
 
-const MockComponentNotLoggingIn = ({ children }: any) => {
+const MockComponent = () => {
   return (
-    <authenticationContextNotLoggingIn.Provider>
-      <MockConsumerComponentNotLoggingIn />
-    </authenticationContextNotLoggingIn.Provider>
-  );
-};
-
-const authenticationContextLoggingIn = authenticationContext.createContext('?code=code&state=state');
-
-const MockConsumerComponentLoggingIn = () => {
-  const { setIsLoading, isLoading, isAuthenticated, login, logout, getAccessToken } =
-    authenticationContextLoggingIn.useContext();
-  return (
-    <div>
-      <button data-id="set-is-loading-button" onClick={() => setIsLoading(true)}>
-        set is loading
-      </button>
-      <button data-id="login-button" onClick={() => login()}>
-        login
-      </button>
-      <button data-id="logout-button" onClick={() => logout()}>
-        logout
-      </button>
-      <button data-id="get-access-token-button" onClick={() => getAccessToken()}>
-        logout
-      </button>
-      testing
-      <div data-id="is-loading-check">is loading: {JSON.stringify(isLoading)}</div>
-      <div data-id="is-authenticated-check">is authenticated: {JSON.stringify(isAuthenticated)}</div>
-    </div>
-  );
-};
-
-const MockComponentLoggingIn = ({ children }: any) => {
-  return (
-    <authenticationContextLoggingIn.Provider>
-      <MockConsumerComponentLoggingIn />
-    </authenticationContextLoggingIn.Provider>
+    <authenticationContextMock.Provider>
+      <MockConsumerComponent />
+    </authenticationContextMock.Provider>
   );
 };
 
 const selectors = {
-  setIsLoadingButton: '[data-id="set-is-loading-button"]',
   loginButton: '[data-id="login-button"]',
+  finishLoginButton: '[data-id="finish-login-button"]',
   logoutButton: '[data-id="logout-button"]',
-  getAccessTokenButton: '[data-id="get-access-token-button"]',
   isLoadingCheck: '[data-id="is-loading-check"]',
   isAuthenticatedCheck: '[data-id="is-authenticated-check"]',
+  redirectCheck: '[data-id="redirect-check"]',
 };
 
 describe('authentication context', () => {
-  it('works properly when logged in check is valid', () => {
-    const auth0ClientMock = { handleRedirectCallback: () => {}, isAuthenticated: () => {} } as unknown as Auth0Client;
-    const handleRedirectCallbackStub = cy.stub(auth0ClientMock, 'handleRedirectCallback');
-    const isAuthenticatedStub = cy.stub(auth0ClientMock, 'isAuthenticated').resolves(true);
-    const getClientStub = cy.stub(authenticationUtils, 'getClient').as('getClientStub');
+  it('when logged in check is valid', () => {
+    const authenticationToken = 'checkToken';
 
-    getClientStub.resolves(auth0ClientMock);
+    localStorageCacheUtils.set(LOCAL_STORAGE_AUTHENTICATION_TOKEN_KEY, authenticationToken);
 
-    mount(<MockComponentNotLoggingIn />);
+    const getAuthenticationStub = cy.stub(apiUtils.appApi, 'get').as('getAuthenticationStub');
+
+    getAuthenticationStub.resolves();
+
+    mount(<MockComponent />);
 
     cy.get(selectors.isLoadingCheck).contains('false');
     cy.get(selectors.isAuthenticatedCheck).contains('true');
 
-    cy.get('@getClientStub').then(() => {
-      expect(getClientStub.callCount).to.equal(1);
-      expect(getClientStub.getCall(0).args).to.deep.equal([]);
-      expect(handleRedirectCallbackStub.callCount).to.equal(0);
-      expect(isAuthenticatedStub.callCount).to.equal(1);
-      expect(isAuthenticatedStub.getCall(0).args).to.deep.equal([]);
+    cy.get('@getAuthenticationStub').then(() => {
+      expect(getAuthenticationStub.callCount).to.equal(1);
+      expect(getAuthenticationStub.getCall(0).args).to.deep.equal([`/authenticate/${authenticationToken}`]);
     });
   });
 
-  it('works properly when logged in check fails', () => {
-    const auth0ClientMock = { handleRedirectCallback: () => {}, isAuthenticated: () => {} } as unknown as Auth0Client;
-    const handleRedirectCallbackStub = cy.stub(auth0ClientMock, 'handleRedirectCallback');
-    const isAuthenticatedStub = cy.stub(auth0ClientMock, 'isAuthenticated').resolves(true);
-    const getClientStub = cy.stub(authenticationUtils, 'getClient').as('getClientStub');
+  it('when logged in check fails', () => {
+    const authenticationToken = 'checkToken';
 
-    getClientStub.rejects(auth0ClientMock);
+    localStorageCacheUtils.set(LOCAL_STORAGE_AUTHENTICATION_TOKEN_KEY, authenticationToken);
 
-    mount(<MockComponentNotLoggingIn />);
+    const getAuthenticationStub = cy.stub(apiUtils.appApi, 'get').as('getAuthenticationStub');
+
+    getAuthenticationStub.rejects();
+
+    mount(<MockComponent />);
 
     cy.get(selectors.isLoadingCheck).contains('false');
     cy.get(selectors.isAuthenticatedCheck).contains('false');
 
-    cy.get('@getClientStub').then(() => {
-      expect(getClientStub.callCount).to.equal(1);
-      expect(getClientStub.getCall(0).args).to.deep.equal([]);
-      expect(handleRedirectCallbackStub.callCount).to.equal(0);
-      expect(isAuthenticatedStub.callCount).to.equal(0);
+    cy.get('@getAuthenticationStub').then(() => {
+      expect(getAuthenticationStub.callCount).to.equal(1);
+      expect(getAuthenticationStub.getCall(0).args).to.deep.equal([`/authenticate/${authenticationToken}`]);
     });
   });
 
-  it('works properly when not logged in check is invalid', () => {
-    const auth0ClientMock = { handleRedirectCallback: () => {}, isAuthenticated: () => {} } as unknown as Auth0Client;
-    const handleRedirectCallbackStub = cy.stub(auth0ClientMock, 'handleRedirectCallback');
-    const isAuthenticatedStub = cy.stub(auth0ClientMock, 'isAuthenticated').resolves(false);
-    const getClientStub = cy.stub(authenticationUtils, 'getClient').as('getClientStub');
+  it('when not logged in already', () => {
+    localStorageCacheUtils.remove(LOCAL_STORAGE_AUTHENTICATION_TOKEN_KEY);
 
-    getClientStub.resolves(auth0ClientMock);
+    const getAuthenticationStub = cy.stub(apiUtils.appApi, 'get').as('getAuthenticationStub');
 
-    mount(<MockComponentNotLoggingIn />);
+    mount(<MockComponent />);
 
     cy.get(selectors.isLoadingCheck).contains('false');
     cy.get(selectors.isAuthenticatedCheck).contains('false');
 
-    cy.get('@getClientStub').then(() => {
-      expect(getClientStub.callCount).to.equal(1);
-      expect(getClientStub.getCall(0).args).to.deep.equal([]);
-      expect(handleRedirectCallbackStub.callCount).to.equal(0);
-      expect(isAuthenticatedStub.callCount).to.equal(1);
-      expect(isAuthenticatedStub.getCall(0).args).to.deep.equal([]);
+    cy.get('@getAuthenticationStub').then(() => {
+      expect(getAuthenticationStub.callCount).to.equal(0);
     });
   });
 
-  it('works properly when processing login', () => {
-    const auth0ClientMock = { handleRedirectCallback: () => {}, isAuthenticated: () => {} } as unknown as Auth0Client;
-    const handleRedirectCallbackStub = cy.stub(auth0ClientMock, 'handleRedirectCallback');
-    const isAuthenticatedStub = cy.stub(auth0ClientMock, 'isAuthenticated').resolves(false);
-    const getClientStub = cy.stub(authenticationUtils, 'getClient').as('getClientStub');
+  it('login', () => {
+    const authenticationToken = 'new-token';
 
-    getClientStub.resolves(auth0ClientMock);
+    localStorageCacheUtils.remove(LOCAL_STORAGE_AUTHENTICATION_TOKEN_KEY);
 
-    mount(<MockComponentLoggingIn />);
+    const postAuthenticationStub = cy.stub(apiUtils.appApi, 'post').as('postAuthenticationStub');
 
-    cy.get(selectors.isLoadingCheck).contains('false');
-    cy.get(selectors.isAuthenticatedCheck).contains('false');
-
-    cy.get('@getClientStub').then(() => {
-      expect(getClientStub.callCount).to.equal(1);
-      expect(getClientStub.getCall(0).args).to.deep.equal([]);
-      expect(handleRedirectCallbackStub.callCount).to.equal(1);
-      expect(handleRedirectCallbackStub.getCall(0).args).to.deep.equal([]);
-      expect(isAuthenticatedStub.callCount).to.equal(2);
-      expect(isAuthenticatedStub.getCall(0).args).to.deep.equal([]);
-      expect(isAuthenticatedStub.getCall(1).args).to.deep.equal([]);
+    postAuthenticationStub.resolves({
+      data: {
+        authenticationToken,
+      },
     });
-  });
 
-  it('setting is loading works properly', () => {
-    const auth0ClientMock = { isAuthenticated: () => {} } as unknown as Auth0Client;
-    const isAuthenticatedStub = cy.stub(auth0ClientMock, 'isAuthenticated').resolves(false);
-    const getClientStub = cy.stub(authenticationUtils, 'getClient').as('getClientStub');
-
-    getClientStub.resolves(auth0ClientMock);
-
-    mount(<MockComponentNotLoggingIn />);
-
-    cy.get(selectors.isLoadingCheck).contains('false');
-
-    cy.get(selectors.setIsLoadingButton).click();
-
-    cy.get(selectors.isLoadingCheck).contains('true');
-
-    cy.get('@getClientStub').then(() => {
-      expect(getClientStub.callCount).to.equal(1);
-      expect(getClientStub.getCall(0).args).to.deep.equal([]);
-      expect(isAuthenticatedStub.callCount).to.equal(1);
-      expect(isAuthenticatedStub.getCall(0).args).to.deep.equal([]);
-    });
-  });
-
-  it('login works properly', () => {
-    const auth0ClientMock = { loginWithRedirect: () => {}, isAuthenticated: () => {} } as unknown as Auth0Client;
-    const loginWithRedirectStub = cy.stub(auth0ClientMock, 'loginWithRedirect');
-    const isAuthenticatedStub = cy.stub(auth0ClientMock, 'isAuthenticated').resolves(false);
-    const getClientStub = cy.stub(authenticationUtils, 'getClient').as('getClientStub');
-
-    getClientStub.resolves(auth0ClientMock);
-
-    mount(<MockComponentNotLoggingIn />);
+    mount(<MockComponent />);
 
     cy.get(selectors.loginButton).click();
 
-    cy.get('@getClientStub').then(() => {
-      expect(getClientStub.callCount).to.equal(1);
-      expect(getClientStub.getCall(0).args).to.deep.equal([]);
-      expect(isAuthenticatedStub.callCount).to.equal(1);
-      expect(isAuthenticatedStub.getCall(0).args).to.deep.equal([]);
-      expect(loginWithRedirectStub.callCount).to.equal(1);
-      expect(loginWithRedirectStub.getCall(0).args).to.deep.equal([{ redirect_uri: 'http://localhost:4000' }]);
+    cy.get(selectors.isLoadingCheck).contains('false');
+    cy.get(selectors.isAuthenticatedCheck).contains('true');
+    cy.get(selectors.redirectCheck).contains('/home');
+
+    cy.get('@postAuthenticationStub').then(() => {
+      expect(postAuthenticationStub.callCount).to.equal(1);
+      expect(postAuthenticationStub.getCall(0).args).to.deep.equal(['/authenticate']);
+      expect(localStorageCacheUtils.get(LOCAL_STORAGE_AUTHENTICATION_TOKEN_KEY)).to.equal(authenticationToken);
     });
   });
 
-  it('logout works properly', () => {
-    const auth0ClientMock = { logout: () => {}, isAuthenticated: () => {} } as unknown as Auth0Client;
-    const logoutStub = cy.stub(auth0ClientMock, 'logout');
-    const isAuthenticatedStub = cy.stub(auth0ClientMock, 'isAuthenticated').resolves(true);
-    const getClientStub = cy.stub(authenticationUtils, 'getClient').as('getClientStub');
+  it('logout', () => {
+    const authenticationToken = 'existing-token';
 
-    getClientStub.resolves(auth0ClientMock);
+    localStorageCacheUtils.set(LOCAL_STORAGE_AUTHENTICATION_TOKEN_KEY, authenticationToken);
 
-    mount(<MockComponentNotLoggingIn />);
+    mount(<MockComponent />);
 
     cy.get(selectors.logoutButton).click();
 
-    cy.get('@getClientStub').then(() => {
-      expect(getClientStub.callCount).to.equal(1);
-      expect(getClientStub.getCall(0).args).to.deep.equal([]);
-      expect(isAuthenticatedStub.callCount).to.equal(1);
-      expect(isAuthenticatedStub.getCall(0).args).to.deep.equal([]);
-      expect(logoutStub.callCount).to.equal(1);
-      expect(logoutStub.getCall(0).args).to.deep.equal([{ returnTo: 'http://localhost:4000/login' }]);
-    });
+    cy.get(selectors.isLoadingCheck).contains('false');
+    cy.get(selectors.isAuthenticatedCheck).contains('false');
+    cy.get(selectors.redirectCheck)
+      .contains('/login')
+      .then(() => {
+        expect(localStorageCacheUtils.get(LOCAL_STORAGE_AUTHENTICATION_TOKEN_KEY)).to.equal(null);
+      });
   });
 
-  it('getting access token works properly', () => {
-    const auth0ClientMock = { getTokenSilently: () => {}, isAuthenticated: () => {} } as unknown as Auth0Client;
-    const getTokenSilentlyStub = cy.stub(auth0ClientMock, 'getTokenSilently');
-    const isAuthenticatedStub = cy.stub(auth0ClientMock, 'isAuthenticated').resolves(true);
-    const getClientStub = cy.stub(authenticationUtils, 'getClient').as('getClientStub');
+  it('finish login', () => {
+    const authenticationToken = 'new-token';
 
-    getClientStub.resolves(auth0ClientMock);
+    localStorageCacheUtils.remove(LOCAL_STORAGE_AUTHENTICATION_TOKEN_KEY);
 
-    mount(<MockComponentNotLoggingIn />);
+    const postAuthenticationStub = cy.stub(apiUtils.appApi, 'post').as('postAuthenticationStub');
 
-    cy.get(selectors.getAccessTokenButton).click();
-
-    cy.get('@getClientStub').then(() => {
-      expect(getClientStub.callCount).to.equal(1);
-      expect(getClientStub.getCall(0).args).to.deep.equal([]);
-      expect(isAuthenticatedStub.callCount).to.equal(1);
-      expect(isAuthenticatedStub.getCall(0).args).to.deep.equal([]);
-      expect(getTokenSilentlyStub.callCount).to.equal(1);
-      expect(getTokenSilentlyStub.getCall(0).args).to.deep.equal([{ redirect_uri: window.location.origin }]);
+    postAuthenticationStub.resolves({
+      data: {
+        authenticationToken,
+      },
     });
+
+    mount(<MockComponent />);
+
+    cy.get(selectors.loginButton).click();
+
+    cy.get(selectors.redirectCheck).contains('/home');
+
+    cy.get(selectors.finishLoginButton).click();
   });
 });

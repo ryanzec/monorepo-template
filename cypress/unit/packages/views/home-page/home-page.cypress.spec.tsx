@@ -8,12 +8,9 @@ import { apiUtils } from '$utils/api';
 
 describe('home page', () => {
   it('clicking the test api button works', () => {
-    const accessToken = 'faketoken';
-
     cy.stub(authenticationContext, 'useContext', () => {
       return {
         logout: cy.stub(),
-        getAccessToken: cy.stub().returns(accessToken),
       };
     });
 
@@ -35,22 +32,8 @@ describe('home page', () => {
 
     cy.get('@apiGetStub').then(() => {
       expect(apiGetStub.callCount).to.equal(2);
-      expect(apiGetStub.getCall(0).args).to.deep.equal([
-        '/pawns',
-        {
-          headers: {
-            Authorization: `Bearer ${accessToken}`,
-          },
-        },
-      ]);
-      expect(apiGetStub.getCall(0).args).to.deep.equal([
-        '/pawns',
-        {
-          headers: {
-            Authorization: `Bearer ${accessToken}`,
-          },
-        },
-      ]);
+      expect(apiGetStub.getCall(0).args).to.deep.equal(['/pawns']);
+      expect(apiGetStub.getCall(0).args).to.deep.equal(['/pawns']);
     });
   });
 

@@ -35,5 +35,4 @@
     "./packages"
   ],
   "exclude": ["**/*.cypress.spec.{ts,tsx}"],
-  "references": [{ "path": "./tsconfig.node.json" }]
 }

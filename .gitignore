@@ -6,10 +6,11 @@ logs
 
 coverage
 
-# files with secrets
+# development specific data
 .env
 applications/web/src/index.html
 index.html
+applications/api/lowdb/*
 
 # artifacts
 .idea

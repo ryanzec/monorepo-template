@@ -15,21 +15,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@auth0/auth0-spa-js@npm:1.22.0":
-  version: 1.22.0
-  resolution: "@auth0/auth0-spa-js@npm:1.22.0"
-  dependencies:
-    abortcontroller-polyfill: ^1.7.3
-    browser-tabs-lock: ^1.2.15
-    core-js: ^3.22.4
-    es-cookie: ^1.3.2
-    fast-text-encoding: ^1.0.3
-    promise-polyfill: ^8.2.3
-    unfetch: ^4.2.0
-  checksum: ed525e7bf93742d28543b2d3754266c6042689930e343503eade5146813ec5849b556a124e888381ea43a18e10a1c52f4e63309528b744c76ff4de3544d814e6
-  languageName: node
-  linkType: hard
-
 "@babel/code-frame@npm:^7.0.0, @babel/code-frame@npm:^7.10.4, @babel/code-frame@npm:^7.16.7, @babel/code-frame@npm:^7.5.5, @babel/code-frame@npm:^7.8.3":
   version: 7.16.7
   resolution: "@babel/code-frame@npm:7.16.7"
@@ -4648,13 +4633,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"abortcontroller-polyfill@npm:^1.7.3":
-  version: 1.7.3
-  resolution: "abortcontroller-polyfill@npm:1.7.3"
-  checksum: 55739d7f0c9bd6afa2aabb3148778967c4dd4dcff91f6b9259df38da34f9882d3f7730b0954e9767a19cc16a8dd9a58915da4e8a50220300d45af3817d7557b1
-  languageName: node
-  linkType: hard
-
 "accepts@npm:~1.3.5, accepts@npm:~1.3.8":
   version: 1.3.8
   resolution: "accepts@npm:1.3.8"
@@ -5772,15 +5750,6 @@ __metadata:
   dependencies:
     resolve: ^1.17.0
   checksum: 69225e73b555bd6d2a08fb93c7342cfcf3b5058b975099c52649cd5c3cec84c2066c5385084d190faedfb849684d9dabe10129f0cd401d1883572f2e6650f440
-  languageName: node
-  linkType: hard
-
-"browser-tabs-lock@npm:^1.2.15":
-  version: 1.2.15
-  resolution: "browser-tabs-lock@npm:1.2.15"
-  dependencies:
-    lodash: ">=4.17.21"
-  checksum: 79194361d5dbd0bf83f1e7e56fdbc209161d1c86f8211214512388df126d69b152512f073392e9415dec8d5e3b427045f9a9a3cb089ae7e7f6ed48dd6022ae74
   languageName: node
   linkType: hard
 
@@ -6943,7 +6912,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"core-js@npm:^3.0.4, core-js@npm:^3.22.4, core-js@npm:^3.6.5, core-js@npm:^3.8.2":
+"core-js@npm:^3.0.4, core-js@npm:^3.6.5, core-js@npm:^3.8.2":
   version: 3.22.7
   resolution: "core-js@npm:3.22.7"
   checksum: c5f1d8a96b6d1828d02583603d9df1fcbf45f95454585ff9d49ba7ea1470bf1422d00561044939bf4952465ae4ae2bf30a39b4874da8ed2741a3f3996bd175ab
@@ -8032,13 +8001,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"es-cookie@npm:^1.3.2":
-  version: 1.3.2
-  resolution: "es-cookie@npm:1.3.2"
-  checksum: 8509355a7d00bd2e3fcab4a76a90e0da35b40c1e76f114f8ffe805ab3fdfff51e8fc0e7cdccd9bf1536066150b6b9861e37d78ae14f80680513901902ac4f0df
-  languageName: node
-  linkType: hard
-
 "es-get-iterator@npm:^1.0.2":
   version: 1.1.2
   resolution: "es-get-iterator@npm:1.1.2"
@@ -8724,15 +8686,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"express-oauth2-jwt-bearer@npm:1.1.0":
-  version: 1.1.0
-  resolution: "express-oauth2-jwt-bearer@npm:1.1.0"
-  dependencies:
-    jose: ^4.3.7
-  checksum: af81c9b83cc54b880f761ac467b437c867b6cc7624ca517e7cad2ffa2c7a82b95b3ad67c86dc06e8c9029b39f1674e60b273354d1942cc26a1bd3f06383af2d9
-  languageName: node
-  linkType: hard
-
 "express@npm:4.18.1, express@npm:^4.17.1":
   version: 4.18.1
   resolution: "express@npm:4.18.1"
@@ -8845,13 +8798,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"faker@npm:6.6.6":
-  version: 6.6.6
-  resolution: "faker@npm:6.6.6"
-  checksum: bfb0d581ab4d76095f2c6bff213fe1735ce077f0f8df849c144ad26035e105bce1b7a704cc030366338c52e25b636ac097a712426a78c9b8804af78f6f2bffe7
-  languageName: node
-  linkType: hard
-
 "fast-deep-equal@npm:^3.1.1, fast-deep-equal@npm:^3.1.3":
   version: 3.1.3
   resolution: "fast-deep-equal@npm:3.1.3"
@@ -8918,13 +8864,6 @@ __metadata:
   version: 2.1.1
   resolution: "fast-safe-stringify@npm:2.1.1"
   checksum: a851cbddc451745662f8f00ddb622d6766f9bd97642dabfd9a405fb0d646d69fc0b9a1243cbf67f5f18a39f40f6fa821737651ff1bceeba06c9992ca2dc5bd3d
-  languageName: node
-  linkType: hard
-
-"fast-text-encoding@npm:^1.0.3":
-  version: 1.0.3
-  resolution: "fast-text-encoding@npm:1.0.3"
-  checksum: 3e51365896f06d0dcab128092d095a0037d274deec419fecbd2388bc236d7b387610e0c72f920c6126e00c885ab096fbfaa3645712f5b98f721bef6b064916a8
   languageName: node
   linkType: hard
 
@@ -11370,13 +11309,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"jose@npm:^4.3.7":
-  version: 4.8.1
-  resolution: "jose@npm:4.8.1"
-  checksum: c3e239ccbb07863c28250aedea3e734e4a3b26abc1cbf6acf333381db5ef31e5d1eeced791299076f13b24f41b4b463a7a1e4eaa0079ae0febf9bfd60acb555a
-  languageName: node
-  linkType: hard
-
 "js-string-escape@npm:^1.0.1":
   version: 1.0.1
   resolution: "js-string-escape@npm:1.0.1"
@@ -11933,7 +11865,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"lodash@npm:4.17.21, lodash@npm:>=4.17.21, lodash@npm:^4.17.15, lodash@npm:^4.17.19, lodash@npm:^4.17.20, lodash@npm:^4.17.21":
+"lodash@npm:4.17.21, lodash@npm:^4.17.15, lodash@npm:^4.17.19, lodash@npm:^4.17.20, lodash@npm:^4.17.21":
   version: 4.17.21
   resolution: "lodash@npm:4.17.21"
   checksum: eb835a2e51d381e561e508ce932ea50a8e5a68f4ebdd771ea240d3048244a8d13658acbd502cd4829768c56f2e16bdd4340b9ea141297d472517b83868e677f7
@@ -11980,6 +11912,15 @@ __metadata:
     currently-unhandled: ^0.4.1
     signal-exit: ^3.0.0
   checksum: 750e12defde34e8cbf263c2bff16f028a89b56e022ad6b368aa7c39495b5ac33f2349a8d00665a9b6d25c030b376396524d8a31eb0dde98aaa97956d7324f927
+  languageName: node
+  linkType: hard
+
+"lowdb@npm:3.0.0":
+  version: 3.0.0
+  resolution: "lowdb@npm:3.0.0"
+  dependencies:
+    steno: ^2.1.0
+  checksum: 49b18e55ccd9968ce3928a192cf0c9d0a3e4e5f3b1fb3e189ad39263374b485994feb38c96433b6360a7653dc935703194a86b0fa83d98728d81629293f34ac0
   languageName: node
   linkType: hard
 
@@ -12626,7 +12567,6 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "monorepo-template@workspace:."
   dependencies:
-    "@auth0/auth0-spa-js": 1.22.0
     "@cypress/code-coverage": 3.9.12
     "@cypress/react": 5.12.5
     "@cypress/vite-dev-server": 2.2.3
@@ -12676,12 +12616,11 @@ __metadata:
     eslint-plugin-react: 7.30.0
     eslint-plugin-react-hooks: 4.5.0
     express: 4.18.1
-    express-oauth2-jwt-bearer: 1.1.0
-    faker: 6.6.6
     husky: 7.0.4
     immer: 9.0.14
     lint-staged: 12.4.2
     lodash: 4.17.21
+    lowdb: 3.0.0
     mini-css-extract-plugin: 2.6.0
     nodemon: ^2.0.16
     prettier: 2.6.2
@@ -14149,13 +14088,6 @@ __metadata:
   version: 1.0.1
   resolution: "promise-inflight@npm:1.0.1"
   checksum: 22749483091d2c594261517f4f80e05226d4d5ecc1fc917e1886929da56e22b5718b7f2a75f3807e7a7d471bc3be2907fe92e6e8f373ddf5c64bae35b5af3981
-  languageName: node
-  linkType: hard
-
-"promise-polyfill@npm:^8.2.3":
-  version: 8.2.3
-  resolution: "promise-polyfill@npm:8.2.3"
-  checksum: f320278bab8b8ce32f0e2f377d75aabe35c90a79f92b3e001db084d635da1fb8740ba8a26b5c1c2b4cdca5a4c988f9b6b3eb30f0b151d0362d3d9c1675024a8f
   languageName: node
   linkType: hard
 
@@ -16007,6 +15939,13 @@ __metadata:
   version: 2.0.1
   resolution: "statuses@npm:2.0.1"
   checksum: 18c7623fdb8f646fb213ca4051be4df7efb3484d4ab662937ca6fbef7ced9b9e12842709872eb3020cc3504b93bde88935c9f6417489627a7786f24f8031cbcb
+  languageName: node
+  linkType: hard
+
+"steno@npm:^2.1.0":
+  version: 2.1.0
+  resolution: "steno@npm:2.1.0"
+  checksum: 76a0ed9f0a069fd9a86f919fe73e31147eeb3534ec6f6a7445f2a3949a5b2ede71e9892f1ba906fd2e1fccabc587f2854f5dd527398a187762c95903739251fb
   languageName: node
   linkType: hard
 

@@ -9,11 +9,7 @@
     <script type="text/javascript">
       // in production, the backend should in injecting this data so that we don't have to store this data in source
       // control
-      window.globalConfiguration = {
-        auth0Domain: 'domain',
-        auth0ClientId: 'clientId',
-        audience: 'audience',
-      };
+      window.globalConfiguration = {};
     </script>
     <div id="application-mount"></div>
   </body>

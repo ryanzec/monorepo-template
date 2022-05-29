@@ -1,4 +1,5 @@
-import React, { useCallback } from 'react';
+import React, { useCallback, useEffect } from 'react';
+import { routerUtils } from '$utils/router';
 import styled from '@emotion/styled';
 import { Button } from '$components/button/button';
 import { authenticationContext } from '$contexts/authentication';
@@ -12,11 +13,21 @@ const Container = styled.div`
 `;
 
 const LoginPage = () => {
-  const { login } = authenticationContext.useContext();
+  const navigate = routerUtils.useNavigate();
+  const { login, loginRedirectUrl, finishLogin } = authenticationContext.useContext();
 
   const onLogin = useCallback(async () => {
     await login();
   }, [login]);
+
+  useEffect(() => {
+    if (!loginRedirectUrl) {
+      return;
+    }
+
+    navigate(loginRedirectUrl);
+    finishLogin();
+  }, [navigate, loginRedirectUrl]);
 
   return (
     <Container data-id="login-page">

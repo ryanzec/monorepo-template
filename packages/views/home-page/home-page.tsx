@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { apiUtils } from '$utils/api';
-import { authenticationContext } from '$contexts/authentication';
 import { useToggledHook } from '$hooks/use-toggled';
 import { Button } from '$components/button/button';
 import { ButtonContext } from '$components/button/types';
@@ -23,7 +22,6 @@ const HomePage = () => {
     formState: { errors },
   } = useForm<LoginFormData>();
   const { isToggled, toggle } = useToggledHook.useToggled(false);
-  const { getAccessToken } = authenticationContext.useContext();
   const [loadedPawns, setLoadedPawns] = useState([]);
   console.log(errors);
 
@@ -42,22 +40,13 @@ const HomePage = () => {
         disabled={isToggled}
         data-id="test-api"
         onClick={async () => {
-          const accessToken = await getAccessToken();
-
-          console.log(accessToken);
-
-          if (!accessToken) {
-            // @todo(!!!) error logging
-            return;
-          }
-
-          console.log(accessToken);
-
-          const response = await apiUtils.appApi.get('/pawns', {
-            headers: {
-              Authorization: `Bearer ${accessToken}`,
-            },
-          });
+          // @todo(feature) backend token validation
+          const response = await apiUtils.appApi.get('/pawns');
+          // const response = await apiUtils.appApi.get('/pawns', {
+          //   headers: {
+          //     Authorization: `Bearer ${accessToken}`,
+          //   },
+          // });
 
           console.log(response);
 
@@ -65,28 +54,6 @@ const HomePage = () => {
         }}
       >
         Test API
-      </Button>
-      <Button
-        context={ButtonContext.SAFE}
-        disabled={isToggled}
-        onClick={async () => {
-          const accessToken = await getAccessToken();
-
-          if (!accessToken) {
-            // @todo(!!!) error logging
-            return;
-          }
-
-          const response = await apiUtils.appApi.get('/admin.generateBackendTokens', {
-            headers: {
-              Authorization: `Bearer ${accessToken}`,
-            },
-          });
-
-          console.log(response);
-        }}
-      >
-        Generate Backend Tokens
       </Button>
       <Button
         context={ButtonContext.DANGER}
