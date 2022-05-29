@@ -12622,7 +12622,7 @@ __metadata:
     lodash: 4.17.21
     lowdb: 3.0.0
     mini-css-extract-plugin: 2.6.0
-    nodemon: ^2.0.16
+    nodemon: 2.0.16
     prettier: 2.6.2
     react: 18.1.0
     react-dnd: 16.0.1
@@ -12875,7 +12875,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"nodemon@npm:^2.0.16":
+"nodemon@npm:2.0.16":
   version: 2.0.16
   resolution: "nodemon@npm:2.0.16"
   dependencies:
