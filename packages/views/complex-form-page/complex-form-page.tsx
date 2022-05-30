@@ -1,5 +1,5 @@
-import React, { useCallback } from 'react';
-import { useFieldArray, useForm } from 'react-hook-form';
+import React, { useCallback, useState } from 'react';
+import { Controller, useFieldArray, useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import * as zod from 'zod';
 import { v4 as uuid } from 'uuid';
@@ -7,6 +7,7 @@ import { zodUtils } from '$utils/zod';
 import { FieldId, Todo } from '$views/complex-form-page/types';
 import { Label } from '$components/forms/label';
 import { Input } from '$components/forms/input';
+import { AutoComplete } from '$components/forms/auto-complete';
 import { InputContainer } from '$components/forms/input-container';
 import { ValidationMessage } from '$components/forms/validation-message';
 import { DragDropItem } from '$views/complex-form-page/drag-drop-item';
@@ -14,9 +15,14 @@ import { Button } from '$components/button/button';
 import { EmptyDropContainer } from '$views/complex-form-page/empty-drop-container';
 import styled from '@emotion/styled';
 
+export interface AutoCompleteValue {
+  display: string;
+  value: number;
+}
+
 export interface ComplexFormData {
   firstName: string;
-  lastName: string;
+  autoComplete: number;
   email: string;
   mobileNumber: string;
   title: string;
@@ -28,8 +34,8 @@ export interface ComplexFormData {
 
 const complexFormDataSchema = zodUtils.schemaForType<ComplexFormData>()(
   zod.object({
-    firstName: zod.string().min(1, 'Required fields'),
-    lastName: zod.string(),
+    firstName: zod.string().min(1, 'custom error message'),
+    autoComplete: zod.number(),
     email: zod.string(),
     mobileNumber: zod.string(),
     title: zod.string(),
@@ -67,6 +73,13 @@ for (let i = 0; i < 2; i++) {
 }
 
 const ComplexFormPage = () => {
+  const [autoCompleteValues] = useState<AutoCompleteValue[]>([
+    { display: 'test1', value: 11 },
+    { display: 'test2', value: 22 },
+    { display: 'tes3', value: 33 },
+    { display: 'tes4', value: 44 },
+  ]);
+  const [selectedAutoCompleteValue, setSelectedAutoCompleteValue] = useState<AutoCompleteValue | null | undefined>();
   const {
     control,
     register,
@@ -140,9 +153,39 @@ const ComplexFormPage = () => {
         {errors.firstName?.message && <ValidationMessage>{errors.firstName.message}</ValidationMessage>}
       </InputContainer>
       <InputContainer>
-        <Label>Last Name</Label>
-        <Input type="text" placeholder="Last name" property="lastName" register={register} />
-        {errors.lastName?.message && <ValidationMessage>{errors.lastName.message}</ValidationMessage>}
+        <Controller
+          control={control}
+          name="autoComplete"
+          render={({ field }) => {
+            return (
+              <AutoComplete
+                items={autoCompleteValues}
+                itemToString={(item) => item?.display ?? ''}
+                filterItems={({ items, inputValue }) => {
+                  return items.filter((item) => item?.display.toLowerCase().includes(inputValue?.toLowerCase() ?? ''));
+                }}
+                renderItems={({ items, highlightedIndex, propGetters: { getItemProps } }) => {
+                  return items.map((item, index) => (
+                    <li
+                      data-id={`item${highlightedIndex === index ? ' highlighted-item' : ''}`}
+                      style={highlightedIndex === index ? { backgroundColor: '#bde4ff' } : {}}
+                      key={`${item?.display}${index}`}
+                      {...getItemProps({ item, index })}
+                    >
+                      {item?.display}
+                    </li>
+                  ));
+                }}
+                onItemSelected={(selectedItem) => {
+                  field.onChange(selectedItem?.value || undefined);
+                  setSelectedAutoCompleteValue(selectedItem);
+                }}
+                selectedItem={selectedAutoCompleteValue}
+              />
+            );
+          }}
+        />
+        {errors.autoComplete?.message && <ValidationMessage>{errors.autoComplete.message}</ValidationMessage>}
       </InputContainer>
       <InputContainer>
         <Label>Email</Label>
