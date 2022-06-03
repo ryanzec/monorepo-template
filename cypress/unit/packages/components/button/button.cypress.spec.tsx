@@ -5,13 +5,17 @@ import { faHouse } from '@fortawesome/free-solid-svg-icons';
 import { cypressUtils } from '$utils/cypress';
 import Button from '$components/button/button';
 import ButtonGroup from '$components/button/button-group';
-import { ButtonContext, ButtonIconPosition, ButtonSize, ButtonVariant } from '$components/button/types';
+import { ButtonContext, ButtonIconPosition, ButtonSize, ButtonState, ButtonVariant } from '$components/button/types';
 
 describe('button', () => {
   it('default group', () => {
     mount(
       cypressUtils.addBasicWrapper(
-        <ButtonGroup context={ButtonContext.PRIMARY} size={ButtonSize.MEDIUM} variant={ButtonVariant.SOLID}>
+        <ButtonGroup
+          data-context={ButtonContext.PRIMARY}
+          data-size={ButtonSize.MEDIUM}
+          data-variant={ButtonVariant.SOLID}
+        >
           <Button>test</Button>
           <Button>test2</Button>
         </ButtonGroup>,
@@ -26,9 +30,9 @@ describe('button', () => {
       cypressUtils.addBasicWrapper(
         <ButtonGroup
           isAttached={false}
-          context={ButtonContext.PRIMARY}
-          size={ButtonSize.MEDIUM}
-          variant={ButtonVariant.SOLID}
+          data-context={ButtonContext.PRIMARY}
+          data-size={ButtonSize.MEDIUM}
+          data-variant={ButtonVariant.SOLID}
         >
           <Button>test</Button>
           <Button>test2</Button>
@@ -44,9 +48,9 @@ describe('button', () => {
       cypressUtils.addBasicWrapper(
         <ButtonGroup
           isAttached={true}
-          context={ButtonContext.PRIMARY}
-          size={ButtonSize.MEDIUM}
-          variant={ButtonVariant.SOLID}
+          data-context={ButtonContext.PRIMARY}
+          data-size={ButtonSize.MEDIUM}
+          data-variant={ButtonVariant.SOLID}
         >
           <Button>test</Button>
           <Button>test2</Button>
@@ -61,10 +65,10 @@ describe('button', () => {
     mount(
       cypressUtils.addBasicWrapper(
         <>
-          <Button context={ButtonContext.PRIMARY}>primary</Button>
-          <Button context={ButtonContext.SAFE}>safe</Button>
-          <Button context={ButtonContext.WARNING}>warning</Button>
-          <Button context={ButtonContext.DANGER}>danger</Button>
+          <Button data-context={ButtonContext.PRIMARY}>primary</Button>
+          <Button data-context={ButtonContext.SAFE}>safe</Button>
+          <Button data-context={ButtonContext.WARNING}>warning</Button>
+          <Button data-context={ButtonContext.DANGER}>danger</Button>
         </>,
       ),
     );
@@ -76,9 +80,9 @@ describe('button', () => {
     mount(
       cypressUtils.addBasicWrapper(
         <>
-          <Button size={ButtonSize.SMALL}>small</Button>
-          <Button size={ButtonSize.MEDIUM}>medium</Button>
-          <Button size={ButtonSize.LARGE}>large</Button>
+          <Button data-size={ButtonSize.SMALL}>small</Button>
+          <Button data-size={ButtonSize.MEDIUM}>medium</Button>
+          <Button data-size={ButtonSize.LARGE}>large</Button>
         </>,
       ),
     );
@@ -90,10 +94,10 @@ describe('button', () => {
     mount(
       cypressUtils.addBasicWrapper(
         <>
-          <Button variant={ButtonVariant.SOLID}>solid</Button>
-          <Button variant={ButtonVariant.OUTLINE}>outline</Button>
-          <Button variant={ButtonVariant.GHOST}>ghost</Button>
-          <Button variant={ButtonVariant.LINK}>link</Button>
+          <Button data-variant={ButtonVariant.SOLID}>solid</Button>
+          <Button data-variant={ButtonVariant.OUTLINE}>outline</Button>
+          <Button data-variant={ButtonVariant.GHOST}>ghost</Button>
+          <Button data-variant={ButtonVariant.LINK}>link</Button>
         </>,
       ),
     );
@@ -119,10 +123,10 @@ describe('button', () => {
     mount(
       cypressUtils.addBasicWrapper(
         <>
-          <Button isLoading loadingIconPosition={ButtonIconPosition.PRE}>
+          <Button data-state={ButtonState.IS_LOADING} loadingIconPosition={ButtonIconPosition.PRE}>
             pre is loading
           </Button>
-          <Button isLoading loadingIconPosition={ButtonIconPosition.POST}>
+          <Button data-state={ButtonState.IS_LOADING} loadingIconPosition={ButtonIconPosition.POST}>
             post is loading
           </Button>
         </>,
@@ -137,10 +141,18 @@ describe('button', () => {
     mount(
       cypressUtils.addBasicWrapper(
         <>
-          <Button preIcon={<FontAwesomeIcon icon={faHouse} />} isLoading loadingIconPosition={ButtonIconPosition.PRE}>
+          <Button
+            preIcon={<FontAwesomeIcon icon={faHouse} />}
+            data-state={ButtonState.IS_LOADING}
+            loadingIconPosition={ButtonIconPosition.PRE}
+          >
             pre is loading
           </Button>
-          <Button postIcon={<FontAwesomeIcon icon={faHouse} />} isLoading loadingIconPosition={ButtonIconPosition.POST}>
+          <Button
+            postIcon={<FontAwesomeIcon icon={faHouse} />}
+            data-state={ButtonState.IS_LOADING}
+            loadingIconPosition={ButtonIconPosition.POST}
+          >
             post is loading
           </Button>
         </>,

@@ -49,11 +49,11 @@ export interface ButtonGroupProps extends ButtonGroupContextValue, RequiresChild
 export const ButtonGroup = ({
   children,
   isAttached = false,
-  variant = ButtonVariant.SOLID,
+  'data-variant': dataVariant = ButtonVariant.SOLID,
   ...restOfProps
 }: ButtonGroupProps) => {
   return (
-    <ButtonGroupContext.Provider value={{ isAttached, variant, ...restOfProps }}>
+    <ButtonGroupContext.Provider value={{ isAttached, 'data-variant': dataVariant, ...restOfProps }}>
       <Container data-id="button-group" role="group" isAttached={isAttached}>
         {children}
       </Container>

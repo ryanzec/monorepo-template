@@ -1,13 +1,12 @@
 import React, { ReactNode } from 'react';
 import styled from '@emotion/styled';
-import { css } from '@emotion/react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faSpinner } from '@fortawesome/free-solid-svg-icons';
 
 import { RequiresChildrenComponent } from '$types/react';
-import { ButtonIconPosition, ButtonContext, ButtonSize, ButtonVariant } from '$components/button/types';
+import { ButtonContext, ButtonIconPosition, ButtonSize, ButtonState, ButtonVariant } from '$components/button/types';
 import { theme } from '$utils/style';
-import { cssVariables, ButtonColorSet } from '$components/button/styles';
+import { cssVariables } from '$components/button/styles';
 import { useButtonGroupContext } from '$components/button/hooks';
 
 export const isValidAttachedVariant = (variant: ButtonVariant): boolean => {
@@ -16,62 +15,169 @@ export const isValidAttachedVariant = (variant: ButtonVariant): boolean => {
 
 export interface ButtonContainerProps
   extends React.DetailedHTMLProps<React.HTMLAttributes<HTMLButtonElement>, HTMLButtonElement> {
-  context: ButtonContext;
-  size: ButtonSize;
-  variant: ButtonVariant;
+  'data-context': ButtonContext;
+  'data-size': ButtonSize;
+  'data-variant': ButtonVariant;
 }
 
 export const Container = styled.button<ButtonContainerProps>`
   border-radius: ${cssVariables.container.borderRadius};
-  padding: ${(props) => cssVariables.container.padding[props.size]};
-  font-size: ${(props) => cssVariables.container.fontSize[props.size]};
+  border: 1px solid transparent;
   cursor: pointer;
   display: inline-flex;
   align-items: center;
 
-  // disabled state
-  ${(props) => {
-    if (!props.disabled) {
-      return null;
+  &[data-size='${ButtonSize.SMALL}'] {
+    padding: ${cssVariables.container.padding[ButtonSize.SMALL]};
+    font-size: ${cssVariables.container.fontSize[ButtonSize.SMALL]};
+  }
+
+  &[data-size='${ButtonSize.MEDIUM}'] {
+    padding: ${cssVariables.container.padding[ButtonSize.MEDIUM]};
+    font-size: ${cssVariables.container.fontSize[ButtonSize.MEDIUM]};
+  }
+
+  &[data-size='${ButtonSize.LARGE}'] {
+    padding: ${cssVariables.container.padding[ButtonSize.LARGE]};
+    font-size: ${cssVariables.container.fontSize[ButtonSize.LARGE]};
+  }
+
+  &[disabled] {
+    opacity: 0.5;
+    cursor: not-allowed;
+  }
+
+  &[data-context='${ButtonContext.SAFE}'] {
+    border-color: ${(props) => cssVariables.theme[props.theme.name].safe.borderColor};
+    background-color: ${(props) => cssVariables.theme[props.theme.name].safe.backgroundColor};
+    color: ${(props) => cssVariables.theme[props.theme.name].safe.color};
+
+    &:hover {
+      background-color: ${(props) => cssVariables.theme[props.theme.name].safe.backgroundColorFocused};
     }
 
-    return css`
-      opacity: 0.5;
-      cursor: not-allowed;
-    `;
-  }}
+    &:active {
+      background-color: ${(props) => cssVariables.theme[props.theme.name].safe.backgroundColorActive};
+    }
 
-  // theme related styles
-  ${(props) => {
-    // since we want ghost button to match outline button except they have no border, instead of duplicating a bit of
-    // the outline styles, we just track if it is ghost here and then re-use the outline styles and explicit hidden the
-    // border
-    const variantToUse = props.variant === ButtonVariant.GHOST ? ButtonVariant.OUTLINE : props.variant;
-    const isGhost = props.variant === ButtonVariant.GHOST;
-    const isLink = props.variant === ButtonVariant.LINK;
-    const colors: ButtonColorSet = cssVariables.theme[props.theme.name][props.context][variantToUse];
+    &[data-variant='${ButtonVariant.GHOST}'],
+    &[data-variant='${ButtonVariant.OUTLINE}'] {
+      color: ${(props) => cssVariables.theme[props.theme.name].safe.colorOutline};
+      background-color: ${(props) => cssVariables.theme[props.theme.name].safe.backgroundColorOutline};
 
-    return css`
-      border: 1px solid ${isGhost ? 'transparent' : colors.borderColor};
-      background-color: ${colors.backgroundColor};
-      color: ${colors.color};
-
-      &:hover,
-      &:focus {
-        background-color: ${colors.backgroundColorHover};
-        ${isLink && `color: ${theme[props.theme.name].color.text.linkHover};`}
+      &:hover {
+        background-color: ${(props) => cssVariables.theme[props.theme.name].safe.backgroundColorOutlineFocused};
       }
 
       &:active {
-        background-color: ${colors.backgroundColorPressed};
+        background-color: ${(props) => cssVariables.theme[props.theme.name].safe.backgroundColorOutlineActive};
       }
-    `;
-  }}
+    }
+  }
+
+  &[data-context='${ButtonContext.PRIMARY}'] {
+    border-color: ${(props) => cssVariables.theme[props.theme.name].primary.borderColor};
+    background-color: ${(props) => cssVariables.theme[props.theme.name].primary.backgroundColor};
+    color: ${(props) => cssVariables.theme[props.theme.name].primary.color};
+
+    &:hover {
+      background-color: ${(props) => cssVariables.theme[props.theme.name].primary.backgroundColorFocused};
+    }
+
+    &:active {
+      background-color: ${(props) => cssVariables.theme[props.theme.name].primary.backgroundColorActive};
+    }
+
+    &[data-variant='${ButtonVariant.GHOST}'],
+    &[data-variant='${ButtonVariant.OUTLINE}'] {
+      color: ${(props) => cssVariables.theme[props.theme.name].primary.colorOutline};
+      background-color: ${(props) => cssVariables.theme[props.theme.name].primary.backgroundColorOutline};
+
+      &:hover {
+        background-color: ${(props) => cssVariables.theme[props.theme.name].primary.backgroundColorOutlineFocused};
+      }
+
+      &:active {
+        background-color: ${(props) => cssVariables.theme[props.theme.name].primary.backgroundColorOutlineActive};
+      }
+    }
+  }
+
+  &[data-context='${ButtonContext.WARNING}'] {
+    border-color: ${(props) => cssVariables.theme[props.theme.name].warning.borderColor};
+    background-color: ${(props) => cssVariables.theme[props.theme.name].warning.backgroundColor};
+    color: ${(props) => cssVariables.theme[props.theme.name].warning.color};
+
+    &:hover {
+      background-color: ${(props) => cssVariables.theme[props.theme.name].warning.backgroundColorFocused};
+    }
+
+    &:active {
+      background-color: ${(props) => cssVariables.theme[props.theme.name].warning.backgroundColorActive};
+    }
+
+    &[data-variant='${ButtonVariant.GHOST}'],
+    &[data-variant='${ButtonVariant.OUTLINE}'] {
+      color: ${(props) => cssVariables.theme[props.theme.name].warning.colorOutline};
+      background-color: ${(props) => cssVariables.theme[props.theme.name].warning.backgroundColorOutline};
+
+      &:hover {
+        background-color: ${(props) => cssVariables.theme[props.theme.name].warning.backgroundColorOutlineFocused};
+      }
+
+      &:active {
+        background-color: ${(props) => cssVariables.theme[props.theme.name].warning.backgroundColorOutlineActive};
+      }
+    }
+  }
+
+  &[data-context='${ButtonContext.DANGER}'] {
+    border-color: ${(props) => cssVariables.theme[props.theme.name].danger.borderColor};
+    background-color: ${(props) => cssVariables.theme[props.theme.name].danger.backgroundColor};
+    color: ${(props) => cssVariables.theme[props.theme.name].danger.color};
+
+    &:hover {
+      background-color: ${(props) => cssVariables.theme[props.theme.name].danger.backgroundColorFocused};
+    }
+
+    &:active {
+      background-color: ${(props) => cssVariables.theme[props.theme.name].danger.backgroundColorActive};
+    }
+
+    &[data-variant='${ButtonVariant.GHOST}'],
+    &[data-variant='${ButtonVariant.OUTLINE}'] {
+      color: ${(props) => cssVariables.theme[props.theme.name].danger.colorOutline};
+      background-color: ${(props) => cssVariables.theme[props.theme.name].danger.backgroundColorOutline};
+
+      &:hover {
+        background-color: ${(props) => cssVariables.theme[props.theme.name].danger.backgroundColorOutlineFocused};
+      }
+
+      &:active {
+        background-color: ${(props) => cssVariables.theme[props.theme.name].danger.backgroundColorOutlineActive};
+      }
+    }
+  }
+
+  &&[data-variant='${ButtonVariant.GHOST}'] {
+    border-color: transparent;
+  }
+
+  &&[data-variant='${ButtonVariant.LINK}'] {
+    color: ${(props) => theme[props.theme.name].color.text.link};
+    background-color: transparent;
+    border-color: transparent;
+
+    &:hover {
+      color: ${(props) => theme[props.theme.name].color.text.linkHover};
+      text-decoration: underline;
+    }
+  }
 `;
 
 export interface ButtonIconProps {
   position: ButtonIconPosition;
-  isLoading: boolean;
+  'data-state': ButtonState;
 }
 
 export const Icon = styled.span<ButtonIconProps>`
@@ -81,31 +187,27 @@ export const Icon = styled.span<ButtonIconProps>`
     width: 16px;
     height: 16px;
     margin: ${(props) => cssVariables.icon.margin[props.position]};
+  }
 
-    ${(props) => {
-      if (!props.isLoading) {
-        return null;
-      }
-
-      return css`
-        animation-name: spin;
-        animation-duration: 2000ms;
-        animation-iteration-count: infinite;
-        animation-timing-function: linear;
-      `;
-    }}
+  &[data-state='is-loading'] {
+    svg {
+      animation-name: spin;
+      animation-duration: 2000ms;
+      animation-iteration-count: infinite;
+      animation-timing-function: linear;
+    }
   }
 `;
 
 export interface ButtonProps
   extends React.DetailedHTMLProps<React.HTMLAttributes<HTMLButtonElement>, HTMLButtonElement> {
-  context?: ButtonContext;
-  size?: ButtonSize;
+  'data-context'?: ButtonContext;
+  'data-size'?: ButtonSize;
+  'data-variant'?: ButtonVariant;
+  'data-state'?: ButtonState;
   preIcon?: ReactNode;
   postIcon?: ReactNode;
-  variant?: ButtonVariant;
   disabled?: boolean;
-  isLoading?: boolean;
   loadingIconPosition?: ButtonIconPosition;
 }
 
@@ -114,53 +216,56 @@ export const Button = (props: ButtonProps & RequiresChildrenComponent) => {
 
   const {
     children,
-    context = ButtonContext.SAFE,
-    size = ButtonSize.MEDIUM,
+    'data-context': dataContext = ButtonContext.SAFE,
+    'data-size': dataSize = ButtonSize.MEDIUM,
     preIcon,
     postIcon,
-    variant = ButtonVariant.SOLID,
+    'data-variant': dataVariant = ButtonVariant.SOLID,
     disabled = false,
-    isLoading = false,
+    'data-state': dataState = ButtonState.DEFAULT,
     loadingIconPosition = ButtonIconPosition.PRE,
     ...restOfProps
   } = { ...buttonGroupContext, ...props };
 
   // if button are attached then in order to make sure they look good, we should force all buttons to be the size
   // that was specified in the button group regardless of what the button has defined
-  const useSize = buttonGroupContext.isAttached ? buttonGroupContext.size : size;
+  const useSize = buttonGroupContext.isAttached ? buttonGroupContext['data-size'] : dataSize;
 
   // certain variant (like ghost and links) don't work well with attached group (as their styling does not make them
   // seem attached) so we need to revert to the group variant if one of those is defined on the button itself
   const useVariant =
-    buttonGroupContext.isAttached && !isValidAttachedVariant(variant) ? buttonGroupContext.variant : variant;
+    buttonGroupContext.isAttached && !isValidAttachedVariant(dataVariant)
+      ? buttonGroupContext['data-variant']
+      : dataVariant;
+  const isLoading = dataState === ButtonState.IS_LOADING;
 
   return (
     <Container
-      context={context}
-      size={useSize}
-      variant={useVariant}
+      data-context={dataContext}
+      data-size={useSize}
+      data-variant={useVariant}
       disabled={disabled || isLoading}
       data-id="button"
       {...restOfProps}
     >
       {isLoading && loadingIconPosition === ButtonIconPosition.PRE && (
-        <Icon data-id="pre-loading-icon" position={ButtonIconPosition.PRE} isLoading={true}>
+        <Icon data-id="pre-loading-icon" position={ButtonIconPosition.PRE} data-state={dataState}>
           <FontAwesomeIcon icon={faSpinner} />
         </Icon>
       )}
       {!isLoading && preIcon && (
-        <Icon data-id="pre-icon" position={ButtonIconPosition.PRE} isLoading={false}>
+        <Icon data-id="pre-icon" position={ButtonIconPosition.PRE} data-state={dataState}>
           {preIcon}
         </Icon>
       )}
       {children}
       {!isLoading && postIcon && (
-        <Icon data-id="post-icon" position={ButtonIconPosition.POST} isLoading={false}>
+        <Icon data-id="post-icon" position={ButtonIconPosition.POST} data-state={dataState}>
           {postIcon}
         </Icon>
       )}
       {isLoading && loadingIconPosition === ButtonIconPosition.POST && (
-        <Icon data-id="post-loading-icon" position={ButtonIconPosition.POST} isLoading={true}>
+        <Icon data-id="post-loading-icon" position={ButtonIconPosition.POST} data-state={dataState}>
           <FontAwesomeIcon icon={faSpinner} />
         </Icon>
       )}

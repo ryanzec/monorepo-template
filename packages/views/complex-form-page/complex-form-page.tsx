@@ -150,17 +150,17 @@ const ComplexFormPage = () => {
 
   return (
     <div data-id="complex-form-page">
-      <Button context={ButtonContext.SAFE}>Emotion</Button>
-      <Button context={ButtonContext.SAFE} disabled>
+      <Button data-context={ButtonContext.SAFE}>Emotion</Button>
+      <Button data-context={ButtonContext.SAFE} disabled>
         Emotion
       </Button>
-      <ButtonLin context={ButtonContext.SAFE}>Linaria</ButtonLin>
-      <ButtonLin context={ButtonContext.SAFE} disabled>
+      <ButtonLin data-context={ButtonContext.SAFE}>Linaria</ButtonLin>
+      <ButtonLin data-context={ButtonContext.SAFE} disabled>
         Linaria
       </ButtonLin>
-      <ButtonGroupLin isAttached size={ButtonSize.MEDIUM} variant={ButtonVariant.OUTLINE}>
-        <ButtonLin context={ButtonContext.SAFE}>Linaria</ButtonLin>
-        <ButtonLin context={ButtonContext.SAFE} disabled>
+      <ButtonGroupLin isAttached data-size={ButtonSize.MEDIUM} data-variant={ButtonVariant.OUTLINE}>
+        <ButtonLin data-context={ButtonContext.SAFE}>Linaria</ButtonLin>
+        <ButtonLin data-context={ButtonContext.SAFE} disabled>
           Linaria
         </ButtonLin>
       </ButtonGroupLin>

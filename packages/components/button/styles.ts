@@ -9,25 +9,6 @@ export interface ButtonColorSet {
   backgroundColorPressed: string;
 }
 
-export interface ButtonColorSetGroup {
-  solid: ButtonColorSet;
-  outline: ButtonColorSet;
-  ghost: ButtonColorSet;
-  link: ButtonColorSet;
-}
-
-export interface ButtonColors {
-  primary: ButtonColorSetGroup;
-  safe: ButtonColorSetGroup;
-  warning: ButtonColorSetGroup;
-  danger: ButtonColorSetGroup;
-}
-
-export interface ButtonTheme {
-  light: ButtonColors;
-  dark: ButtonColors;
-}
-
 const lightLinkButtonColorSet: ButtonColorSet = {
   color: lightTheme.color.text.link,
   backgroundColor: lightTheme.color.transparent,
@@ -44,202 +25,138 @@ const darkLinkButtonColorSet: ButtonColorSet = {
   backgroundColorPressed: darkTheme.color.transparent,
 };
 
+interface NewButtonContextTheme {
+  color: string;
+  borderColor: string;
+  backgroundColor: string;
+  backgroundColorActive: string;
+  backgroundColorFocused: string;
+  colorOutline: string;
+  backgroundColorOutline: string;
+  borderColorOutline: string;
+  backgroundColorOutlineActive: string;
+  backgroundColorOutlineFocused: string;
+}
+
+interface ButtonTheme {
+  light: {
+    primary: NewButtonContextTheme;
+    safe: NewButtonContextTheme;
+    warning: NewButtonContextTheme;
+    danger: NewButtonContextTheme;
+    link: ButtonColorSet;
+  };
+  dark: {
+    primary: NewButtonContextTheme;
+    safe: NewButtonContextTheme;
+    warning: NewButtonContextTheme;
+    danger: NewButtonContextTheme;
+    link: ButtonColorSet;
+  };
+}
+
 const theme: ButtonTheme = {
   light: {
     primary: {
-      solid: {
-        color: lightTheme.color.text.light,
-        backgroundColor: lightTheme.color.notice.base,
-        borderColor: lightTheme.color.transparent,
-        backgroundColorHover: lightTheme.color.notice.dark,
-        backgroundColorPressed: lightTheme.color.notice.xDark,
-      },
-      outline: {
-        color: lightTheme.color.notice.dark,
-        backgroundColor: lightTheme.color.transparent,
-        borderColor: lightTheme.color.notice.dark,
-        backgroundColorHover: lightTheme.color.notice.xxxLight,
-        backgroundColorPressed: lightTheme.color.notice.xxLight,
-      },
-      ghost: {
-        color: lightTheme.color.notice.dark,
-        backgroundColor: lightTheme.color.transparent,
-        borderColor: lightTheme.color.notice.dark,
-        backgroundColorHover: lightTheme.color.notice.xxxLight,
-        backgroundColorPressed: lightTheme.color.notice.xxLight,
-      },
-      link: lightLinkButtonColorSet,
+      color: lightTheme.color.text.light,
+      borderColor: lightTheme.color.notice.base,
+      backgroundColor: lightTheme.color.notice.base,
+      backgroundColorActive: lightTheme.color.notice.xDark,
+      backgroundColorFocused: lightTheme.color.notice.dark,
+      colorOutline: lightTheme.color.notice.dark,
+      backgroundColorOutline: lightTheme.color.transparent,
+      borderColorOutline: lightTheme.color.notice.dark,
+      backgroundColorOutlineActive: lightTheme.color.notice.xxLight,
+      backgroundColorOutlineFocused: lightTheme.color.notice.xxxLight,
     },
     safe: {
-      solid: {
-        color: lightTheme.color.text.light,
-        backgroundColor: lightTheme.color.safe.base,
-        borderColor: lightTheme.color.transparent,
-        backgroundColorHover: lightTheme.color.safe.dark,
-        backgroundColorPressed: lightTheme.color.safe.xDark,
-      },
-      outline: {
-        color: lightTheme.color.safe.dark,
-        backgroundColor: lightTheme.color.transparent,
-        borderColor: lightTheme.color.safe.dark,
-        backgroundColorHover: lightTheme.color.safe.xxxLight,
-        backgroundColorPressed: lightTheme.color.safe.xxLight,
-      },
-      ghost: {
-        color: lightTheme.color.safe.dark,
-        backgroundColor: lightTheme.color.transparent,
-        borderColor: lightTheme.color.safe.dark,
-        backgroundColorHover: lightTheme.color.safe.xxxLight,
-        backgroundColorPressed: lightTheme.color.safe.xxLight,
-      },
-      link: lightLinkButtonColorSet,
+      color: lightTheme.color.text.light,
+      borderColor: lightTheme.color.safe.base,
+      backgroundColor: lightTheme.color.safe.base,
+      backgroundColorActive: lightTheme.color.safe.xDark,
+      backgroundColorFocused: lightTheme.color.safe.dark,
+      colorOutline: lightTheme.color.safe.dark,
+      backgroundColorOutline: lightTheme.color.transparent,
+      borderColorOutline: lightTheme.color.safe.dark,
+      backgroundColorOutlineActive: lightTheme.color.safe.xxLight,
+      backgroundColorOutlineFocused: lightTheme.color.safe.xxxLight,
     },
     warning: {
-      solid: {
-        color: lightTheme.color.text.light,
-        backgroundColor: lightTheme.color.warning.base,
-        borderColor: lightTheme.color.transparent,
-        backgroundColorHover: lightTheme.color.warning.dark,
-        backgroundColorPressed: lightTheme.color.warning.xDark,
-      },
-      outline: {
-        color: lightTheme.color.warning.dark,
-        backgroundColor: lightTheme.color.transparent,
-        borderColor: lightTheme.color.warning.dark,
-        backgroundColorHover: lightTheme.color.warning.xxxLight,
-        backgroundColorPressed: lightTheme.color.warning.xxLight,
-      },
-      ghost: {
-        color: lightTheme.color.warning.dark,
-        backgroundColor: lightTheme.color.transparent,
-        borderColor: lightTheme.color.warning.dark,
-        backgroundColorHover: lightTheme.color.warning.xxxLight,
-        backgroundColorPressed: lightTheme.color.warning.xxLight,
-      },
-      link: lightLinkButtonColorSet,
+      color: lightTheme.color.text.light,
+      borderColor: lightTheme.color.warning.base,
+      backgroundColor: lightTheme.color.warning.base,
+      backgroundColorActive: lightTheme.color.warning.xDark,
+      backgroundColorFocused: lightTheme.color.warning.dark,
+      colorOutline: lightTheme.color.warning.dark,
+      backgroundColorOutline: lightTheme.color.transparent,
+      borderColorOutline: lightTheme.color.warning.dark,
+      backgroundColorOutlineActive: lightTheme.color.warning.xxLight,
+      backgroundColorOutlineFocused: lightTheme.color.warning.xxxLight,
     },
     danger: {
-      solid: {
-        color: lightTheme.color.text.light,
-        backgroundColor: lightTheme.color.danger.base,
-        borderColor: lightTheme.color.transparent,
-        backgroundColorHover: lightTheme.color.danger.dark,
-        backgroundColorPressed: lightTheme.color.danger.xDark,
-      },
-      outline: {
-        color: lightTheme.color.danger.dark,
-        backgroundColor: lightTheme.color.transparent,
-        borderColor: lightTheme.color.danger.dark,
-        backgroundColorHover: lightTheme.color.danger.xxxLight,
-        backgroundColorPressed: lightTheme.color.danger.xxLight,
-      },
-      ghost: {
-        color: lightTheme.color.danger.dark,
-        backgroundColor: lightTheme.color.transparent,
-        borderColor: lightTheme.color.danger.dark,
-        backgroundColorHover: lightTheme.color.danger.xxxLight,
-        backgroundColorPressed: lightTheme.color.danger.xxLight,
-      },
-      link: lightLinkButtonColorSet,
+      color: lightTheme.color.text.light,
+      borderColor: lightTheme.color.danger.base,
+      backgroundColor: lightTheme.color.danger.base,
+      backgroundColorActive: lightTheme.color.danger.xDark,
+      backgroundColorFocused: lightTheme.color.danger.dark,
+      colorOutline: lightTheme.color.danger.dark,
+      backgroundColorOutline: lightTheme.color.transparent,
+      borderColorOutline: lightTheme.color.danger.dark,
+      backgroundColorOutlineActive: lightTheme.color.danger.xxLight,
+      backgroundColorOutlineFocused: lightTheme.color.danger.xxxLight,
     },
+    link: lightLinkButtonColorSet,
   },
   dark: {
     primary: {
-      solid: {
-        color: darkTheme.color.text.light,
-        backgroundColor: darkTheme.color.warning.base,
-        borderColor: darkTheme.color.transparent,
-        backgroundColorHover: darkTheme.color.warning.dark,
-        backgroundColorPressed: darkTheme.color.warning.xDark,
-      },
-      outline: {
-        color: darkTheme.color.warning.dark,
-        backgroundColor: darkTheme.color.transparent,
-        borderColor: darkTheme.color.warning.dark,
-        backgroundColorHover: darkTheme.color.warning.xxxLight,
-        backgroundColorPressed: darkTheme.color.warning.xxLight,
-      },
-      ghost: {
-        color: darkTheme.color.warning.dark,
-        backgroundColor: darkTheme.color.transparent,
-        borderColor: darkTheme.color.warning.dark,
-        backgroundColorHover: darkTheme.color.warning.xxxLight,
-        backgroundColorPressed: darkTheme.color.warning.xxLight,
-      },
-      link: darkLinkButtonColorSet,
+      color: darkTheme.color.text.light,
+      borderColor: darkTheme.color.notice.base,
+      backgroundColor: darkTheme.color.notice.base,
+      backgroundColorActive: darkTheme.color.notice.xDark,
+      backgroundColorFocused: darkTheme.color.notice.dark,
+      colorOutline: darkTheme.color.notice.dark,
+      backgroundColorOutline: darkTheme.color.transparent,
+      borderColorOutline: darkTheme.color.notice.dark,
+      backgroundColorOutlineActive: darkTheme.color.notice.xxLight,
+      backgroundColorOutlineFocused: darkTheme.color.notice.xxxLight,
     },
     safe: {
-      solid: {
-        color: darkTheme.color.text.light,
-        backgroundColor: darkTheme.color.warning.base,
-        borderColor: darkTheme.color.transparent,
-        backgroundColorHover: darkTheme.color.warning.dark,
-        backgroundColorPressed: darkTheme.color.warning.xDark,
-      },
-      outline: {
-        color: darkTheme.color.warning.dark,
-        backgroundColor: darkTheme.color.transparent,
-        borderColor: darkTheme.color.warning.dark,
-        backgroundColorHover: darkTheme.color.warning.xxxLight,
-        backgroundColorPressed: darkTheme.color.warning.xxLight,
-      },
-      ghost: {
-        color: darkTheme.color.warning.dark,
-        backgroundColor: darkTheme.color.transparent,
-        borderColor: darkTheme.color.warning.dark,
-        backgroundColorHover: darkTheme.color.warning.xxxLight,
-        backgroundColorPressed: darkTheme.color.warning.xxLight,
-      },
-      link: darkLinkButtonColorSet,
+      color: darkTheme.color.text.light,
+      borderColor: darkTheme.color.safe.base,
+      backgroundColor: darkTheme.color.safe.base,
+      backgroundColorActive: darkTheme.color.safe.xDark,
+      backgroundColorFocused: darkTheme.color.safe.dark,
+      colorOutline: darkTheme.color.safe.dark,
+      backgroundColorOutline: darkTheme.color.transparent,
+      borderColorOutline: darkTheme.color.safe.dark,
+      backgroundColorOutlineActive: darkTheme.color.safe.xxLight,
+      backgroundColorOutlineFocused: darkTheme.color.safe.xxxLight,
     },
     warning: {
-      solid: {
-        color: darkTheme.color.text.light,
-        backgroundColor: darkTheme.color.warning.base,
-        borderColor: darkTheme.color.transparent,
-        backgroundColorHover: darkTheme.color.warning.dark,
-        backgroundColorPressed: darkTheme.color.warning.xDark,
-      },
-      outline: {
-        color: darkTheme.color.warning.dark,
-        backgroundColor: darkTheme.color.transparent,
-        borderColor: darkTheme.color.warning.dark,
-        backgroundColorHover: darkTheme.color.warning.xxxLight,
-        backgroundColorPressed: darkTheme.color.warning.xxLight,
-      },
-      ghost: {
-        color: darkTheme.color.warning.dark,
-        backgroundColor: darkTheme.color.transparent,
-        borderColor: darkTheme.color.warning.dark,
-        backgroundColorHover: darkTheme.color.warning.xxxLight,
-        backgroundColorPressed: darkTheme.color.warning.xxLight,
-      },
-      link: darkLinkButtonColorSet,
+      color: darkTheme.color.text.light,
+      borderColor: darkTheme.color.warning.base,
+      backgroundColor: darkTheme.color.warning.base,
+      backgroundColorActive: darkTheme.color.warning.xDark,
+      backgroundColorFocused: darkTheme.color.warning.dark,
+      colorOutline: darkTheme.color.warning.dark,
+      backgroundColorOutline: darkTheme.color.transparent,
+      borderColorOutline: darkTheme.color.warning.dark,
+      backgroundColorOutlineActive: darkTheme.color.warning.xxLight,
+      backgroundColorOutlineFocused: darkTheme.color.warning.xxxLight,
     },
     danger: {
-      solid: {
-        color: darkTheme.color.text.light,
-        backgroundColor: darkTheme.color.warning.base,
-        borderColor: darkTheme.color.transparent,
-        backgroundColorHover: darkTheme.color.warning.dark,
-        backgroundColorPressed: darkTheme.color.warning.xDark,
-      },
-      outline: {
-        color: darkTheme.color.warning.dark,
-        backgroundColor: darkTheme.color.transparent,
-        borderColor: darkTheme.color.warning.dark,
-        backgroundColorHover: darkTheme.color.warning.xxxLight,
-        backgroundColorPressed: darkTheme.color.warning.xxLight,
-      },
-      ghost: {
-        color: darkTheme.color.warning.dark,
-        backgroundColor: darkTheme.color.transparent,
-        borderColor: darkTheme.color.warning.dark,
-        backgroundColorHover: darkTheme.color.warning.xxxLight,
-        backgroundColorPressed: darkTheme.color.warning.xxLight,
-      },
-      link: darkLinkButtonColorSet,
+      color: darkTheme.color.text.light,
+      borderColor: darkTheme.color.danger.base,
+      backgroundColor: darkTheme.color.danger.base,
+      backgroundColorActive: darkTheme.color.danger.xDark,
+      backgroundColorFocused: darkTheme.color.danger.dark,
+      colorOutline: darkTheme.color.danger.dark,
+      backgroundColorOutline: darkTheme.color.transparent,
+      borderColorOutline: darkTheme.color.danger.dark,
+      backgroundColorOutlineActive: darkTheme.color.danger.xxLight,
+      backgroundColorOutlineFocused: darkTheme.color.danger.xxxLight,
     },
+    link: darkLinkButtonColorSet,
   },
 };
 

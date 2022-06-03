@@ -89,10 +89,10 @@ export const ApplicationFrame = ({ children }: ApplicationFrameProps) => {
           <Header data-id="header">
             <Logo>LOGO TODO</Logo>
             <Actions data-id="actions">
-              <Button data-id="toggle-theme" context={ButtonContext.PRIMARY} onClick={onToggleTheme}>
+              <Button data-id="toggle-theme" data-context={ButtonContext.PRIMARY} onClick={onToggleTheme}>
                 Toggle Theme (current: {theme})
               </Button>
-              <Button data-id="logout" context={ButtonContext.DANGER} onClick={onLogout}>
+              <Button data-id="logout" data-context={ButtonContext.DANGER} onClick={onLogout}>
                 Logout
               </Button>
             </Actions>

@@ -2,7 +2,6 @@ import { RequiresChildrenComponent } from '$types/react';
 
 import React from 'react';
 import { styled } from '@linaria/react';
-import { css } from '@linaria/core';
 
 import { styleUtils } from '$utils/style';
 
@@ -44,11 +43,11 @@ export interface ButtonGroupProps extends ButtonGroupContextValue, RequiresChild
 export const ButtonGroup = ({
   children,
   isAttached = false,
-  variant = ButtonVariant.SOLID,
+  'data-variant': dataVariant = ButtonVariant.SOLID,
   ...restOfProps
 }: ButtonGroupProps) => {
   return (
-    <ButtonGroupContext.Provider value={{ isAttached, variant, ...restOfProps }}>
+    <ButtonGroupContext.Provider value={{ isAttached, 'data-variant': dataVariant, ...restOfProps }}>
       <Container data-id="button-group" role="group" isAttached={isAttached}>
         {children}
       </Container>

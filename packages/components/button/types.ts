@@ -22,3 +22,8 @@ export enum ButtonIconPosition {
   PRE = 'pre',
   POST = 'post',
 }
+
+export enum ButtonState {
+  DEFAULT = 'default',
+  IS_LOADING = 'is-loading',
+}

@@ -34,11 +34,11 @@ const HomePage = () => {
       <input type="text" {...register('username', { required: true })} />
       <label>Password</label>
       <input type="password" {...register('password', { required: true })} />
-      <Button context={ButtonContext.SAFE} onClick={handleSubmit(onSubmitForm)}>
+      <Button data-context={ButtonContext.SAFE} onClick={handleSubmit(onSubmitForm)}>
         Process Form
       </Button>
       <Button
-        context={ButtonContext.SAFE}
+        data-context={ButtonContext.SAFE}
         disabled={isToggled}
         data-id="test-api"
         onClick={async () => {
@@ -58,24 +58,24 @@ const HomePage = () => {
         Test API
       </Button>
       <Button
-        context={ButtonContext.DANGER}
+        data-context={ButtonContext.DANGER}
         onClick={() => {
           toggle();
         }}
       >
         Toggle API Button
       </Button>
-      <Button context={ButtonContext.SAFE}>Emotion</Button>
-      <Button context={ButtonContext.SAFE} disabled>
+      <Button data-context={ButtonContext.SAFE}>Emotion</Button>
+      <Button data-context={ButtonContext.SAFE} disabled>
         Emotion
       </Button>
-      <ButtonLin context={ButtonContext.SAFE}>Linaria</ButtonLin>
-      <ButtonLin context={ButtonContext.SAFE} disabled>
+      <ButtonLin data-context={ButtonContext.SAFE}>Linaria</ButtonLin>
+      <ButtonLin data-context={ButtonContext.SAFE} disabled>
         Linaria
       </ButtonLin>
-      <ButtonGroupLin isAttached size={ButtonSize.MEDIUM} variant={ButtonVariant.OUTLINE}>
-        <ButtonLin context={ButtonContext.SAFE}>Linaria</ButtonLin>
-        <ButtonLin context={ButtonContext.SAFE} disabled>
+      <ButtonGroupLin isAttached data-size={ButtonSize.MEDIUM} data-variant={ButtonVariant.OUTLINE}>
+        <ButtonLin data-context={ButtonContext.SAFE}>Linaria</ButtonLin>
+        <ButtonLin data-context={ButtonContext.SAFE} disabled>
           Linaria
         </ButtonLin>
       </ButtonGroupLin>

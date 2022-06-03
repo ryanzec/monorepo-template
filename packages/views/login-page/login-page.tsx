@@ -31,7 +31,7 @@ const LoginPage = () => {
 
   return (
     <Container data-id="login-page">
-      <Button data-id="login-button" context={ButtonContext.SAFE} onClick={onLogin}>
+      <Button data-id="login-button" data-context={ButtonContext.SAFE} onClick={onLogin}>
         Login
       </Button>
     </Container>
