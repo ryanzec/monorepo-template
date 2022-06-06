@@ -175,6 +175,7 @@ export interface ButtonCss {
     borderRadius: string;
   };
   icon: {
+    marginVan: string;
     margin: {
       pre: string;
       post: string;
@@ -198,6 +199,7 @@ export const cssVariables: ButtonCss = {
     borderRadius: BORDER_RADIUS.MEDIUM,
   },
   icon: {
+    marginVan: styleUtils.getSpacing(1),
     margin: {
       pre: `0 ${styleUtils.getSpacing(1)} 0 0`,
       post: `0 0 0 ${styleUtils.getSpacing(1)}`,

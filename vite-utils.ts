@@ -1,6 +1,7 @@
 import path from 'path';
 import react from '@vitejs/plugin-react';
 import VitePluginLinaria from 'vite-plugin-linaria';
+import { vanillaExtractPlugin } from '@vanilla-extract/vite-plugin';
 
 const baseConfiguration = {
   resolve: {
@@ -14,7 +15,7 @@ const baseConfiguration = {
       '$storybook-helpers': path.join(__dirname, 'packages', 'storybook-helpers'),
     },
   },
-  plugins: [react(), VitePluginLinaria()],
+  plugins: [vanillaExtractPlugin(), react()],
   server: {
     watch: {
       ignored: ['**/coverage/**'],
