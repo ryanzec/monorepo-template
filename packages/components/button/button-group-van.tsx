@@ -16,7 +16,7 @@ export const ButtonGroup = ({
 }: ButtonGroupProps) => {
   return (
     <ButtonGroupContext.Provider value={{ isAttached, 'data-variant': dataVariant, ...restOfProps }}>
-      <div data-id="button-group" role="group" data-attached={isAttached ? 'true' : 'false'}>
+      <div className={Container} data-id="button-group" role="group" data-attached={isAttached ? 'true' : 'false'}>
         {children}
       </div>
     </ButtonGroupContext.Provider>

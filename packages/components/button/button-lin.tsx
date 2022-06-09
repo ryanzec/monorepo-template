@@ -1,6 +1,5 @@
 import React, { ReactNode } from 'react';
 import { styled } from '@linaria/react';
-import { css } from '@linaria/core';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faSpinner } from '@fortawesome/free-solid-svg-icons';
 
@@ -168,12 +167,12 @@ export const Container = styled.button<ButtonContainerProps>`
   }
 
   &&[data-variant='${ButtonVariant.LINK}'] {
-    color: ${(props) => theme[props.themeName].color.text.link};
+    color: ${(props) => theme[props.themeName]?.color.text.link};
     background-color: black;
     border-color: transparent;
 
     &:hover {
-      color: ${(props) => theme[props.themeName].color.text.linkHover};
+      color: ${(props) => theme[props.themeName]?.color.text.linkHover};
       text-decoration: underline;
     }
   }

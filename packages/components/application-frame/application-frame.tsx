@@ -8,6 +8,7 @@ import { ApplicationFrameColors, cssVariables } from '$components/application-fr
 import { Button } from '$components/button/button';
 import { ButtonContext } from '$components/button/types';
 import { ApplicationFrameNavigation } from '$components/application-frame/application-frame-navigation';
+import { lightTheme, darkTheme } from '$utils/theme.css';
 
 export const Container = styled.div`
   color: #cccccc;
@@ -82,7 +83,7 @@ export const ApplicationFrame = ({ children }: ApplicationFrameProps) => {
   );
 
   return (
-    <Container data-id="frame">
+    <Container className={theme === 'light' ? lightTheme : darkTheme} data-id="frame">
       {isAuthenticated && <ApplicationFrameNavigation />}
       <SubContainer>
         {isAuthenticated && (

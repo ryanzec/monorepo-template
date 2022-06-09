@@ -1,4 +1,6 @@
-export interface StyleThemeGenericColor {
+import { NullableTokens } from '@vanilla-extract/css/dist/declarations/src/types';
+
+export type StyleThemeGenericColor = {
   xxxLight: string;
   xxLight: string;
   xLight: string;
@@ -8,9 +10,9 @@ export interface StyleThemeGenericColor {
   xDark: string;
   xxDark: string;
   xxxDark: string;
-}
+};
 
-export interface StyleThemeColorPalette {
+export type StyleThemeColorPalette = {
   white: string;
   black: string;
   transparent: string;
@@ -26,10 +28,16 @@ export interface StyleThemeColorPalette {
     link: string;
     linkHover: string;
   };
-}
+};
 
-export interface StyleTheme {
+export type StyleTheme = {
   color: StyleThemeColorPalette;
-}
+};
+
+export type StyleThemeVan =
+  | {
+      color: StyleThemeColorPalette;
+    }
+  | NullableTokens;
 
 export type ThemeName = 'light' | 'dark';

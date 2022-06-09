@@ -6,6 +6,7 @@ import { Container, Icon, IconSvg } from '$components/button/button.css';
 import { RequiresChildrenComponent } from '$types/react';
 import { ButtonContext, ButtonIconPosition, ButtonSize, ButtonState, ButtonVariant } from '$components/button/types';
 import { useButtonGroupContext } from '$components/button/hooks';
+import { Theme, withTheme } from '@emotion/react';
 
 export const isValidAttachedVariant = (variant: ButtonVariant): boolean => {
   return variant !== ButtonVariant.GHOST && variant !== ButtonVariant.LINK;
@@ -21,9 +22,10 @@ export interface ButtonProps
   postIcon?: ReactNode;
   disabled?: boolean;
   loadingIconPosition?: ButtonIconPosition;
+  theme: Theme;
 }
 
-export const Button = (props: ButtonProps & RequiresChildrenComponent) => {
+export const ButtonInternal = (props: ButtonProps & RequiresChildrenComponent) => {
   const buttonGroupContext = useButtonGroupContext();
 
   const {
@@ -36,6 +38,7 @@ export const Button = (props: ButtonProps & RequiresChildrenComponent) => {
     disabled = false,
     'data-state': dataState = ButtonState.DEFAULT,
     loadingIconPosition = ButtonIconPosition.PRE,
+    theme,
     ...restOfProps
   } = { ...buttonGroupContext, ...props };
 
@@ -52,7 +55,7 @@ export const Button = (props: ButtonProps & RequiresChildrenComponent) => {
   const isLoading = dataState === ButtonState.IS_LOADING;
 
   return (
-    <Button
+    <button
       className={Container}
       data-context={dataContext}
       data-size={useSize}
@@ -87,8 +90,10 @@ export const Button = (props: ButtonProps & RequiresChildrenComponent) => {
           <FontAwesomeIcon className={IconSvg} icon={faSpinner} />
         </span>
       )}
-    </Button>
+    </button>
   );
 };
+
+export const Button = withTheme(ButtonInternal);
 
 export default Button;

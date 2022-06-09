@@ -5,8 +5,8 @@ import { useToggledHook } from '$hooks/use-toggled';
 import { Button } from '$components/button/button';
 import { Button as ButtonVan } from '$components/button/button-van';
 import { ButtonGroup as ButtonGroupVan } from '$components/button/button-group-van';
-// import { Button as ButtonLin } from '$components/button/button-lin';
-// import { ButtonGroup as ButtonGroupLin } from '$components/button/button-group-lin';
+import { Button as ButtonLin } from '$components/button/button-lin';
+import { ButtonGroup as ButtonGroupLin } from '$components/button/button-group-lin';
 import { ButtonContext, ButtonSize, ButtonVariant } from '$components/button/types';
 
 interface LoginFormData {
@@ -71,7 +71,7 @@ const HomePage = () => {
       <Button data-context={ButtonContext.SAFE} disabled>
         Emotion
       </Button>
-      {/*<ButtonLin data-context={ButtonContext.SAFE}>Linaria</ButtonLin>
+      <ButtonLin data-context={ButtonContext.SAFE}>Linaria</ButtonLin>
       <ButtonLin data-context={ButtonContext.SAFE} disabled>
         Linaria
       </ButtonLin>
@@ -80,16 +80,16 @@ const HomePage = () => {
         <ButtonLin data-context={ButtonContext.SAFE} disabled>
           Linaria
         </ButtonLin>
-      </ButtonGroupLin>*/}
-      {/*<ButtonVan data-context={ButtonContext.SAFE}>Vanilla</ButtonVan>
+      </ButtonGroupLin>
+      <ButtonVan data-context={ButtonContext.SAFE}>Vanilla</ButtonVan>
       <ButtonVan data-context={ButtonContext.SAFE} disabled>
         Vanilla
-      </ButtonVan>*/}
+      </ButtonVan>
       <ButtonGroupVan isAttached data-size={ButtonSize.MEDIUM} data-variant={ButtonVariant.OUTLINE}>
-        {/*<ButtonVan data-context={ButtonContext.SAFE}>Vanilla</ButtonVan>
+        <ButtonVan data-context={ButtonContext.SAFE}>Vanilla</ButtonVan>
         <ButtonVan data-context={ButtonContext.SAFE} disabled>
           Vanilla
-        </ButtonVan>*/}
+        </ButtonVan>
       </ButtonGroupVan>
     </>
   );

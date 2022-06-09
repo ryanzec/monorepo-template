@@ -1,13 +1,13 @@
 import { BORDER_RADIUS, darkTheme, lightTheme } from '$utils/style';
 import { styleUtils } from '$utils/style';
 
-export interface ButtonColorSet {
+export type ButtonColorSet = {
   color: string;
   backgroundColor: string;
   borderColor: string;
   backgroundColorHover: string;
   backgroundColorPressed: string;
-}
+};
 
 const lightLinkButtonColorSet: ButtonColorSet = {
   color: lightTheme.color.text.link,
@@ -25,7 +25,7 @@ const darkLinkButtonColorSet: ButtonColorSet = {
   backgroundColorPressed: darkTheme.color.transparent,
 };
 
-interface NewButtonContextTheme {
+type NewButtonContextTheme = {
   color: string;
   borderColor: string;
   backgroundColor: string;
@@ -36,7 +36,15 @@ interface NewButtonContextTheme {
   borderColorOutline: string;
   backgroundColorOutlineActive: string;
   backgroundColorOutlineFocused: string;
-}
+};
+
+export type ButtonThemeVanilla = {
+  primary: NewButtonContextTheme;
+  safe: NewButtonContextTheme;
+  warning: NewButtonContextTheme;
+  danger: NewButtonContextTheme;
+  link: ButtonColorSet;
+};
 
 interface ButtonTheme {
   light: {
@@ -110,27 +118,27 @@ const theme: ButtonTheme = {
   dark: {
     primary: {
       color: darkTheme.color.text.light,
-      borderColor: darkTheme.color.notice.base,
-      backgroundColor: darkTheme.color.notice.base,
-      backgroundColorActive: darkTheme.color.notice.xDark,
-      backgroundColorFocused: darkTheme.color.notice.dark,
-      colorOutline: darkTheme.color.notice.dark,
+      borderColor: darkTheme.color.warning.base,
+      backgroundColor: darkTheme.color.warning.base,
+      backgroundColorActive: darkTheme.color.warning.xDark,
+      backgroundColorFocused: darkTheme.color.warning.dark,
+      colorOutline: darkTheme.color.warning.dark,
       backgroundColorOutline: darkTheme.color.transparent,
-      borderColorOutline: darkTheme.color.notice.dark,
-      backgroundColorOutlineActive: darkTheme.color.notice.xxLight,
-      backgroundColorOutlineFocused: darkTheme.color.notice.xxxLight,
+      borderColorOutline: darkTheme.color.warning.dark,
+      backgroundColorOutlineActive: darkTheme.color.warning.xxLight,
+      backgroundColorOutlineFocused: darkTheme.color.warning.xxxLight,
     },
     safe: {
       color: darkTheme.color.text.light,
-      borderColor: darkTheme.color.safe.base,
-      backgroundColor: darkTheme.color.safe.base,
-      backgroundColorActive: darkTheme.color.safe.xDark,
-      backgroundColorFocused: darkTheme.color.safe.dark,
-      colorOutline: darkTheme.color.safe.dark,
+      borderColor: darkTheme.color.warning.base,
+      backgroundColor: darkTheme.color.warning.base,
+      backgroundColorActive: darkTheme.color.warning.xDark,
+      backgroundColorFocused: darkTheme.color.warning.dark,
+      colorOutline: darkTheme.color.warning.dark,
       backgroundColorOutline: darkTheme.color.transparent,
-      borderColorOutline: darkTheme.color.safe.dark,
-      backgroundColorOutlineActive: darkTheme.color.safe.xxLight,
-      backgroundColorOutlineFocused: darkTheme.color.safe.xxxLight,
+      borderColorOutline: darkTheme.color.warning.dark,
+      backgroundColorOutlineActive: darkTheme.color.warning.xxLight,
+      backgroundColorOutlineFocused: darkTheme.color.warning.xxxLight,
     },
     warning: {
       color: darkTheme.color.text.light,
@@ -146,15 +154,15 @@ const theme: ButtonTheme = {
     },
     danger: {
       color: darkTheme.color.text.light,
-      borderColor: darkTheme.color.danger.base,
-      backgroundColor: darkTheme.color.danger.base,
-      backgroundColorActive: darkTheme.color.danger.xDark,
-      backgroundColorFocused: darkTheme.color.danger.dark,
-      colorOutline: darkTheme.color.danger.dark,
+      borderColor: darkTheme.color.warning.base,
+      backgroundColor: darkTheme.color.warning.base,
+      backgroundColorActive: darkTheme.color.warning.xDark,
+      backgroundColorFocused: darkTheme.color.warning.dark,
+      colorOutline: darkTheme.color.warning.dark,
       backgroundColorOutline: darkTheme.color.transparent,
-      borderColorOutline: darkTheme.color.danger.dark,
-      backgroundColorOutlineActive: darkTheme.color.danger.xxLight,
-      backgroundColorOutlineFocused: darkTheme.color.danger.xxxLight,
+      borderColorOutline: darkTheme.color.warning.dark,
+      backgroundColorOutlineActive: darkTheme.color.warning.xxLight,
+      backgroundColorOutlineFocused: darkTheme.color.warning.xxxLight,
     },
     link: darkLinkButtonColorSet,
   },

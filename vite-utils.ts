@@ -15,7 +15,7 @@ const baseConfiguration = {
       '$storybook-helpers': path.join(__dirname, 'packages', 'storybook-helpers'),
     },
   },
-  plugins: [vanillaExtractPlugin(), react()],
+  plugins: [vanillaExtractPlugin(), react(), VitePluginLinaria()],
   server: {
     watch: {
       ignored: ['**/coverage/**'],
