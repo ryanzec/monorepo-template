@@ -32,6 +32,3 @@ dist/*
 !.yarn/releases
 !.yarn/sdks
 !.yarn/versions
-
-# tmp
-STYLE_GUIDE.md
