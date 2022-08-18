@@ -1,8 +1,9 @@
 import React, { useCallback, useEffect } from 'react';
-import { routerUtils } from '$/utils/router';
+
 import { Button } from '$/components/button/button';
-import { authenticationContext } from '$/contexts/authentication';
 import { ButtonContext } from '$/components/button/common';
+import { authenticationContext } from '$/contexts/authentication';
+import { routerUtils } from '$/utils/router';
 import { Container } from '$/views/login-page/login-page.css';
 
 const LoginPage = () => {

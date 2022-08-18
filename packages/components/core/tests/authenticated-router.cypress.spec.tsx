@@ -1,4 +1,5 @@
 import * as React from 'react';
+
 import * as component from '$/components/core/authenticated-route';
 
 describe('authenticated route', () => {

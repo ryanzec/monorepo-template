@@ -1,4 +1,5 @@
 import React, { useCallback } from 'react';
+
 import { applicationSettingsContext } from '$/contexts/application-settings';
 import { ThemeName } from '$/types/theme';
 

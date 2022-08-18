@@ -1,4 +1,5 @@
 import React from 'react';
+
 import LogoutPage from '$/views/logout-page/logout-page';
 
 export default {

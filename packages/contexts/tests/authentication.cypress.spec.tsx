@@ -1,7 +1,8 @@
 import React from 'react';
-import { localStorageCacheUtils } from '$/utils/local-storage-cache';
+
 import { authenticationContext, LOCAL_STORAGE_AUTHENTICATION_TOKEN_KEY } from '$/contexts/authentication';
 import { apiUtils } from '$/utils/api';
+import { localStorageCacheUtils } from '$/utils/local-storage-cache';
 
 const authenticationContextMock = authenticationContext.createContext();
 

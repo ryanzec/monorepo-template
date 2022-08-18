@@ -1,7 +1,8 @@
 import { style } from '@vanilla-extract/css';
+
 import { cssVariables } from '$/components/application-frame/common';
-import { themeVariables } from '$/utils/theme.css';
 import { styleUtils } from '$/utils/style';
+import { themeVariables } from '$/utils/theme.css';
 
 export const applicationFrameCss = {
   Container: style({

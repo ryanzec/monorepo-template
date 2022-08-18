@@ -1,5 +1,6 @@
-import { dragDropUtils } from '$/utils/drag-drop';
 import { DropTargetMonitor } from 'react-dnd';
+
+import { dragDropUtils } from '$/utils/drag-drop';
 
 describe('drag drop utils', () => {
   it('should change position works properly when dragging down before half way', () => {

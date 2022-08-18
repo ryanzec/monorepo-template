@@ -1,6 +1,7 @@
 import React from 'react';
-import { cypressUtils } from '$/utils/cypress';
+
 import { ApplicationLoading } from '$/components/application-loading/application-loading';
+import { cypressUtils } from '$/utils/cypress';
 
 const selector = {
   applicationLoading: '[data-id="application-loading"]',

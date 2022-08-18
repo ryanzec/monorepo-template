@@ -1,10 +1,11 @@
 import React, { lazy } from 'react';
 import { BrowserRouter, Navigate, Route, Routes } from 'react-router-dom';
-import { authenticationContext } from '$/contexts/authentication';
+
+import { ApplicationFrame } from '$/components/application-frame/application-frame';
 import { ApplicationLoading } from '$/components/application-loading/application-loading';
 import { AuthenticatedRoute } from '$/components/core/authenticated-route';
 import { UnauthenticatedRoute } from '$/components/core/unauthenticated-route';
-import { ApplicationFrame } from '$/components/application-frame/application-frame';
+import { authenticationContext } from '$/contexts/authentication';
 
 // the general recommendation for React.lazy() is to us it for large / single use views / components
 const HomePage = lazy(() => import('$/views/home-page/home-page'));

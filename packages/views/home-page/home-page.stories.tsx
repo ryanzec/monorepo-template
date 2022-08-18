@@ -1,4 +1,5 @@
 import React from 'react';
+
 import HomePage from '$/views/home-page/home-page';
 
 export default {

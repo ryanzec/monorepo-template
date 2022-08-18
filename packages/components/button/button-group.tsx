@@ -1,8 +1,8 @@
 import React from 'react';
 
 import { buttonCss } from '$/components/button/button.css';
-import { ButtonGroupContext, ButtonGroupContextValue } from '$/components/button/hooks';
 import { ButtonVariant } from '$/components/button/common';
+import { ButtonGroupContext, ButtonGroupContextValue } from '$/components/button/hooks';
 
 export interface ButtonGroupProps
   extends ButtonGroupContextValue,

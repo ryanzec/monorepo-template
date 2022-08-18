@@ -1,11 +1,12 @@
+import { Identifier } from 'dnd-core';
 import React, { memo, useRef } from 'react';
 import { useDrag, useDrop, DragSourceMonitor, DropTargetMonitor } from 'react-dnd';
 import { FieldErrors, UseFormRegister } from 'react-hook-form';
+
 import Form from '$/components/form/form';
+import { dragDropUtils, DragDropType } from '$/utils/drag-drop';
 import { DragItem, FieldId, MoveItem, Todo } from '$/views/complex-form-page/common';
 import { ComplexFormData } from '$/views/complex-form-page/complex-form-page';
-import { Identifier } from 'dnd-core';
-import { dragDropUtils, DragDropType } from '$/utils/drag-drop';
 
 export interface DragDropItemProps {
   item: Todo;

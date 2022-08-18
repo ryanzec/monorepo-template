@@ -1,8 +1,9 @@
 import React from 'react';
-import { cypressUtils } from '$/utils/cypress';
-import LoginPage from '$/views/login-page/login-page';
+
 import { authenticationContext } from '$/contexts/authentication';
+import { cypressUtils } from '$/utils/cypress';
 import { routerUtils } from '$/utils/router';
+import LoginPage from '$/views/login-page/login-page';
 
 const selectors = {
   loginPage: '[data-id="login-page"]',

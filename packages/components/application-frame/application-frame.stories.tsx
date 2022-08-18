@@ -1,8 +1,9 @@
 import React from 'react';
-import { storybookUtils } from '$/utils/storybook';
+
+import { ApplicationFrame } from '$/components/application-frame/application-frame';
 import FlexContainer from '$/storybook-helpers/flex-container';
 import FlexContainerItem from '$/storybook-helpers/flex-container-item';
-import { ApplicationFrame } from '$/components/application-frame/application-frame';
+import { storybookUtils } from '$/utils/storybook';
 
 export default {
   title: 'Packages/Components/Application Frame',

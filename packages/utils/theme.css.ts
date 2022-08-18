@@ -1,4 +1,5 @@
 import { createThemeContract, createTheme } from '@vanilla-extract/css';
+
 import { StyleThemeGenericColor, StyleThemeVan } from '$/types/theme';
 
 const themeVariablesContract = {

@@ -1,5 +1,6 @@
-import { Virtuoso } from 'react-virtuoso';
 import React, { useState } from 'react';
+import { Virtuoso } from 'react-virtuoso';
+
 import Form from '$/components/form/form';
 
 export default {

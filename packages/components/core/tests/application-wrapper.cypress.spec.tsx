@@ -1,7 +1,8 @@
 import * as React from 'react';
-import { cypressUtils } from '$/utils/cypress';
+
 import { ApplicationWrapper } from '$/components/core/application-wrapper';
 import { authenticationContext } from '$/contexts/authentication';
+import { cypressUtils } from '$/utils/cypress';
 import { routerUtils } from '$/utils/router';
 
 const selectors = {

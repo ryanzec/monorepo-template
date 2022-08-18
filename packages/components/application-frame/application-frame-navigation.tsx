@@ -1,5 +1,6 @@
-import React from 'react';
 import { faHouse, faPenToSquare } from '@fortawesome/free-solid-svg-icons';
+import React from 'react';
+
 import {
   ApplicationFrameNavigationItem,
   NavigationItemProps,

@@ -1,5 +1,6 @@
-import React, { ReactNode, useState } from 'react';
 import { useCombobox, UseComboboxPropGetters } from 'downshift';
+import React, { ReactNode, useState } from 'react';
+
 import Form from '$/components/form/form';
 
 // downshift requires any for the default

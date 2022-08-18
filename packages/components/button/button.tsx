@@ -1,11 +1,11 @@
-import React, { ReactNode } from 'react';
 import { faSpinner } from '@fortawesome/free-solid-svg-icons';
+import React, { ReactNode } from 'react';
 
+import ButtonGroup from '$/components/button/button-group';
+import ButtonIcon from '$/components/button/button-icon';
 import { buttonCss } from '$/components/button/button.css';
 import { ButtonContext, ButtonIconPosition, ButtonSize, ButtonState, ButtonVariant } from '$/components/button/common';
 import { useButtonGroupContext } from '$/components/button/hooks';
-import ButtonGroup from '$/components/button/button-group';
-import ButtonIcon from '$/components/button/button-icon';
 
 export const isValidAttachedVariant = (variant: ButtonVariant): boolean => {
   return variant !== ButtonVariant.GHOST && variant !== ButtonVariant.LINK;

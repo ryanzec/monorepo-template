@@ -1,15 +1,16 @@
+import { zodResolver } from '@hookform/resolvers/zod';
 import React, { useCallback, useState } from 'react';
 import { Controller, useFieldArray, useForm } from 'react-hook-form';
-import { zodResolver } from '@hookform/resolvers/zod';
-import * as zod from 'zod';
 import { v4 as uuid } from 'uuid';
+import * as zod from 'zod';
+
+import { Button } from '$/components/button/button';
+import Form from '$/components/form/form';
 import { zodUtils } from '$/utils/zod';
 import { FieldId, Todo } from '$/views/complex-form-page/common';
-import Form from '$/components/form/form';
-import { DragDropItem } from '$/views/complex-form-page/drag-drop-item';
-import { Button } from '$/components/button/button';
-import { EmptyDropContainer } from '$/views/complex-form-page/empty-drop-container';
 import { TodoLists } from '$/views/complex-form-page/complex-form-page.css';
+import { DragDropItem } from '$/views/complex-form-page/drag-drop-item';
+import { EmptyDropContainer } from '$/views/complex-form-page/empty-drop-container';
 
 export interface AutoCompleteValue {
   display: string;

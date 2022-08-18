@@ -1,9 +1,10 @@
-import React, { useCallback } from 'react';
-import { IconDefinition } from '@fortawesome/free-solid-svg-icons';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import type { IconDefinition } from '@fortawesome/free-solid-svg-icons';
 
-import { routerUtils } from '$/utils/router';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import React, { useCallback } from 'react';
+
 import { applicationFrameCss } from '$/components/application-frame/application-frame.css';
+import { routerUtils } from '$/utils/router';
 
 export interface NavigationItemProps {
   icon: IconDefinition;

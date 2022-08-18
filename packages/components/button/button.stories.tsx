@@ -1,10 +1,11 @@
+import { faHouse } from '@fortawesome/free-solid-svg-icons';
 import React from 'react';
+
+import Button from '$/components/button/button';
+import { ButtonContext, ButtonIconPosition, ButtonSize, ButtonState, ButtonVariant } from '$/components/button/common';
+import { FlexContainerDirection } from '$/storybook-helpers/common';
 import FlexContainer from '$/storybook-helpers/flex-container';
 import FlexContainerItem from '$/storybook-helpers/flex-container-item';
-import { FlexContainerDirection } from '$/storybook-helpers/common';
-import { ButtonContext, ButtonIconPosition, ButtonSize, ButtonState, ButtonVariant } from '$/components/button/common';
-import Button from '$/components/button/button';
-import { faHouse } from '@fortawesome/free-solid-svg-icons';
 
 export default {
   title: 'Packages/Components/Button',

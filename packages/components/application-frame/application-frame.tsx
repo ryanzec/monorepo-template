@@ -1,12 +1,13 @@
 import React, { Suspense, useCallback } from 'react';
-import { applicationSettingsContext } from '$/contexts/application-settings';
-import { authenticationContext } from '$/contexts/authentication';
+
+import ApplicationFrameNavigation from '$/components/application-frame/application-frame-navigation';
+import { applicationFrameCss } from '$/components/application-frame/application-frame.css';
 import { Button } from '$/components/button/button';
 import { ButtonContext } from '$/components/button/common';
-import { darkTheme, lightTheme } from '$/utils/theme.css';
-import { applicationFrameCss } from '$/components/application-frame/application-frame.css';
-import ApplicationFrameNavigation from '$/components/application-frame/application-frame-navigation';
+import { applicationSettingsContext } from '$/contexts/application-settings';
+import { authenticationContext } from '$/contexts/authentication';
 import { ThemeName } from '$/types/theme';
+import { darkTheme, lightTheme } from '$/utils/theme.css';
 
 export type ApplicationFrameProps = React.DetailedHTMLProps<React.HTMLAttributes<HTMLDivElement>, HTMLDivElement>;
 

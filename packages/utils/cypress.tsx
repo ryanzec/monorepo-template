@@ -1,13 +1,15 @@
+import type { HttpResponseInterceptor, StaticResponse } from 'cypress/types/net-stubbing';
+import type Sinon from 'cypress/types/sinon';
+
 import * as React from 'react';
-import { HttpResponseInterceptor, StaticResponse } from 'cypress/types/net-stubbing';
 import { DndProvider } from 'react-dnd';
 import { HTML5Backend } from 'react-dnd-html5-backend';
+
 import { ApplicationFrame } from '$/components/application-frame/application-frame';
 import { applicationSettingsContext } from '$/contexts/application-settings';
-import { routerUtils } from '$/utils/router';
 import { authenticationContext } from '$/contexts/authentication';
-import Sinon from 'cypress/types/sinon';
 import { ThemeName } from '$/types/theme';
+import { routerUtils } from '$/utils/router';
 
 // this seems to be the standard typing of a cypress stub which is needed for some of the utility method's return data
 // eslint-disable-next-line @typescript-eslint/no-explicit-any

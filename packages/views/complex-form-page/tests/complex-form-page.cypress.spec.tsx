@@ -1,4 +1,5 @@
 import React from 'react';
+
 import { cypressUtils } from '$/utils/cypress';
 import ComplexFormPage from '$/views/complex-form-page/complex-form-page';
 

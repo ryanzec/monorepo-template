@@ -1,6 +1,7 @@
 import * as React from 'react';
-import { cypressUtils } from '$/utils/cypress';
+
 import Form from '$/components/form/form';
+import { cypressUtils } from '$/utils/cypress';
 
 describe('label', () => {
   it('works properly', () => {

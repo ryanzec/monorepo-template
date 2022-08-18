@@ -1,9 +1,10 @@
 import React from 'react';
-import { reactHooks } from '$/hooks';
+
 import { authenticationContext } from '$/contexts/authentication';
+import { reactHooks } from '$/hooks';
+import { apiUtils } from '$/utils/api';
 import { cypressUtils } from '$/utils/cypress';
 import HomePage from '$/views/home-page/home-page';
-import { apiUtils } from '$/utils/api';
 
 describe('home page', () => {
   it('clicking the test api button works', () => {

@@ -1,7 +1,7 @@
 import React from 'react';
 
-import { Container } from '$/storybook-helpers/flex-container.css';
 import { FlexContainerDirection } from '$/storybook-helpers/common';
+import { Container } from '$/storybook-helpers/flex-container.css';
 
 export interface FlexContainerProps
   extends React.DetailedHTMLProps<React.HTMLAttributes<HTMLDivElement>, HTMLDivElement> {

@@ -1,4 +1,4 @@
-import { NullableTokens } from '@vanilla-extract/css/dist/declarations/src/types';
+import type { NullableTokens } from '@vanilla-extract/css/dist/declarations/src/types';
 
 export type StyleThemeGenericColor = {
   xxxLight: string;

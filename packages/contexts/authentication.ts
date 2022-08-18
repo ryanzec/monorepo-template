@@ -1,9 +1,10 @@
 import { useState, useCallback, useEffect } from 'react';
+
 import { CustomReactContext, ReactUseState, ReactContextImplementation } from '$/types/react';
-import { reactUtils } from '$/utils/react';
 import { apiUtils } from '$/utils/api';
 import { defaultValuesUtils } from '$/utils/default-values';
 import { localStorageCacheUtils } from '$/utils/local-storage-cache';
+import { reactUtils } from '$/utils/react';
 
 export const LOCAL_STORAGE_AUTHENTICATION_TOKEN_KEY = 'authentication-token';
 

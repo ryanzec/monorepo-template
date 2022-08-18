@@ -1,8 +1,9 @@
-import * as React from 'react';
 import { faHouse } from '@fortawesome/free-solid-svg-icons';
-import { cypressUtils } from '$/utils/cypress';
+import * as React from 'react';
+
 import Button from '$/components/button/button';
 import { ButtonContext, ButtonIconPosition, ButtonSize, ButtonState, ButtonVariant } from '$/components/button/common';
+import { cypressUtils } from '$/utils/cypress';
 
 describe('button', () => {
   it('default group', () => {

@@ -1,5 +1,6 @@
-import React, { createContext, useContext } from 'react';
 import type { GenericComponentProps, ReactContextImplementation } from '$/types/react';
+
+import React, { createContext, useContext } from 'react';
 
 interface BuildProviderParams<T> {
   context: React.Context<T>;
