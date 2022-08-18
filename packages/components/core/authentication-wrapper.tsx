@@ -1,19 +1,10 @@
 import React from 'react';
-import { ThemeProvider } from '@emotion/react';
-import { OptionalChildrenComponent } from '$types/react';
-import authenticationContext from '$contexts/authentication';
-import { GlobalStyles } from '$components/global-styles/global-styles';
+import { authenticationContext } from '$/contexts/authentication';
 
-export const AuthenticationWrapper = ({ children }: OptionalChildrenComponent) => {
-  return (
-    <authenticationContext.Provider>
-      {/* @todo: needed to figure out how to apply different themes */}
-      <ThemeProvider theme={{ name: 'light' }}>
-        <GlobalStyles />
-        {children}
-      </ThemeProvider>
-    </authenticationContext.Provider>
-  );
+type AuthenticationWrapperProps = React.DetailedHTMLProps<React.HTMLAttributes<HTMLDivElement>, HTMLDivElement>;
+
+export const AuthenticationWrapper = ({ children }: AuthenticationWrapperProps) => {
+  return <authenticationContext.Provider>{children}</authenticationContext.Provider>;
 };
 
 export default AuthenticationWrapper;

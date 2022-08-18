@@ -2,9 +2,9 @@ import React, { useCallback, useRef, useState } from 'react';
 import produce from 'immer';
 import { useDrag, useDrop } from 'react-dnd';
 import { Identifier } from 'dnd-core';
-import * as dragDropUtils from '$utils/drag-drop';
-import styled from '@emotion/styled';
+import { dragDropUtils } from '$/utils/drag-drop';
 import { v4 as uuid } from 'uuid';
+import { TodoItem } from '$/components/drap-drop/drag-drop.css';
 
 export default {
   title: 'Packages/Components/Drag Drop',
@@ -28,12 +28,6 @@ interface SortingListItemProps {
 }
 
 const TODO_ITEM_TYPE = 'todo-item';
-
-const TodoItem = styled.div`
-  border: 1px solid black;
-  padding: 5px;
-  margin: 2px;
-`;
 
 // the sorting example was based on this: https://react-dnd.github.io/react-dnd/examples/sortable/stress-test
 // while that example referenced includes the use of request animation frame, in my testing, that did not added
@@ -89,9 +83,9 @@ export const SortingListItem = React.memo(({ item, index, moveItem }: SortingLis
 
   const opacity = isDragging ? 0 : 1;
   return (
-    <TodoItem ref={ref} style={{ opacity }}>
+    <div className={TodoItem} ref={ref} style={{ opacity }}>
       {item.name} - {item.isComplete}
-    </TodoItem>
+    </div>
   );
 });
 

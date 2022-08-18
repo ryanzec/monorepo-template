@@ -5,7 +5,8 @@
     "**/node_modules/**/*",
     "**/build/**/*",
     "webpack.config.*",
-    ".yarn/**/*"
+    ".yarn/**/*",
+    "**/dist/*"
   ],
   "parser": "@typescript-eslint/parser",
   "parserOptions": {

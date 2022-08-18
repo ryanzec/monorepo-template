@@ -19,5 +19,3 @@ export const useToggled = (defaultIsToggled = false): UseToggle => {
     toggle,
   };
 };
-
-export default useToggled;

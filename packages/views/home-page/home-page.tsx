@@ -1,30 +1,29 @@
 import React, { useState } from 'react';
 import { useForm } from 'react-hook-form';
-import { appApi } from '$utils/api';
-import authenticationContext from '$contexts/authentication';
-import { useToggled } from '$hooks/use-toggled';
-import { Button } from '$components/button/button';
-import { ButtonContext } from '$components/button/types';
+import { apiUtils } from '$/utils/api';
+import { reactHooks } from '$/hooks';
+import { Button } from '$/components/button/button';
+import { ButtonContext } from '$/components/button/common';
 
-export interface LoginFormData {
+interface LoginFormData {
   username: string;
   password: string;
 }
 
-export const onSubmitForm = (data: LoginFormData) => {
+const onSubmitForm = (data: LoginFormData) => {
   console.log(data);
 };
 
-export const HomePage = () => {
+const HomePage = () => {
   const {
     register,
     handleSubmit,
     // @todo(!!!) error example
     formState: { errors },
   } = useForm<LoginFormData>();
-  const { isToggled, toggle } = useToggled(false);
-  const { getAccessToken } = authenticationContext.useContext();
+  const { isToggled, toggle } = reactHooks.useToggled(false);
   const [loadedPawns, setLoadedPawns] = useState([]);
+
   console.log(errors);
 
   return (
@@ -34,30 +33,16 @@ export const HomePage = () => {
       <input type="text" {...register('username', { required: true })} />
       <label>Password</label>
       <input type="password" {...register('password', { required: true })} />
-      <Button context={ButtonContext.SAFE} onClick={handleSubmit(onSubmitForm)}>
+      <Button data-context={ButtonContext.SAFE} onClick={handleSubmit(onSubmitForm)}>
         Process Form
       </Button>
       <Button
-        context={ButtonContext.SAFE}
+        data-context={ButtonContext.SAFE}
         disabled={isToggled}
         data-id="test-api"
         onClick={async () => {
-          const accessToken = await getAccessToken();
-
-          console.log(accessToken);
-
-          if (!accessToken) {
-            // @todo(!!!) error logging
-            return;
-          }
-
-          console.log(accessToken);
-
-          const response = await appApi.get('/pawns', {
-            headers: {
-              Authorization: `Bearer ${accessToken}`,
-            },
-          });
+          // @todo(feature) backend token validation
+          const response = await apiUtils.appApi.get('/pawns');
 
           console.log(response);
 
@@ -67,29 +52,7 @@ export const HomePage = () => {
         Test API
       </Button>
       <Button
-        context={ButtonContext.SAFE}
-        disabled={isToggled}
-        onClick={async () => {
-          const accessToken = await getAccessToken();
-
-          if (!accessToken) {
-            // @todo(!!!) error logging
-            return;
-          }
-
-          const response = await appApi.get('/admin.generateBackendTokens', {
-            headers: {
-              Authorization: `Bearer ${accessToken}`,
-            },
-          });
-
-          console.log(response);
-        }}
-      >
-        Generate Backend Tokens
-      </Button>
-      <Button
-        context={ButtonContext.DANGER}
+        data-context={ButtonContext.DANGER}
         onClick={() => {
           toggle();
         }}

@@ -1,16 +1,16 @@
-import authenticationContext from '$contexts/authentication';
-import React from 'react';
+import React, { lazy } from 'react';
 import { BrowserRouter, Navigate, Route, Routes } from 'react-router-dom';
-import { ApplicationLoading } from '$views/application-loading/application-loading';
-import { AuthenticatedRoute } from '$components/core/authenticated-route';
-import { UnauthenticatedRoute } from '$components/core/unauthenticated-route';
-import { ApplicationFrame } from '$components/application-frame/application-frame';
+import { authenticationContext } from '$/contexts/authentication';
+import { ApplicationLoading } from '$/components/application-loading/application-loading';
+import { AuthenticatedRoute } from '$/components/core/authenticated-route';
+import { UnauthenticatedRoute } from '$/components/core/unauthenticated-route';
+import { ApplicationFrame } from '$/components/application-frame/application-frame';
 
 // the general recommendation for React.lazy() is to us it for large / single use views / components
-const HomePage = React.lazy(() => import('$views/home-page/home-page'));
-const LoginPage = React.lazy(() => import('$views/login-page/login-page'));
-const LogoutPage = React.lazy(() => import('$views/logout-page/logout-page'));
-const ComplexFormPage = React.lazy(() => import('$views/complex-form-page/complex-form-page'));
+const HomePage = lazy(() => import('$/views/home-page/home-page'));
+const LoginPage = lazy(() => import('$/views/login-page/login-page'));
+const LogoutPage = lazy(() => import('$/views/logout-page/logout-page'));
+const ComplexFormPage = lazy(() => import('$/views/complex-form-page/complex-form-page'));
 
 export const ApplicationWrapper = () => {
   const { isLoading } = authenticationContext.useContext();
@@ -27,7 +27,7 @@ export const ApplicationWrapper = () => {
     <BrowserRouter>
       <Routes>
         <Route
-          path="/home"
+          path="/"
           element={
             <AuthenticatedRoute>
               <HomePage />
@@ -58,7 +58,7 @@ export const ApplicationWrapper = () => {
             </AuthenticatedRoute>
           }
         />
-        <Route path="*" element={<Navigate to="/home" replace />} />
+        <Route path="*" element={<Navigate to="/" replace />} />
       </Routes>
     </BrowserRouter>
   );

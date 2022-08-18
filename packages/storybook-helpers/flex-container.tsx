@@ -1,50 +1,19 @@
 import React from 'react';
-import { RequiresChildrenComponent } from '$types/react';
-import styled from '@emotion/styled';
-import { css } from '@emotion/react';
 
-import * as styleUtils from '$utils/styles';
+import { Container } from '$/storybook-helpers/flex-container.css';
+import { FlexContainerDirection } from '$/storybook-helpers/common';
 
-export enum FlexContainerDirection {
-  ROW = 'row',
-  COLUMN = 'column',
+export interface FlexContainerProps
+  extends React.DetailedHTMLProps<React.HTMLAttributes<HTMLDivElement>, HTMLDivElement> {
+  'data-direction'?: FlexContainerDirection;
 }
 
-export interface FlexContainerProps {
-  direction?: FlexContainerDirection;
-}
-
-const Container = styled.span<FlexContainerProps>`
-  display: flex;
-
-  ${(props) => {
-    if (props.direction === FlexContainerDirection.ROW) {
-      return css`
-        align-items: center;
-
-        > *:not(:last-child) {
-          margin-right: ${styleUtils.getSpacing(1)};
-        }
-      `;
-    }
-
-    return css`
-      flex-direction: column;
-      justify-content: center;
-      align-items: flex-start;
-
-      > *:not(:last-child) {
-        margin-bottom: ${styleUtils.getSpacing(1)};
-      }
-    `;
-  }};
-`;
-
-export const FlexContainer = ({
-  children,
-  direction = FlexContainerDirection.ROW,
-}: FlexContainerProps & RequiresChildrenComponent) => {
-  return <Container direction={direction}>{children}</Container>;
+export const FlexContainer = ({ children, ...restOfProps }: FlexContainerProps) => {
+  return (
+    <div className={Container} {...restOfProps}>
+      {children}
+    </div>
+  );
 };
 
 export default FlexContainer;

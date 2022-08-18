@@ -1,116 +1,110 @@
-import { useState, useCallback, useEffect, useRef } from 'react';
+import { useState, useCallback, useEffect } from 'react';
+import { CustomReactContext, ReactUseState, ReactContextImplementation } from '$/types/react';
+import { reactUtils } from '$/utils/react';
+import { apiUtils } from '$/utils/api';
+import { defaultValuesUtils } from '$/utils/default-values';
+import { localStorageCacheUtils } from '$/utils/local-storage-cache';
 
-import { ReactUseState } from '$types/react';
-import * as reactUtils from '$utils/react';
-import { Auth0Client } from '@auth0/auth0-spa-js';
-import { noop, noopStateSetter } from '$utils/default-values';
-import * as authenticationUtils from '$utils/authentication';
+export const LOCAL_STORAGE_AUTHENTICATION_TOKEN_KEY = 'authentication-token';
 
 export interface AuthenticationContext {
-  setIsLoading: (value: boolean) => void;
   isLoading: boolean;
   isAuthenticated: boolean;
+  loginRedirectUrl: string | null;
   login: () => void;
   logout: () => void;
-  getAccessToken: () => Promise<string> | undefined;
+  finishLogin: () => void;
 }
 
-export const defaultAuthenticationContext: AuthenticationContext = {
-  setIsLoading: noopStateSetter,
+const defaultValues: AuthenticationContext = {
   isLoading: true,
   isAuthenticated: false,
-  getAccessToken: () => {
-    return undefined;
-  },
-  login: noop,
-  logout: noop,
+  loginRedirectUrl: null,
+  login: defaultValuesUtils.noop,
+  logout: defaultValuesUtils.noop,
+  finishLogin: defaultValuesUtils.noop,
 };
 
-export const createAuthenticationContext = (urlQueryString: string) =>
-  reactUtils.buildContext<AuthenticationContext>(defaultAuthenticationContext, () => {
-    const hasInitialized = useRef(false);
-    const [isLoading, setIsLoading]: ReactUseState<boolean> = useState<boolean>(defaultAuthenticationContext.isLoading);
-    const [isAuthenticated, setIsAuthenticated]: ReactUseState<boolean> = useState<boolean>(
-      defaultAuthenticationContext.isAuthenticated,
-    );
-    const [authenticationClient, setAuthenticationClient]: ReactUseState<Auth0Client | null> =
-      useState<Auth0Client | null>(null);
+export type CreateAuthenticationContextFunc = () => ReactContextImplementation<AuthenticationContext>;
 
-    const login = useCallback(() => {
+const createContext: CreateAuthenticationContextFunc = () =>
+  reactUtils.buildContext<AuthenticationContext>(defaultValues, () => {
+    const [isLoading, setIsLoading]: ReactUseState<boolean> = useState<boolean>(defaultValues.isLoading);
+    const [isAuthenticated, setIsAuthenticated]: ReactUseState<boolean> = useState<boolean>(
+      defaultValues.isAuthenticated,
+    );
+    const [loginRedirectUrl, setLoginRedirectUrl]: ReactUseState<string | null> = useState<string | null>(null);
+
+    const login = useCallback(async () => {
       // @todo(!!!) error logging
 
-      authenticationClient?.loginWithRedirect({
-        redirect_uri: 'http://localhost:4000',
-      });
-    }, [authenticationClient]);
+      const {
+        data: { authenticationToken },
+      } = await apiUtils.appApi.post('/authenticate');
+
+      localStorageCacheUtils.set(LOCAL_STORAGE_AUTHENTICATION_TOKEN_KEY, authenticationToken);
+
+      // @todo(feature) redirect to attempted original page
+      setIsAuthenticated(true);
+      setLoginRedirectUrl('/home');
+    }, [setLoginRedirectUrl]);
 
     const logout = useCallback(() => {
       // @todo(!!!) error logging
 
-      authenticationClient?.logout({
-        returnTo: 'http://localhost:4000/login',
-      });
-    }, [authenticationClient]);
+      localStorageCacheUtils.remove(LOCAL_STORAGE_AUTHENTICATION_TOKEN_KEY);
 
-    const getAccessToken = useCallback(() => {
-      return authenticationClient?.getTokenSilently({
-        redirect_uri: window.location.origin,
-      });
-    }, [authenticationClient]);
+      setIsAuthenticated(false);
+      setLoginRedirectUrl('/login');
+    }, []);
+
+    const finishLogin = useCallback(() => {
+      setLoginRedirectUrl(null);
+    }, []);
 
     // check for the valid existing authentication
     useEffect(() => {
-      if (hasInitialized.current) {
+      const cachedAuthenticationToken = localStorageCacheUtils.get(LOCAL_STORAGE_AUTHENTICATION_TOKEN_KEY);
+
+      if (!cachedAuthenticationToken) {
+        setIsAuthenticated(false);
+        setIsLoading(false);
+
         return;
       }
 
       const checkAuthentication = async () => {
         try {
-          // while generally we should be using async / await, this this use case, we are using a promise manually
-          // as not sure how (or if possible) to cleanly using async / await in the context of building a context
-          // like this
-          const auth0 = await authenticationUtils.getClient();
-          let isAuthenticated = await auth0.isAuthenticated();
+          await apiUtils.appApi.get(`/authenticate/${cachedAuthenticationToken}`);
 
-          // auth0 redirects with this data in the url that is needed in order to complete the login process
-          if (urlQueryString.includes('code=') && urlQueryString.includes('state=')) {
-            // Process the login state
-            await auth0.handleRedirectCallback();
-
-            isAuthenticated = await auth0.isAuthenticated();
-          }
-
-          setAuthenticationClient(auth0);
-          setIsAuthenticated(isAuthenticated);
+          setIsAuthenticated(true);
           setIsLoading(false);
         } catch (error) {
-          // @todo(!!!) log error?
+          // @todo(feature) authenticate validation error ui notification
           setIsAuthenticated(false);
           setIsLoading(false);
         }
       };
 
-      // this seems like a bit of a hack however with strict mode on, this code runs twice and for some reason
-      // isAuthenticated check from auth0 on the second run return false so this makes sure it only runs once, this
-      // is similar to what is done in the auth0's react context
-      hasInitialized.current = true;
-
       // @todo(investigate) the ignored promise here is fine, useEffect does not allow for an async function but
       // @todo(investigate) validating the session require async functionality so until I can think of a different
       // @todo(investigate) pattern here, should be fine
       checkAuthentication();
-    }, [setIsAuthenticated, setIsLoading, setAuthenticationClient, hasInitialized]);
+    }, [setIsAuthenticated, setIsLoading, setLoginRedirectUrl]);
 
     return {
-      setIsLoading,
       isLoading,
       isAuthenticated,
+      loginRedirectUrl,
       login,
       logout,
-      getAccessToken,
+      finishLogin,
     };
   });
 
-export const authenticationContext = createAuthenticationContext(window.location.search);
+const defaultContext = createContext();
 
-export default authenticationContext;
+export const authenticationContext: CustomReactContext<AuthenticationContext, CreateAuthenticationContextFunc> = {
+  ...defaultContext,
+  createContext,
+};

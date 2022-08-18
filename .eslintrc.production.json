@@ -5,7 +5,8 @@
     "**/node_modules/**/*",
     "**/build/**/*",
     "webpack.config.*",
-    ".yarn/**/*"
+    ".yarn/**/*",
+    "**/dist/*"
   ],
   "parser": "@typescript-eslint/parser",
   "parserOptions": {
@@ -36,7 +37,8 @@
     "react/prop-types": "off",
     "@typescript-eslint/no-empty-function": "off",
     "@typescript-eslint/ban-ts-comment": "warn",
-    "max-len": ["error", { "code": 120 }]
+    "max-len": ["error", { "code": 120 }],
+    "@typescript-eslint/no-unused-vars": ["warn", { "varsIgnorePattern": "_.*_", "argsIgnorePattern": "_.*_" }]
   },
   "settings": {
     "react": {

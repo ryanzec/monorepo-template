@@ -1,6 +1,6 @@
 import React from 'react';
 
-export const LogoutPage = () => {
+const LogoutPage = () => {
   return <div data-id="logout-page">LOGGING OUT...</div>;
 };
 

@@ -6,16 +6,22 @@ logs
 
 coverage
 
-# files with secrets
+# development specific data
 .env
 applications/web/src/index.html
+index.html
+applications/api/lowdb/*
 
 # artifacts
 .idea
 .eslintcache
 applications/web/build/*
 cypress/videos
+cypress/screenshots
 .nyc_output/*
+cypress/snapshots/actual
+cypress/snapshots/diff
+**/dist/*
 
 # yarn
 # reference (using Zero-Installs version): https://yarnpkg.com/getting-started/qa#which-files-should-be-gitignored
@@ -26,10 +32,3 @@ cypress/videos
 !.yarn/releases
 !.yarn/sdks
 !.yarn/versions
-
-
-
-
-
-
-STYLE_GUIDE.md

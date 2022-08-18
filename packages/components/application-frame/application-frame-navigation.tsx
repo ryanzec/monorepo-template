@@ -1,31 +1,16 @@
 import React from 'react';
-import styled from '@emotion/styled';
-import { cssVariables } from '$components/application-frame/styles';
 import { faHouse, faPenToSquare } from '@fortawesome/free-solid-svg-icons';
 import {
   ApplicationFrameNavigationItem,
   NavigationItemProps,
-} from '$components/application-frame/application-frame-navigation-item';
-
-export const Navigation = styled.div`
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  background-color: #111111;
-  flex: 0 0 ${cssVariables.navigation.width};
-  align-self: stretch;
-  padding: ${cssVariables.navigation.padding};
-
-  svg {
-    height: ${cssVariables.navigationIcon.height};
-  }
-`;
+} from '$/components/application-frame/application-frame-navigation-item';
+import { applicationFrameCss } from '$/components/application-frame/application-frame.css';
 
 export const navigationItems: NavigationItemProps[] = [
   {
     icon: faHouse,
     text: 'Home',
-    navigateTo: '/home',
+    navigateTo: '/',
   },
   {
     icon: faPenToSquare,
@@ -36,11 +21,11 @@ export const navigationItems: NavigationItemProps[] = [
 
 export const ApplicationFrameNavigation = () => {
   return (
-    <Navigation data-id="navigation">
+    <div className={applicationFrameCss.Navigation} data-id="navigation">
       {navigationItems.map((navigationItem) => {
         return <ApplicationFrameNavigationItem key={navigationItem.text} {...navigationItem} />;
       })}
-    </Navigation>
+    </div>
   );
 };
 

@@ -1,39 +1,9 @@
 import React, { useCallback } from 'react';
-import * as routerUtils from '$utils/router';
 import { IconDefinition } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import styled from '@emotion/styled';
-import { ApplicationFrameColors, cssVariables } from '$components/application-frame/styles';
-import { css } from '@emotion/react';
 
-export const NavigationItem = styled.div`
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  cursor: pointer;
-
-  :not(:last-child) {
-    padding-bottom: ${cssVariables.navigationItem.paddingBottom};
-  }
-
-  // theme related styles
-  ${(props) => {
-    const colors: ApplicationFrameColors = cssVariables.theme[props.theme.name];
-
-    return css`
-      color: ${colors.navigationItem.color};
-
-      &:hover,
-      &:focus {
-        color: ${colors.navigationItem.colorHover};
-      }
-
-      &:active {
-        color: ${colors.navigationItem.colorActive};
-      }
-    `;
-  }}
-`;
+import { routerUtils } from '$/utils/router';
+import { applicationFrameCss } from '$/components/application-frame/application-frame.css';
 
 export interface NavigationItemProps {
   icon: IconDefinition;
@@ -49,9 +19,9 @@ export const ApplicationFrameNavigationItem = ({ icon, text, navigateTo }: Navig
   }, [navigate, navigateTo]);
 
   return (
-    <NavigationItem data-id="item" key={text} onClick={onNavigate}>
-      <FontAwesomeIcon icon={icon} /> {text}
-    </NavigationItem>
+    <div className={applicationFrameCss.NavigationItem} data-id="item" key={text} onClick={onNavigate}>
+      <FontAwesomeIcon className={applicationFrameCss.NavigationItemSvg} icon={icon} /> {text}
+    </div>
   );
 };
 
