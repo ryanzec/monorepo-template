@@ -5,7 +5,7 @@
     "**/node_modules/**/*",
     "**/build/**/*",
     "webpack.config.*",
-    ".yarn/**/*"
+    "**/dist/*"
   ],
   "parser": "@typescript-eslint/parser",
   "parserOptions": {
@@ -21,36 +21,58 @@
   "plugins": [
     "prettier",
     "@typescript-eslint",
-    "react-hooks"
+    "react-hooks",
+    "import",
+    "jsx-a11y"
   ],
   "extends": [
     "eslint:recommended",
-    "plugin:prettier/recommended",
     "plugin:react/recommended",
-    "plugin:@typescript-eslint/recommended"
+    "plugin:import/recommended",
+    "plugin:jsx-a11y/recommended",
+    "plugin:@typescript-eslint/recommended",
+    "prettier"
   ],
   "rules": {
+    "max-len": ["error", { "code": 120 }],
     "react/display-name": "off",
+    "react/prop-types": "off",
+    "react/react-in-jsx-scope": "off",
     "react-hooks/rules-of-hooks": "error",
     "react-hooks/exhaustive-deps": "warn",
-    "react/prop-types": "off",
     "@typescript-eslint/no-empty-function": "off",
     "@typescript-eslint/ban-ts-comment": "warn",
-    "max-len": ["error", { "code": 120 }],
-    "@typescript-eslint/no-unused-vars": ["warn", { "varsIgnorePattern": "_.*_", "argsIgnorePattern": "_.*_" }]
+    "@typescript-eslint/no-unused-vars": ["warn", { "varsIgnorePattern": "_.*_", "argsIgnorePattern": "_.*_" }],
+    "import/order": [
+      "error", {
+        "groups": ["type", "builtin", "external", "internal", "parent", "sibling", "index"],
+        "newlines-between": "always",
+        "alphabetize": {
+          "order": "asc"
+        }
+      }
+    ]
   },
   "settings": {
     "react": {
       "pragma": "React",
       "version": "detect"
+    },
+    "import/resolver": {
+      // even though empty, still needed by the import plugin
+      "typescript": {}
     }
   },
   "overrides": [
     {
-      "files": ["*.cypress.spec.ts", "*.cypress.spec.tsx"],
+      "files": ["*.cy.ts", "*.cy.tsx", "*.spec.ts", "*.spec.tsx", "*.pw.ts", "*.pw.tsx"],
       "rules": {
+        // test names can be long so ignoring this rule for test files
+        "max-len": "off",
+
         "@typescript-eslint/no-explicit-any": "off",
-        "@typescript-eslint/no-unused-vars": "off"
+        "@typescript-eslint/no-unused-vars": "off",
+        "@typescript-eslint/no-empty-interface": "off"
       }
     }
   ]

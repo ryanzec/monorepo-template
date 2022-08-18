@@ -1,63 +1,23 @@
-import React, { useCallback, Suspense } from 'react';
-import styled from '@emotion/styled';
-import { css } from '@emotion/react';
-import { RequiresChildrenComponent } from '$types/react';
-import authenticationContext from '$contexts/authentication';
-import { ApplicationFrameColors, cssVariables } from '$components/application-frame/styles';
-import { Button } from '$components/button/button';
-import { ButtonContext } from '$components/button/types';
-import { ApplicationFrameNavigation } from '$components/application-frame/application-frame-navigation';
+import React, { useCallback, useEffect } from 'react';
 
-export const Container = styled.div`
-  color: #cccccc;
-  height: 100vh;
-  width: 100vw;
-  display: flex;
+import ApplicationFramePure from '$/components/application-frame/application-frame-pure';
+import { reactHooks } from '$/hooks';
+import { applicationSettingsStoreUtils } from '$/stores/application-settings-store';
+import { authenticationStoreUtils, LOCAL_STORAGE_AUTHENTICATION_TOKEN_KEY } from '$/stores/authentication';
+import { ThemeName } from '$/types/styles';
+import { applicationUtils, GlobalVariable } from '$/utils/application';
+import { httpUtils } from '$/utils/http';
+import { localStorageCacheUtils } from '$/utils/local-storage-cache';
 
-  // theme related styles
-  ${(props) => {
-    const colors: ApplicationFrameColors = cssVariables.theme[props.theme.name];
+export type ApplicationFrameProps = React.DetailedHTMLProps<React.HTMLAttributes<HTMLDivElement>, HTMLDivElement>;
 
-    return css`
-      color: ${colors.container.color};
-    `;
-  }}
-`;
+const ApplicationFrame = (props: ApplicationFrameProps) => {
+  const authenticateState = reactHooks.useRxSubject(authenticationStoreUtils.subject);
+  const applicationSettingsState = reactHooks.useRxSubject(applicationSettingsStoreUtils.subject);
 
-export const SubContainer = styled.div`
-  display: flex;
-  flex-direction: column;
-  flex: 1 1 auto;
-`;
-
-export const Header = styled.div`
-  background-color: #111111;
-  flex: 0 0 ${cssVariables.header.height};
-  align-self: stretch;
-  display: flex;
-  align-items: center;
-  padding: ${cssVariables.header.padding};
-`;
-
-export const Logo = styled.div``;
-
-export const Actions = styled.div`
-  margin-left: auto;
-`;
-
-export const MainContent = styled.div`
-  color: #cccccc;
-  background-color: #222222;
-  flex: 1 1 auto;
-  overflow-y: auto;
-  padding: ${cssVariables.mainContent.padding};
-`;
-
-// need to have a specific interface instead of the generic one as react router types require it
-export type ApplicationFrameProps = RequiresChildrenComponent;
-
-export const ApplicationFrame = ({ children }: ApplicationFrameProps) => {
-  const { isAuthenticated, logout } = authenticationContext.useContext();
+  const logout = useCallback(() => {
+    authenticationStoreUtils.logout(authenticationStoreUtils.subject);
+  }, []);
 
   const onLogout = useCallback(
     (event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
@@ -69,25 +29,52 @@ export const ApplicationFrame = ({ children }: ApplicationFrameProps) => {
     [logout],
   );
 
+  const onToggleTheme = useCallback(
+    (event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
+      event.preventDefault();
+      event.stopPropagation();
+
+      applicationSettingsStoreUtils.setTheme(
+        applicationSettingsStoreUtils.subject,
+        applicationSettingsState.theme === ThemeName.LIGHT ? ThemeName.DARK : ThemeName.LIGHT,
+      );
+    },
+    [applicationSettingsState.theme],
+  );
+
+  useEffect(() => {
+    const checkExistingAuthentication = async () => {
+      const cachedAuthenticationToken = localStorageCacheUtils.get(LOCAL_STORAGE_AUTHENTICATION_TOKEN_KEY);
+
+      if (!cachedAuthenticationToken) {
+        authenticationStoreUtils.setIsAuthenticated(authenticationStoreUtils.subject, false);
+        authenticationStoreUtils.setIsLoading(authenticationStoreUtils.subject, false);
+
+        return;
+      }
+
+      const response = await httpUtils.http(
+        `${applicationUtils.getGlobalVariable(GlobalVariable.BASE_API_URL)}/authenticate/${cachedAuthenticationToken}`,
+      );
+
+      authenticationStoreUtils.setIsAuthenticated(authenticationStoreUtils.subject, response.status === 200);
+      authenticationStoreUtils.setIsLoading(authenticationStoreUtils.subject, false);
+    };
+
+    // @todo(investigate) the ignored promise here is fine, useEffect does not allow for an async function but
+    // @todo(investigate) validating the session require async functionality so until I can think of a different
+    // @todo(investigate) pattern here, should be fine
+    checkExistingAuthentication();
+  }, []);
+
   return (
-    <Container data-id="frame">
-      {isAuthenticated && <ApplicationFrameNavigation />}
-      <SubContainer>
-        {isAuthenticated && (
-          <Header data-id="header">
-            <Logo>LOGO TODO</Logo>
-            <Actions data-id="actions">
-              <Button data-id="logout" context={ButtonContext.DANGER} onClick={onLogout}>
-                Logout
-              </Button>
-            </Actions>
-          </Header>
-        )}
-        <MainContent>
-          <Suspense fallback={'Loading...'}>{children}</Suspense>
-        </MainContent>
-      </SubContainer>
-    </Container>
+    <ApplicationFramePure
+      {...props}
+      isAuthenticated={authenticateState.isAuthenticated}
+      theme={applicationSettingsState.theme}
+      onToggleTheme={onToggleTheme}
+      onLogout={onLogout}
+    />
   );
 };
 

@@ -1,0 +1,10 @@
+.todos {
+  display: flex;
+}
+
+.todo-list {
+  flex: 0 0 50%;
+}
+
+.todo-item {
+}

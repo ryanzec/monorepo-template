@@ -1,10 +1,34 @@
+import path from 'path';
+import { fileURLToPath } from 'url';
+
+import { faker } from '@faker-js/faker';
+import cors, { CorsOptions } from 'cors';
 import dotenv from 'dotenv';
 import express, { Application, Request, Response } from 'express';
-import cors, { CorsOptions } from 'cors';
-import axios from 'axios';
-import { auth, AuthResult } from 'express-oauth2-jwt-bearer';
+import { Low, JSONFile } from 'lowdb';
 
 dotenv.config();
+
+// needed because we are running node is esm mode
+const __dirname = path.dirname(fileURLToPath(import.meta.url));
+
+export interface Database {
+  authenticationTokens: Array<{
+    authenticationToken: string;
+  }>;
+}
+
+const file = path.join(__dirname, '../lowdb/db.json');
+const adapter = new JSONFile<Database>(file);
+const db = new Low<Database>(adapter);
+
+await db.read();
+
+if (!db.data) {
+  db.data = { authenticationTokens: [] };
+
+  await db.write();
+}
 
 const api: Application = express();
 
@@ -13,8 +37,9 @@ const PORT = process.env.SERVER_PORT;
 const options: CorsOptions = {
   allowedHeaders: ['Origin', 'X-Requested-With', 'Content-Type', 'Accept', 'Authorization'],
   methods: 'GET,HEAD,OPTIONS,PUT,PATCH,POST,DELETE',
-  origin: '*',
+  origin: 'http://localhost:4000',
   optionsSuccessStatus: 200,
+  credentials: true,
 };
 
 // Body parsing Middleware
@@ -22,92 +47,56 @@ api.use(cors(options));
 api.use(express.json());
 api.use(express.urlencoded({ extended: true }));
 
-const checkJwt = auth({
-  // since this in the general api, we need to make sure the the jwt token has the same audience
-  audience: process.env.AUTH0_AUDIENCE_API,
-  issuerBaseURL: `https://${process.env.AUTH0_DOMAIN}`,
-});
-
-const isAuthTokenValid = (verifiedJwtToken: AuthResult | undefined): boolean => {
-  if (!verifiedJwtToken) {
-    return false;
-  }
-
-  // I am pretty sure if the token gets parsed, it is valid which mean we only have to validate the expire value
-  const currentTimestamp = Date.now() / 1000;
-
-  return (verifiedJwtToken.payload.exp ?? 0) > currentTimestamp;
-};
-
-api.get('/', async (request: Request, response: Response): Promise<Response> => {
+api.get('/health', async (request: Request, response: Response): Promise<Response> => {
   return response.status(200).send({
     message: 'Hello World!',
   });
 });
 
-// hitting this api will generate a access token for auth0 user management api which is used for permissions. normally
-// this would be management automatically but that is outside the scope of this demo appliction right now
-api.get(
-  '/api/v1/admin.generateBackendTokens',
-  checkJwt,
-  async (request: Request, response: Response): Promise<Response> => {
-    // get machine token for personal snadbox api
-    const options2 = {
-      method: 'POST',
-      url: `https://${process.env.AUTH0_DOMAIN}/oauth/token`,
-      headers: { 'content-type': 'application/json' },
-      data: {
-        grant_type: 'client_credentials',
-        client_id: process.env.AUTH0_CLIENT_ID_AUTH0_USERS,
-        client_secret: process.env.AUTH0_CLIENT_SECRET_AUTH0_USERS,
-        audience: process.env.AUTH0_AUDIENCE_AUTH0_USERS,
-      },
-    };
+api.post('/api/authenticate', async (request: Request, response: Response): Promise<Response> => {
+  // @todo(feature) check username / password
 
-    axios
-      .request(options2)
-      .then(function (response) {
-        console.log(JSON.stringify(response.data, null, 2));
-      })
-      .catch(function (error) {
-        console.error(error);
-      });
+  const authenticationToken = faker.datatype.uuid();
 
-    return response.status(401).end();
-  },
-);
+  // just overriding the authentication token to make sure it does not get too big and nothing fancier is needed right
+  // now
 
-api.get('/api/v1/pawns', checkJwt, async (request: Request, response: Response): Promise<Response> => {
-  console.log(JSON.stringify(request.auth, null, 2));
+  // this is just a side effect of lowdb for needing the non null assertion
+  // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+  db.data!.authenticationTokens = [{ authenticationToken }];
 
-  if (!isAuthTokenValid(request.auth)) {
-    return response.status(401).end();
+  await db.write();
+
+  return response.status(200).send({
+    authenticationToken,
+  });
+});
+
+api.get('/api/authenticate/:checkToken', async (request: Request, response: Response): Promise<Response> => {
+  const checkToken = request.params.checkToken;
+
+  // this is just a side effect of lowdb for needing the non null assertion
+  // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+  const existingToken = db.data!.authenticationTokens.find(
+    (authenticationToken) => authenticationToken.authenticationToken === checkToken,
+  );
+
+  if (!existingToken) {
+    return response.status(401).send();
   }
 
-  // this is just for testing auth0 / this would normally be cache in a production codebase
-  const options = {
-    method: 'GET',
-    url: `https://${process.env.AUTH0_DOMAIN}/api/v2/users/${request.auth?.payload.sub}/permissions`,
-    headers: {
-      Authorization: `Bearer ${process.env.AUTH0_MACHINE_ACCESS_TOKEN_AUTH0_USERS}`,
-    },
-  };
+  return response.status(200).send();
+});
 
-  const userPermissions = await axios.request(options);
-
-  console.log(JSON.stringify(userPermissions.data, null, 2));
-
-  const pawns = [
+api.get('/api/users', async (request: Request, response: Response): Promise<Response> => {
+  const users = [
     {
-      Id: '1',
-      MaximumHealth: 100,
-      ActionPoints: 1,
-      MovementPoints: 1,
-      PortraitSpriteId: 'test',
+      id: '1',
+      email: 'test@example.com',
     },
   ];
 
-  return response.status(200).send(pawns);
+  return response.status(200).send({ users });
 });
 
 try {

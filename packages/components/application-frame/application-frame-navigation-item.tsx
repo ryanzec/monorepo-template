@@ -1,57 +1,38 @@
-import React, { useCallback } from 'react';
-import * as routerUtils from '$utils/router';
-import { IconDefinition } from '@fortawesome/free-solid-svg-icons';
+import type { IconDefinition } from '@fortawesome/free-solid-svg-icons';
+
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import styled from '@emotion/styled';
-import { ApplicationFrameColors, cssVariables } from '$components/application-frame/styles';
-import { css } from '@emotion/react';
+import classnames from 'classnames';
+import React, { useCallback } from 'react';
+import { useNavigate } from 'react-router-dom';
 
-export const NavigationItem = styled.div`
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  cursor: pointer;
+import styles from '$/components/application-frame/application-frame.module.css';
 
-  :not(:last-child) {
-    padding-bottom: ${cssVariables.navigationItem.paddingBottom};
-  }
-
-  // theme related styles
-  ${(props) => {
-    const colors: ApplicationFrameColors = cssVariables.theme[props.theme.name];
-
-    return css`
-      color: ${colors.navigationItem.color};
-
-      &:hover,
-      &:focus {
-        color: ${colors.navigationItem.colorHover};
-      }
-
-      &:active {
-        color: ${colors.navigationItem.colorActive};
-      }
-    `;
-  }}
-`;
-
-export interface NavigationItemProps {
+export interface ApplicationFrameNavigationItemProps {
   icon: IconDefinition;
   text: string;
   navigateTo: string;
 }
 
-export const ApplicationFrameNavigationItem = ({ icon, text, navigateTo }: NavigationItemProps) => {
-  const navigate = routerUtils.useNavigate();
+const ApplicationFrameNavigationItem = ({ icon, text, navigateTo }: ApplicationFrameNavigationItemProps) => {
+  const navigate = useNavigate();
 
   const onNavigate = useCallback(() => {
     navigate(navigateTo);
   }, [navigate, navigateTo]);
 
   return (
-    <NavigationItem data-id="item" key={text} onClick={onNavigate}>
+    <div
+      role="button"
+      className={classnames(styles['navigation-item'])}
+      tabIndex={0}
+      data-id="item"
+      key={text}
+      onClick={onNavigate}
+      // this is needed for a11y though not sure what this event should do
+      onKeyPress={() => {}}
+    >
       <FontAwesomeIcon icon={icon} /> {text}
-    </NavigationItem>
+    </div>
   );
 };
 

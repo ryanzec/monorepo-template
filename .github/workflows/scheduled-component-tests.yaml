@@ -1,0 +1,23 @@
+name: Scheduled Component Tests
+
+on: workflow_dispatch
+  #schedule:
+    # Runs at 12:00am UTC every day (see https://crontab.guru)
+    # - cron: '0 0 * * *'
+
+jobs:
+  component-tests:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - name: input node
+        uses: actions/setup-node@v3
+        with:
+          node-version-file: ".nvmrc"
+          cache: npm
+      - name: install depedencies
+        run: npm ci --ignore-scripts
+      - name: setup playwright
+        run: npx playwright install chromium
+      - name: run component tests
+        run: npm run test:components

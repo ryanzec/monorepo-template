@@ -1,0 +1,69 @@
+.application-frame {
+  color: var(--application-frame-container-color);
+  background-color: var(--application-frame-container-backgound-color);
+  height: 100vh;
+  width: 100vw;
+  display: flex;
+
+  .navigation {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background-color: var(--application-frame-header-background-color);
+    flex: 0 0 var(--application-frame-navigation-width);
+    align-self: stretch;
+    padding: var(--application-frame-navigation-padding);
+
+    .navigation-item {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      cursor: pointer;
+      color: var(--application-frame-navigation-item-color);
+
+      &:not(:last-child) {
+        padding-bottom: var(--application-frame-navigation-item-padding-bottom);
+      }
+
+      &:hover,
+      &:focus {
+        color: var(--application-frame-navigation-item-color-hover);
+      }
+      &:active {
+        color: var(--application-frame-navigation-item-color-active);
+      }
+
+      & svg {
+        height: var(--application-frame-navigation-icon-height);
+        margin-bottom: var(--application-frame-navigation-item-svg-margin-bottom);
+      }
+    }
+  }
+
+  .sub-container {
+    display: flex;
+    flex-direction: column;
+    flex: 1 1 auto;
+
+    .header {
+      background-color: var(--application-frame-header-background-color);
+      flex: 0 0 var(--application-frame-header-height);
+      align-self: stretch;
+      display: flex;
+      align-items: center;
+      padding: var(--application-frame-header-padding);
+
+      .header-logo {}
+
+      .header-actions {
+        margin-left: auto;
+      }
+    }
+
+    .main-content {
+      flex: 1 1 auto;
+      overflow-y: auto;
+      padding: var(--application-frame-main-contain-padding);
+    }
+  }
+}

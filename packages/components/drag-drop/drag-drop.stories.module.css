@@ -1,0 +1,18 @@
+.todo-item {
+  border: 1px solid black;
+  padding: 5px;
+  margin: 2px;
+}
+
+.droppables {
+  display: flex;
+}
+
+.droppable-container {
+  flex: 0 0 50%;
+}
+
+.empty-droppable-container {
+  min-height: 100px;
+  background-color: gray;
+}

@@ -1,11 +1,12 @@
 {
   "compilerOptions": {
     "baseUrl": ".",
-    "lib": ["dom", "dom.iterable", "esnext"],
-    "allowJs": true,
-    "allowSyntheticDefaultImports": true,
+    "useDefineForClassFields": true,
+    "lib": ["DOM", "DOM.Iterable", "ESNext"],
+    "allowJs": false,
     "skipLibCheck": true,
     "esModuleInterop": true,
+    "allowSyntheticDefaultImports": true,
     "strict": true,
     "forceConsistentCasingInFileNames": true,
     "moduleResolution": "node",
@@ -14,23 +15,18 @@
     "noEmit": true,
     "jsx": "react",
     "noEmitOnError": true,
-    "target": "es6",
-    "module": "commonjs",
+    "target": "esnext",
+    "module": "esnext",
+    "types": ["vite/client"],
     "paths": {
-      "$components/*": ["./packages/components/*"],
-      "$views/*": ["./packages/views/*"],
-      "$utils/*": ["./packages/utils/*"],
-      "$types/*": ["./packages/types/*"],
-      "$hooks/*": ["./packages/hooks/*"],
-      "$contexts/*": ["./packages/contexts/*"],
-      "$storybook-helpers/*": ["./packages/storybook-helpers/*"]
+      "$/*": ["./packages/*"],
     }
   },
-  "exclude": ["**/*.cypress.spec.{ts,tsx}"],
   "include": [
+    "src",
     "./applications/web/src",
     "./applications/api/src",
-    "./custom-types",
-    "./packages"
+    "./packages",
   ],
+  "exclude": ["node_modules"],
 }

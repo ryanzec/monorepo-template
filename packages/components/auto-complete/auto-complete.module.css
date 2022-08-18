@@ -1,0 +1,75 @@
+.auto-complete {
+  /* this make the items element width to be constrained by the main auto complete element */
+  position: relative;
+}
+
+.input {
+}
+
+.input-arrow-indicator {
+  position: absolute;
+  top: 0;
+  right: 8px;
+  display: flex;
+  align-items: center;
+}
+
+.items {
+  display: none;
+}
+
+.loading-item {
+  display: flex;
+  align-items: center;
+
+  svg {
+    margin-right: 8px;
+
+    :global {
+      animation: spin 1s linear;
+      animation-iteration-count: infinite;
+    }
+  }
+}
+
+.opened-items {
+  display: block;
+  position: absolute;
+  background-color: white;
+  border: 1px solid black;
+  overflow-y: auto;
+  margin: 4px 0 0 0;
+  padding: 0;
+  width: 100%;
+  max-height: 150px;
+  border-radius: 5px;
+}
+
+.rendered-item {
+  list-style: none;
+  padding: 4px 0;
+  cursor: pointer;
+}
+
+.highlighted-item {
+  background-color: #bde4ff;
+}
+
+.selected-item {
+  display: inline-flex;
+  align-items: center;
+  margin-top: 4px;
+  margin-right: 4px;
+  padding: 4px 8px;
+  background-color: white;
+  border-radius: 999px;
+  border: 1px solid black;
+}
+
+.remove-selected-item {
+  padding: 4px;
+  cursor: pointer;
+
+  /* prevent the item from shrinking */
+  flex: 0 0 auto;
+}

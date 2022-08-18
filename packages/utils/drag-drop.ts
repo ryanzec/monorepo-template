@@ -1,29 +1,57 @@
-import { DropTargetMonitor } from 'react-dnd';
+import { UniqueIdentifier } from '@dnd-kit/core';
+import { arrayMove as dndkitArrayMove } from '@dnd-kit/sortable';
+import find from 'lodash/find';
 
-export enum DragDropType {
-  COMPLEX_FORM_TODO = 'COMPLEX_FORM_TODO',
+export interface DragDropItem {
+  id: UniqueIdentifier;
+  [key: string]: any;
 }
 
-export interface ShouldChangePositionParams<T> {
-  checkingBoundingRect: DOMRect;
-  monitor: DropTargetMonitor<T, void>;
-  draggingIndex: number;
-  checkingIndex: number;
-}
+const getContainerId = <TGroupedItems extends Record<string, any>, TItem extends DragDropItem>(
+  items: TGroupedItems,
+  itemId: UniqueIdentifier,
+) => {
+  return (Object.keys(items) as Array<keyof TGroupedItems>).find((key) => find(items[key], { id: itemId }));
+};
 
-export const shouldChangePosition = <T>({
-  checkingBoundingRect,
-  monitor,
-  draggingIndex,
-  checkingIndex,
-}: ShouldChangePositionParams<T>): boolean => {
-  const hoverMiddleY = ((checkingBoundingRect.bottom ?? 0) - (checkingBoundingRect.top ?? 0)) / 2;
-  const hoverActualY = (monitor?.getClientOffset()?.y ?? 0) - (checkingBoundingRect.top ?? 0);
+const getItemIndex = <TItem extends DragDropItem>(items: TItem[], itemId?: UniqueIdentifier) => {
+  return items.findIndex((item) => item.id === itemId);
+};
 
-  // if dragging down, continue only when hover is smaller than middle Y
-  if (draggingIndex < checkingIndex && hoverActualY < hoverMiddleY) return false;
-  // if dragging up, continue only when hover is bigger than middle Y
-  if (draggingIndex > checkingIndex && hoverActualY > hoverMiddleY) return false;
+const groupedArrayMove = <TGroupedItems extends Record<string, Array<Record<string, any>>>, TItem extends DragDropItem>(
+  items: TGroupedItems,
+  activeId: UniqueIdentifier,
+  overId: UniqueIdentifier,
+) => {
+  const activeContainerKey = getContainerId(items, activeId);
 
-  return true;
+  if (!activeContainerKey) {
+    return items;
+  }
+
+  const itemGroup = items[activeContainerKey];
+  const oldIndex = itemGroup.findIndex((item) => item.id === activeId);
+  const newIndex = itemGroup.findIndex((item) => item.id === overId);
+
+  items[activeContainerKey] = dndkitArrayMove(itemGroup, oldIndex, newIndex) as typeof itemGroup;
+
+  return items;
+};
+
+const arrayMove = <TItems extends Array<Record<string, any>>>(
+  items: TItems,
+  activeId: UniqueIdentifier,
+  overId: UniqueIdentifier,
+) => {
+  const oldIndex = items.findIndex((item) => item.id === activeId);
+  const newIndex = items.findIndex((item) => item.id === overId);
+
+  return dndkitArrayMove(items, oldIndex, newIndex) as TItems;
+};
+
+export const dragDropUtils = {
+  getContainerId,
+  getItemIndex,
+  groupedArrayMove,
+  arrayMove,
 };

@@ -1,62 +1,40 @@
-import { RequiresChildrenComponent } from '$types/react';
-
+import classnames from 'classnames';
 import React from 'react';
-import styled from '@emotion/styled';
-import { css } from '@emotion/react';
 
-import * as styleUtils from '$utils/styles';
+import styles from '$/components/button/button.module.css';
+import { ButtonGroupContext, ButtonGroupContextValue } from '$/components/button/hooks';
+import { DEFAULT_BUTTON_CONTEXT, DEFAULT_BUTTON_SIZE, DEFAULT_BUTTON_VARIANT } from '$/components/button/utils';
 
-import { ButtonGroupContext, ButtonGroupContextValue } from '$components/button/hooks';
-import { cssVariables } from '$components/button/styles';
-import { ButtonVariant } from '$components/button/types';
-import { Container as ButtonContainer } from '$components/button/button';
+interface ButtonGroupProps
+  extends ButtonGroupContextValue,
+    React.DetailedHTMLProps<React.HTMLAttributes<HTMLDivElement>, HTMLDivElement> {}
 
-export interface ButtonGroupContainerProps {
-  isAttached: boolean;
-}
-
-export const Container = styled.div<ButtonGroupContainerProps>`
-  display: inline-flex;
-  align-items: center;
-
-  ${(props) => {
-    if (props.isAttached) {
-      return css`
-        ${ButtonContainer} {
-          border-radius: 0;
-
-          :first-child {
-            border-radius: ${cssVariables.container.borderRadius} 0 0 ${cssVariables.container.borderRadius};
-          }
-
-          :last-child {
-            border-radius: 0 ${cssVariables.container.borderRadius} ${cssVariables.container.borderRadius} 0;
-          }
-        }
-      `;
-    }
-
-    return css`
-      ${ButtonContainer} {
-        margin-right: ${styleUtils.getSpacing(1)};
-      }
-    `;
-  }}
-`;
-
-export interface ButtonGroupProps extends ButtonGroupContextValue, RequiresChildrenComponent {}
-
-export const ButtonGroup = ({
+const ButtonGroup = ({
   children,
   isAttached = false,
-  variant = ButtonVariant.SOLID,
+  variant = DEFAULT_BUTTON_VARIANT,
+  size = DEFAULT_BUTTON_SIZE,
+  context = DEFAULT_BUTTON_CONTEXT,
   ...restOfProps
 }: ButtonGroupProps) => {
   return (
-    <ButtonGroupContext.Provider value={{ isAttached, variant, ...restOfProps }}>
-      <Container data-id="button-group" role="group" isAttached={isAttached}>
+    <ButtonGroupContext.Provider
+      value={{
+        isAttached,
+        variant,
+        size,
+        context: context,
+        disabled: restOfProps.disabled,
+      }}
+    >
+      <div
+        data-id="button-group"
+        role="group"
+        className={classnames(styles['group'], { [styles['is-attached']]: isAttached })}
+        {...restOfProps}
+      >
         {children}
-      </Container>
+      </div>
     </ButtonGroupContext.Provider>
   );
 };

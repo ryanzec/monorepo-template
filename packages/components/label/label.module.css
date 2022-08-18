@@ -1,0 +1,4 @@
+.label {
+  display: block;
+  padding-bottom: var(--label-container-padding-bottom);
+}

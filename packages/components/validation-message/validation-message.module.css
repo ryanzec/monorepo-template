@@ -1,0 +1,4 @@
+.validation-message {
+  display: block;
+  padding-top: var(--validation-message-container-padding-top);
+}

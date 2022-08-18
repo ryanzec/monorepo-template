@@ -1,26 +1,27 @@
 #Monorepo Template
 
-This is an experiment for a super simple, no to low magic solution for a monorepo setup (multiple application / packages in a single repository). I would think of this as more a template for one possible way to structure a monorepo but I don't intend to add much automation of things (as stuff pops up I am add some simple scripts but I am going to avoid that as much as possible).
+This is an experiment for a super simple, low to no blackbox solution for a monorepo setup (multiple application / packages in a single repository). I would think of this as more a template for one possible way to structure a monorepo. I might update this from time to time with new library updates or just random things I want to try.
 
-You probably should not use this but ¯\\\_(ツ)_/¯
+There is currently no intent in supporting this in any kind of standard open source way, this code is just provided as is and that is that.
+
+Maybe you shouldn't use this but maybe it will be useful to someone for some reason ¯\\\_(ツ)_/¯
 
 # What Is Included
 
 The following is includes:
 
-- Yarn Zero-Installs
+- Vite
 - TypeScript (w/ Babel)
-- Auto Code Formatting
-- Webpack
 - Storybook
 - ESLint
-- Jest
-- Cypress (for storybook component testing)
+- Playwright (Storybook / end to end testing)
+- Mocha / Chai / Sinon Unit Testing
+- Auto Code Formatting
 - Example Application
   - Axios
-  - Emotion CSS
+  - CSS with PostCSS Styling
   - Font Awesome Icons
-  - Immer
+  - Immer (data immutability)
   - Inter Font
   - Lodash
   - React
@@ -28,24 +29,39 @@ The following is includes:
   - React Hook Form
   - React Router
   - Zod (data validation)
+  - Downshift (auto complete)
+  - react-virtuoso (virtualized views)
 - .nvmrc
-- 
 
 # Setup Documentation
 
-These are the follow steps to setup this monorepo template.
-
-**NOTE: In order to simulate a login setup which I wanted to provide here, I am using Auth0 since it seemed relatively simple and has a free plan. You can modify the `packges/contexts/authentication.ts` file and associated usage fo it to provide your own authentication if you prefer.**
+These are the following steps to setup this monorepo template.
 
 ## Tools You Need
 
-- Node: Recommend NVM (https://github.com/nvm-sh/nvm#installing-and-updating)
+- Node 16.15.x+: Recommend NVM (https://github.com/nvm-sh/nvm#installing-and-updating)
 
 ## Running Locally
 
-- run `yarn`
+### Running the Code
+- run `npm install`
 - copy `.evn-template` to `.env` and fill in values
 - copy `applications/web/src/index.html-template` to `applications/web/src/index.html` and fill in values
-- run `yarn start:api` and `yarn start:web`
+- run `npm run start:api` and `npm run start:web`
 
-Your should have a local version of the example application running, if you setup the Auth0 configuration, logging in should also work.
+# Library Notes
+
+## lowdb
+
+This uses the `4.x.x` version as the `5.x.x` version is ESM only which seems to have issues working so doing this for now.
+
+# to do
+- add http unit tests
+- unify icon solution
+- fix login redirect
+
+# to look at  
+- https://dndkit.com/
+- https://use-gesture.netlify.app/
+- https://auto-animate.formkit.com/
+- https://tanstack.com/router/v1
