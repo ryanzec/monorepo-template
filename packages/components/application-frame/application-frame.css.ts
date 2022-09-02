@@ -4,7 +4,7 @@ import { cssVariables } from '$/components/application-frame/common';
 import { styleUtils } from '$/utils/style';
 import { themeVariables } from '$/utils/theme.css';
 
-export const applicationFrameCss = {
+export const styles = {
   Container: style({
     color: themeVariables.color.applicationFrame.container.color,
     height: '100vh',

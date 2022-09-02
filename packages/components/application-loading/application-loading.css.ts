@@ -1,6 +1,6 @@
 import { style } from '@vanilla-extract/css';
 
-export const applicationLoadingCss = {
+export const styles = {
   Container: style({
     height: '100vh',
     display: 'flex',

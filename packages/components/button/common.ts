@@ -30,7 +30,7 @@ export enum ButtonState {
   IS_LOADING = 'is-loading',
 }
 
-export interface ButtonCss {
+interface ButtonCss {
   container: {
     padding: {
       small: string;

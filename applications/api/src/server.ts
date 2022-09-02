@@ -1,10 +1,11 @@
+import path from 'path';
+import { fileURLToPath } from 'url';
+
+import { faker } from '@faker-js/faker';
+import cors, { CorsOptions } from 'cors';
 import dotenv from 'dotenv';
 import express, { Application, Request, Response } from 'express';
-import cors, { CorsOptions } from 'cors';
-import path from 'path';
 import { Low, JSONFile } from 'lowdb';
-import { fileURLToPath } from 'url';
-import { faker } from '@faker-js/faker';
 
 dotenv.config();
 

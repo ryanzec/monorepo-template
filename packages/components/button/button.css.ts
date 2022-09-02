@@ -13,7 +13,7 @@ const icon = style({
   display: 'inline-flex',
 });
 
-export const buttonCss = {
+export const styles = {
   container: style({
     color: themeVariables.color.text.light,
     borderRadius: cssVariables.container.borderRadius,

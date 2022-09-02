@@ -1,9 +1,8 @@
 import React, { Suspense, useCallback } from 'react';
 
 import ApplicationFrameNavigation from '$/components/application-frame/application-frame-navigation';
-import { applicationFrameCss } from '$/components/application-frame/application-frame.css';
-import { Button } from '$/components/button/button';
-import { ButtonContext } from '$/components/button/common';
+import { styles } from '$/components/application-frame/application-frame.css';
+import Button, { ButtonContext } from '$/components/button';
 import { applicationSettingsContext } from '$/contexts/application-settings';
 import { authenticationContext } from '$/contexts/authentication';
 import { ThemeName } from '$/types/theme';
@@ -11,7 +10,7 @@ import { darkTheme, lightTheme } from '$/utils/theme.css';
 
 export type ApplicationFrameProps = React.DetailedHTMLProps<React.HTMLAttributes<HTMLDivElement>, HTMLDivElement>;
 
-export const ApplicationFrame = ({ children, ...restOfProps }: ApplicationFrameProps) => {
+const ApplicationFrame = ({ children, ...restOfProps }: ApplicationFrameProps) => {
   const { isAuthenticated, logout } = authenticationContext.useContext();
   const { theme, setTheme } = applicationSettingsContext.useContext();
 
@@ -38,13 +37,13 @@ export const ApplicationFrame = ({ children, ...restOfProps }: ApplicationFrameP
   const themeClassName = theme === 'light' ? lightTheme : darkTheme;
 
   return (
-    <div className={`${applicationFrameCss.Container} ${themeClassName}`} data-id="frame" {...restOfProps}>
+    <div className={`${styles.Container} ${themeClassName}`} data-id="frame" {...restOfProps}>
       {isAuthenticated && <ApplicationFrameNavigation />}
-      <div className={applicationFrameCss.SubContainer}>
+      <div className={styles.SubContainer}>
         {isAuthenticated && (
-          <div className={applicationFrameCss.Header} data-id="header">
-            <div className={applicationFrameCss.Logo}>LOGO TODO</div>
-            <div className={applicationFrameCss.Actions} data-id="actions">
+          <div className={styles.Header} data-id="header">
+            <div className={styles.Logo}>LOGO TODO</div>
+            <div className={styles.Actions} data-id="actions">
               <Button data-id="toggle-theme" data-context={ButtonContext.PRIMARY} onClick={onToggleTheme}>
                 Toggle Theme (current: {theme})
               </Button>
@@ -54,7 +53,7 @@ export const ApplicationFrame = ({ children, ...restOfProps }: ApplicationFrameP
             </div>
           </div>
         )}
-        <div className={applicationFrameCss.MainContent}>
+        <div className={styles.MainContent}>
           <Suspense fallback={'Loading...'}>{children}</Suspense>
         </div>
       </div>

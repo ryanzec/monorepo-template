@@ -1,13 +1,12 @@
 import { faHouse, faPenToSquare } from '@fortawesome/free-solid-svg-icons';
 import React from 'react';
 
-import {
-  ApplicationFrameNavigationItem,
-  NavigationItemProps,
+import ApplicationFrameNavigationItem, {
+  ApplicationFrameNavigationItemProps,
 } from '$/components/application-frame/application-frame-navigation-item';
-import { applicationFrameCss } from '$/components/application-frame/application-frame.css';
+import { styles } from '$/components/application-frame/application-frame.css';
 
-export const navigationItems: NavigationItemProps[] = [
+const navigationItems: ApplicationFrameNavigationItemProps[] = [
   {
     icon: faHouse,
     text: 'Home',
@@ -20,9 +19,9 @@ export const navigationItems: NavigationItemProps[] = [
   },
 ];
 
-export const ApplicationFrameNavigation = () => {
+const ApplicationFrameNavigation = () => {
   return (
-    <div className={applicationFrameCss.Navigation} data-id="navigation">
+    <div className={styles.Navigation} data-id="navigation">
       {navigationItems.map((navigationItem) => {
         return <ApplicationFrameNavigationItem key={navigationItem.text} {...navigationItem} />;
       })}

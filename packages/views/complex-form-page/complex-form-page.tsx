@@ -4,11 +4,14 @@ import { Controller, useFieldArray, useForm } from 'react-hook-form';
 import { v4 as uuid } from 'uuid';
 import * as zod from 'zod';
 
-import { Button } from '$/components/button/button';
-import Form from '$/components/form/form';
+import AutoComplete from '$/components/auto-complete';
+import Button from '$/components/button';
+import Input from '$/components/input';
+import Label from '$/components/label';
+import ValidationMessage from '$/components/validation-message';
 import { zodUtils } from '$/utils/zod';
 import { FieldId, Todo } from '$/views/complex-form-page/common';
-import { TodoLists } from '$/views/complex-form-page/complex-form-page.css';
+import { styles } from '$/views/complex-form-page/complex-form-page.css';
 import { DragDropItem } from '$/views/complex-form-page/drag-drop-item';
 import { EmptyDropContainer } from '$/views/complex-form-page/empty-drop-container';
 
@@ -140,18 +143,18 @@ const ComplexFormPage = () => {
 
   return (
     <div data-id="complex-form-page">
-      <Form.InputContainer>
-        <Form.Label>First Name</Form.Label>
-        <Form.Input type="text" placeholder="First name" property="firstName" register={register} />
-        {errors.firstName?.message && <Form.ValidationMessage>{errors.firstName.message}</Form.ValidationMessage>}
-      </Form.InputContainer>
-      <Form.InputContainer>
+      <Input.Container>
+        <Label>First Name</Label>
+        <Input.Hooked type="text" placeholder="First name" property="firstName" register={register} />
+        {errors.firstName?.message && <ValidationMessage>{errors.firstName.message}</ValidationMessage>}
+      </Input.Container>
+      <Input.Container>
         <Controller
           control={control}
           name="autoComplete"
           render={({ field }) => {
             return (
-              <Form.AutoComplete
+              <AutoComplete
                 items={autoCompleteValues}
                 itemToString={(item) => item?.display ?? ''}
                 filterItems={({ items, inputValue }) => {
@@ -178,42 +181,42 @@ const ComplexFormPage = () => {
             );
           }}
         />
-        {errors.autoComplete?.message && <Form.ValidationMessage>{errors.autoComplete.message}</Form.ValidationMessage>}
-      </Form.InputContainer>
-      <Form.InputContainer>
-        <Form.Label>Email</Form.Label>
-        <Form.Input type="text" placeholder="Email" property="email" register={register} />
-        {errors.email?.message && <Form.ValidationMessage>{errors.email.message}</Form.ValidationMessage>}
-      </Form.InputContainer>
-      <Form.InputContainer>
-        <Form.Label>Mobile Number</Form.Label>
-        <Form.Input type="tel" placeholder="Mobile number" property="mobileNumber" register={register} />
-        {errors.mobileNumber?.message && <Form.ValidationMessage>{errors.mobileNumber.message}</Form.ValidationMessage>}
-      </Form.InputContainer>
-      <Form.InputContainer>
-        <Form.Label>Title</Form.Label>
+        {errors.autoComplete?.message && <ValidationMessage>{errors.autoComplete.message}</ValidationMessage>}
+      </Input.Container>
+      <Input.Container>
+        <Label>Email</Label>
+        <Input.Hooked type="text" placeholder="Email" property="email" register={register} />
+        {errors.email?.message && <ValidationMessage>{errors.email.message}</ValidationMessage>}
+      </Input.Container>
+      <Input.Container>
+        <Label>Mobile Number</Label>
+        <Input.Hooked type="tel" placeholder="Mobile number" property="mobileNumber" register={register} />
+        {errors.mobileNumber?.message && <ValidationMessage>{errors.mobileNumber.message}</ValidationMessage>}
+      </Input.Container>
+      <Input.Container>
+        <Label>Title</Label>
         <select {...register('title', { required: true })}>
           <option value="Mr">Mr</option>
           <option value="Mrs">Mrs</option>
           <option value="Miss">Miss</option>
           <option value="Dr">Dr</option>
         </select>
-        {errors.title?.message && <Form.ValidationMessage>{errors.title.message}</Form.ValidationMessage>}
-      </Form.InputContainer>
-      <Form.InputContainer>
-        <Form.Label>Developer</Form.Label>
-        <Form.Input property="developer" register={register} type="radio" value="Yes" /> Yes
-        <Form.Input property="developer" register={register} type="radio" value="No" /> No
-        {errors.developer?.message && <Form.ValidationMessage>{errors.developer.message}</Form.ValidationMessage>}
-      </Form.InputContainer>
-      <Form.InputContainer>
-        <Form.Label>DateTime</Form.Label>
-        <Form.Input type="datetime" placeholder="Date Time" property="dateTime" register={register} />
-        {errors.dateTime?.message && <Form.ValidationMessage>{errors.dateTime.message}</Form.ValidationMessage>}
-      </Form.InputContainer>
-      <div className={TodoLists}>
+        {errors.title?.message && <ValidationMessage>{errors.title.message}</ValidationMessage>}
+      </Input.Container>
+      <Input.Container>
+        <Label>Developer</Label>
+        <Input.Hooked property="developer" register={register} type="radio" value="Yes" /> Yes
+        <Input.Hooked property="developer" register={register} type="radio" value="No" /> No
+        {errors.developer?.message && <ValidationMessage>{errors.developer.message}</ValidationMessage>}
+      </Input.Container>
+      <Input.Container>
+        <Label>DateTime</Label>
+        <Input.Hooked type="datetime" placeholder="Date Time" property="dateTime" register={register} />
+        {errors.dateTime?.message && <ValidationMessage>{errors.dateTime.message}</ValidationMessage>}
+      </Input.Container>
+      <div className={styles.todoLists}>
         <div data-id="todos">
-          <Form.Label>Todos</Form.Label>
+          <Label>Todos</Label>
           {todoValues.length === 0 && <EmptyDropContainer moveItem={moveItem} fieldId={FieldId.TODOS} />}
           {todoValues.map((item, index) => (
             <DragDropItem
@@ -235,7 +238,7 @@ const ComplexFormPage = () => {
           Add Todo
         </Button>
         <div data-id="todos-completed">
-          <Form.Label>Todos Completed</Form.Label>
+          <Label>Todos Completed</Label>
           {todoCompletedValues.length === 0 && (
             <EmptyDropContainer moveItem={moveItem} fieldId={FieldId.TODOS_COMPLETED} />
           )}

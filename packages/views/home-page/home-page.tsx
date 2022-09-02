@@ -1,8 +1,7 @@
 import React, { useState } from 'react';
 import { useForm } from 'react-hook-form';
 
-import { Button } from '$/components/button/button';
-import { ButtonContext } from '$/components/button/common';
+import Button, { ButtonContext } from '$/components/button';
 import { reactHooks } from '$/hooks';
 import { apiUtils } from '$/utils/api';
 
@@ -30,10 +29,12 @@ const HomePage = () => {
   return (
     <>
       {loadedPawns.length > 0 && <div data-id="loaded-pawns">loaded pawns: {loadedPawns.length}</div>}
-      <label>Username</label>
-      <input type="text" {...register('username', { required: true })} />
-      <label>Password</label>
-      <input type="password" {...register('password', { required: true })} />
+      <label>
+        Username <input type="text" {...register('username', { required: true })} />
+      </label>
+      <label>
+        Password <input type="password" {...register('password', { required: true })} />
+      </label>
       <Button data-context={ButtonContext.SAFE} onClick={handleSubmit(onSubmitForm)}>
         Process Form
       </Button>

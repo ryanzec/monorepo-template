@@ -1,18 +1,16 @@
 import { faSpinner } from '@fortawesome/free-solid-svg-icons';
 import React, { ReactNode } from 'react';
 
-import ButtonGroup from '$/components/button/button-group';
 import ButtonIcon from '$/components/button/button-icon';
-import { buttonCss } from '$/components/button/button.css';
+import { styles } from '$/components/button/button.css';
 import { ButtonContext, ButtonIconPosition, ButtonSize, ButtonState, ButtonVariant } from '$/components/button/common';
 import { useButtonGroupContext } from '$/components/button/hooks';
 
-export const isValidAttachedVariant = (variant: ButtonVariant): boolean => {
+const isValidAttachedVariant = (variant: ButtonVariant): boolean => {
   return variant !== ButtonVariant.GHOST && variant !== ButtonVariant.LINK;
 };
 
-export interface ButtonProps
-  extends React.DetailedHTMLProps<React.HTMLAttributes<HTMLButtonElement>, HTMLButtonElement> {
+interface ButtonProps extends React.DetailedHTMLProps<React.HTMLAttributes<HTMLButtonElement>, HTMLButtonElement> {
   'data-context'?: ButtonContext;
   'data-size'?: ButtonSize;
   'data-variant'?: ButtonVariant;
@@ -23,7 +21,7 @@ export interface ButtonProps
   loadingIconPosition?: ButtonIconPosition;
 }
 
-export const Button = (props: ButtonProps) => {
+const Button = (props: ButtonProps) => {
   const buttonGroupContext = useButtonGroupContext();
 
   const {
@@ -53,7 +51,7 @@ export const Button = (props: ButtonProps) => {
 
   return (
     <button
-      className={buttonCss.container}
+      className={styles.container}
       data-context={dataContext}
       data-size={useSize}
       data-variant={useVariant}
@@ -63,7 +61,7 @@ export const Button = (props: ButtonProps) => {
     >
       {isLoading && loadingIconPosition === ButtonIconPosition.PRE && (
         <span
-          className={buttonCss.icon}
+          className={styles.icon}
           data-id="pre-loading-icon"
           data-position={ButtonIconPosition.PRE}
           data-state={dataState}
@@ -72,19 +70,14 @@ export const Button = (props: ButtonProps) => {
         </span>
       )}
       {!isLoading && preIcon && (
-        <span
-          className={buttonCss.icon}
-          data-id="pre-icon"
-          data-position={ButtonIconPosition.PRE}
-          data-state={dataState}
-        >
+        <span className={styles.icon} data-id="pre-icon" data-position={ButtonIconPosition.PRE} data-state={dataState}>
           {preIcon}
         </span>
       )}
       {children}
       {!isLoading && postIcon && (
         <span
-          className={buttonCss.icon}
+          className={styles.icon}
           data-id="post-icon"
           data-position={ButtonIconPosition.POST}
           data-state={dataState}
@@ -94,7 +87,7 @@ export const Button = (props: ButtonProps) => {
       )}
       {isLoading && loadingIconPosition === ButtonIconPosition.POST && (
         <span
-          className={buttonCss.icon}
+          className={styles.icon}
           data-id="post-loading-icon"
           data-position={ButtonIconPosition.POST}
           data-state={dataState}
@@ -106,7 +99,4 @@ export const Button = (props: ButtonProps) => {
   );
 };
 
-export default Object.assign(Button, {
-  Group: ButtonGroup,
-  Icon: ButtonIcon,
-});
+export default Button;

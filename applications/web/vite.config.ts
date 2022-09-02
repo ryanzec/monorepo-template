@@ -1,6 +1,8 @@
-import { defineConfig } from 'vite';
-import { viteUtils } from '../../vite-utils';
 import path from 'path';
+
+import { defineConfig } from 'vite';
+
+import { viteUtils } from '../../vite-utils';
 
 // https://vitejs.dev/config/
 export default defineConfig({

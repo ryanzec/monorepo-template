@@ -1,6 +1,6 @@
 import { styleUtils, IconSizes } from '$/utils/style';
 
-export interface ApplicationFrameCss {
+interface ApplicationFrameCss {
   header: {
     padding: string;
     height: string;

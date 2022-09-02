@@ -23,13 +23,15 @@
     "prettier",
     "@typescript-eslint",
     "react-hooks",
-    "import"
+    "import",
+    "jsx-a11y"
   ],
   "extends": [
     "eslint:recommended",
     "plugin:react/recommended",
-    "plugin:@typescript-eslint/recommended",
     "plugin:import/recommended",
+    "plugin:jsx-a11y/recommended",
+    "plugin:@typescript-eslint/recommended",
     "prettier"
   ],
   "rules": {

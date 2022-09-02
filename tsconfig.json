@@ -17,6 +17,7 @@
     "noEmitOnError": true,
     "target": "esnext",
     "module": "esnext",
+    "types": ["cypress", "cypress-real-events"],
     "paths": {
       "$/*": ["./packages/*"],
     }

@@ -1,7 +1,8 @@
 import React, { useState } from 'react';
 import { Virtuoso } from 'react-virtuoso';
 
-import Form from '$/components/form/form';
+import AutoComplete from '$/components/auto-complete';
+import Label from '$/components/label';
 
 export default {
   title: 'Packages/Components/Virtualization',
@@ -25,8 +26,8 @@ const Card = ({ selectedItemIndex = -1, label = '' }) => {
 
   return (
     <>
-      <Form.Label>{label}</Form.Label>
-      <Form.AutoComplete
+      <Label>{label}</Label>
+      <AutoComplete
         items={items}
         itemToString={(item) => item?.display ?? ''}
         filterItems={({ items, inputValue }) => {

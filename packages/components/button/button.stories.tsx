@@ -1,8 +1,7 @@
 import { faHouse } from '@fortawesome/free-solid-svg-icons';
 import React from 'react';
 
-import Button from '$/components/button/button';
-import { ButtonContext, ButtonIconPosition, ButtonSize, ButtonState, ButtonVariant } from '$/components/button/common';
+import Button, { ButtonContext, ButtonIconPosition, ButtonSize, ButtonState, ButtonVariant } from '$/components/button';
 import { FlexContainerDirection } from '$/storybook-helpers/common';
 import FlexContainer from '$/storybook-helpers/flex-container';
 import FlexContainerItem from '$/storybook-helpers/flex-container-item';

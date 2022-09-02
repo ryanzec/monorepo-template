@@ -3,7 +3,8 @@ import React, { memo, useRef } from 'react';
 import { useDrag, useDrop, DragSourceMonitor, DropTargetMonitor } from 'react-dnd';
 import { FieldErrors, UseFormRegister } from 'react-hook-form';
 
-import Form from '$/components/form/form';
+import Input from '$/components/input';
+import ValidationMessage from '$/components/validation-message';
 import { dragDropUtils, DragDropType } from '$/utils/drag-drop';
 import { DragItem, FieldId, MoveItem, Todo } from '$/views/complex-form-page/common';
 import { ComplexFormData } from '$/views/complex-form-page/complex-form-page';
@@ -82,13 +83,13 @@ export const DragDropItem = memo(({ fieldId, item, register, errors, index, move
   const fieldName = fieldId === FieldId.TODOS ? 'todos' : 'todosCompleted';
 
   return (
-    <Form.InputContainer data-id="item" selfRef={ref} key={item.id}>
-      <Form.Input type="text" property={`${fieldName}.${index}.name`} register={register} />
-      <Form.Input type="checkbox" property={`${fieldName}.${index}.isCompleted`} register={register} /> Completed
+    <Input.Container data-id="item" selfRef={ref} key={item.id}>
+      <Input.Hooked type="text" property={`${fieldName}.${index}.name`} register={register} />
+      <Input.Hooked type="checkbox" property={`${fieldName}.${index}.isCompleted`} register={register} /> Completed
       {errors[fieldName]?.[index]?.name && (
-        <Form.ValidationMessage>{errors[fieldName]?.[index]?.name?.message}</Form.ValidationMessage>
+        <ValidationMessage>{errors[fieldName]?.[index]?.name?.message}</ValidationMessage>
       )}
-    </Form.InputContainer>
+    </Input.Container>
   );
 });
 

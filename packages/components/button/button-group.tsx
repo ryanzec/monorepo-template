@@ -1,14 +1,14 @@
 import React from 'react';
 
-import { buttonCss } from '$/components/button/button.css';
+import { styles } from '$/components/button/button.css';
 import { ButtonVariant } from '$/components/button/common';
 import { ButtonGroupContext, ButtonGroupContextValue } from '$/components/button/hooks';
 
-export interface ButtonGroupProps
+interface ButtonGroupProps
   extends ButtonGroupContextValue,
     React.DetailedHTMLProps<React.HTMLAttributes<HTMLDivElement>, HTMLDivElement> {}
 
-export const ButtonGroup = ({
+const ButtonGroup = ({
   children,
   isAttached = false,
   'data-variant': dataVariant = ButtonVariant.SOLID,
@@ -27,7 +27,7 @@ export const ButtonGroup = ({
       }}
     >
       <div
-        className={buttonCss.group}
+        className={styles.group}
         data-id="button-group"
         role="group"
         data-attached={isAttached ? 'true' : 'false'}

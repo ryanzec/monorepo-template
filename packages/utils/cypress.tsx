@@ -5,7 +5,7 @@ import * as React from 'react';
 import { DndProvider } from 'react-dnd';
 import { HTML5Backend } from 'react-dnd-html5-backend';
 
-import { ApplicationFrame } from '$/components/application-frame/application-frame';
+import ApplicationFrame from '$/components/application-frame';
 import { applicationSettingsContext } from '$/contexts/application-settings';
 import { authenticationContext } from '$/contexts/authentication';
 import { ThemeName } from '$/types/theme';

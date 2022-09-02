@@ -1,10 +1,7 @@
 import * as React from 'react';
 
-import ApplicationFrame from '$/components/application-frame/application-frame';
-import { applicationSettingsContext } from '$/contexts/application-settings';
-import { authenticationContext } from '$/contexts/authentication';
+import ApplicationFrame from '$/components/application-frame';
 import { cypressUtils } from '$/utils/cypress';
-import { routerUtils } from '$/utils/router';
 
 const selectors = {
   frame: '[data-id="frame"]',
