@@ -23,5 +23,5 @@ jobs:
         uses: Borales/actions-yarn@v3
 #        with:
 #          cmd: install --immutable
-      - run: cypress install
+      - run: npx cypress install
       - run: yarn test:unit
