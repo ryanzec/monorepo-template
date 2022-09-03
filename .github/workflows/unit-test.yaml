@@ -24,6 +24,5 @@ jobs:
       - name: GitHub Action for Yarn
         uses: Borales/actions-yarn@v3
         with:
-          cmd: install --frozen-lockfile
-      - run: yarn ci
-      - run: yarn test
+          cmd: install --immutable
+      - run: yarn test:unit
