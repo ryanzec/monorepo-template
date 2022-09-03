@@ -17,8 +17,8 @@ describe('input container', () => {
       ),
     );
 
-    cy.get('[data-id="label"]').contains('label');
+    cy.get('[data-id="label"]').should('contain', 'label');
     cy.get('[data-id="input"]').invoke('attr', 'placeholder').should('contain', 'placeholder');
-    cy.get('[data-id="validation-message"]').contains('validation message');
+    cy.get('[data-id="validation-message"]').should('contain', 'validation message');
   });
 });

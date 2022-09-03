@@ -50,10 +50,10 @@ describe('authentication context', () => {
   it('works properly when logged in check is valid', () => {
     cy.mount(<MockComponent />);
 
-    cy.get(selectors.testCheck).contains('default value');
+    cy.get(selectors.testCheck).should('contain', 'default value');
 
     cy.get(selectors.setTestButton).click();
 
-    cy.get(selectors.testCheck).contains('updated');
+    cy.get(selectors.testCheck).should('contain', 'updated');
   });
 });

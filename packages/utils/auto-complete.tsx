@@ -11,6 +11,8 @@ interface FilterAutoCompleteItemConstraint {
 
 const buildFilterItems = <T extends FilterAutoCompleteItemConstraint>(selectedItems?: Array<T>) => {
   return ({ items, inputValue, selectedItem }: AutoCompleteFilterItemsParams<T>): T[] => {
+    console.log('buildFilterItems', selectedItem, selectedItem);
+
     return items.filter(
       (item) =>
         selectedItem !== item &&
@@ -55,7 +57,7 @@ const buildItemSelected = <T,>(setSelectedItem: (value: T) => void) => {
   };
 };
 
-const buildItemSelectedHooked = <T extends ItemSelectedConstraint | null | undefined, TFormData extends FieldValues>(
+const buildItemSelectedHooked = <T extends ItemSelectedConstraint | null, TFormData extends FieldValues>(
   setSelectedItem: (value: T) => void,
   field: ControllerRenderProps<TFormData, Path<TFormData>>,
 ) => {
@@ -69,7 +71,7 @@ const buildItemSelectedMulti = <T extends ItemSelectedConstraint>(
   selectedItems: T[],
   setSelectedItems: (values: T[]) => void,
 ) => {
-  return (selectedItem: T | null | undefined) => {
+  return (selectedItem: T | null) => {
     if (!selectedItem || selectedItems.includes(selectedItem)) {
       return;
     }
@@ -84,7 +86,7 @@ const buildItemSelectedMultiHooked = <T extends ItemSelectedConstraint, TFormDat
   selectedItems: T[],
   setSelectedItems: (values: T[]) => void,
 ) => {
-  return (selectedItem: T | null | undefined) => {
+  return (selectedItem: T | null) => {
     if (!selectedItem || selectedItems.includes(selectedItem)) {
       return;
     }

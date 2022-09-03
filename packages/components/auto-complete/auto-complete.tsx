@@ -1,6 +1,7 @@
 import { useCombobox, UseComboboxPropGetters } from 'downshift';
-import React, { ReactNode, useMemo, useState } from 'react';
+import React, { ReactNode, useCallback, useMemo, useState } from 'react';
 
+import SelectedItem from '$/components/auto-complete/auto-complete-selected-item';
 import Input from '$/components/input';
 
 // downshift requires any for the default
@@ -8,6 +9,14 @@ import Input from '$/components/input';
 const defaultItemToString = (item: any) => {
   return item ? String(item) : '';
 };
+
+interface DisplayableAutoCompleteItem {
+  display: ReactNode;
+
+  // this in a generic component so allow any value here
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  value: any;
+}
 
 export interface AutoCompleteFilterItemsParams<T> {
   items: T[];
@@ -21,19 +30,20 @@ export interface AutoCompleteRenderItemParams<T> {
   propGetters: UseComboboxPropGetters<T>;
 }
 
-type SelectProps<T> = React.DetailedHTMLProps<React.HTMLAttributes<HTMLDivElement>, HTMLDivElement> & {
+type SelectProps<T, TItemValue> = React.DetailedHTMLProps<React.HTMLAttributes<HTMLDivElement>, HTMLDivElement> & {
   items: T[];
-  itemToString?: (item: T | null | undefined) => string;
+  itemToString?: (item: T | null) => string;
   filterItems: (params: AutoCompleteFilterItemsParams<T>) => T[];
   renderItems: (params: AutoCompleteRenderItemParams<T>) => ReactNode;
-  onItemSelected: (selectedItem: T | null | undefined) => void;
+  onItemSelected: (selectedItem: T | null) => void;
   selectedItem?: T | null;
   // setting this property automatically set the combobox to work in multiple select mode
   selectedItems?: T[];
   showItemsOnFocus?: boolean;
+  onDelete?: (value: TItemValue) => void;
 };
 
-const AutoComplete = <T,>({
+const AutoComplete = <T extends DisplayableAutoCompleteItem, TItemValue>({
   items,
   filterItems,
   renderItems,
@@ -42,17 +52,30 @@ const AutoComplete = <T,>({
   selectedItem,
   selectedItems,
   showItemsOnFocus = false,
+  onDelete,
   ...restOfProps
-}: SelectProps<T>) => {
+}: SelectProps<T, TItemValue>) => {
   const [availableItems, setAvailableItems] = useState<T[]>(items);
 
   const isMultiSelectMode = useMemo((): boolean => {
     return !!selectedItems;
   }, [selectedItems]);
 
+  const internalFilterItems = useCallback(
+    (inputValue?: string, mostRecentSelectedItem?: T) => {
+      if (!filterItems) {
+        return items;
+      }
+
+      setAvailableItems(filterItems({ items, inputValue, selectedItem: mostRecentSelectedItem }));
+    },
+    [items, setAvailableItems, filterItems],
+  );
+
   const {
     isOpen,
     openMenu,
+    closeMenu,
     highlightedIndex,
     getLabelProps,
     getMenuProps,
@@ -66,21 +89,21 @@ const AutoComplete = <T,>({
     // when we are in multi-select mode we don't want to set the selected item as we want the
     // input to always be clear other than when the user is typing in it
     selectedItem: isMultiSelectMode ? null : selectedItem,
-    onInputValueChange: ({ inputValue }) => {
-      // we are doing an explicit undefined check as we do want to update available items on an
-      // empty string
-      if (inputValue === undefined) {
-        return;
-      }
-
-      setAvailableItems(filterItems({ items, inputValue }));
-    },
     stateReducer: (state, actionAndChanges) => {
       const { changes, type } = actionAndChanges;
-      const currentSelectedItem = changes.selectedItem || selectedItem;
+      // this normalizes null | undefined to just be null which mean we don't have to account for both throughout
+      // our codebase which I think is just a little cleaner
+      const currentSelectedItem = (changes.selectedItem || selectedItem) ?? null;
       const inputValue = isMultiSelectMode ? '' : (itemToString || defaultItemToString)(currentSelectedItem);
 
       switch (type) {
+        case useCombobox.stateChangeTypes.InputChange:
+          if (changes.inputValue !== undefined) {
+            internalFilterItems(changes.inputValue);
+          }
+
+          return changes;
+
         case useCombobox.stateChangeTypes.InputKeyDownEscape:
           if (!isMultiSelectMode) {
             onItemSelected(null);
@@ -105,11 +128,18 @@ const AutoComplete = <T,>({
           onItemSelected(currentSelectedItem);
 
           if (isMultiSelectMode) {
-            setAvailableItems(filterItems({ items, inputValue, selectedItem: currentSelectedItem }));
+            internalFilterItems(inputValue, currentSelectedItem);
+          } else {
+            console.log('close');
+            closeMenu();
+
+            // reset filtered item so next showing loads all items
+            internalFilterItems();
           }
 
           return {
             ...changes,
+            isOpen: isMultiSelectMode,
             inputValue,
           };
 
@@ -119,19 +149,21 @@ const AutoComplete = <T,>({
     },
   });
 
+  const onFocus = useCallback(() => {
+    console.log('onfocus');
+    internalFilterItems('');
+
+    if (!showItemsOnFocus) {
+      return;
+    }
+
+    openMenu();
+  }, [showItemsOnFocus, openMenu, internalFilterItems]);
+
   return (
     <div data-id="auto-complete" {...restOfProps}>
       <div {...getComboboxProps()}>
-        <Input
-          {...getInputProps({ refKey: 'selfRef' })}
-          onFocus={() => {
-            if (!showItemsOnFocus) {
-              return;
-            }
-
-            openMenu();
-          }}
-        />
+        <Input {...getInputProps({ refKey: 'selfRef' })} onFocus={onFocus} />
       </div>
       <ul data-id="items" {...getMenuProps()}>
         {isOpen &&
@@ -148,6 +180,20 @@ const AutoComplete = <T,>({
             },
           })}
       </ul>
+      {selectedItems && (
+        <div data-id="selected-items">
+          {selectedItems.map((selectedItem) => {
+            return (
+              <SelectedItem
+                key={selectedItem.value}
+                display={selectedItem.display}
+                value={selectedItem.value}
+                onDelete={onDelete}
+              />
+            );
+          })}
+        </div>
+      )}
     </div>
   );
 };

@@ -3,10 +3,10 @@ import type { ControllerProps, FieldValues } from 'react-hook-form/dist/types';
 import React from 'react';
 import { Control, Controller, Path, UseFormSetValue } from 'react-hook-form';
 
-import AutoComplete from '$/components/auto-complete';
+import AutoComplete from '$/components/auto-complete/auto-complete';
 import { autoCompleteUtils, RenderItemItemConstraint } from '$/utils/auto-complete';
 
-interface AutoCompleteHookedProps<T extends FieldValues, TItem> extends Omit<ControllerProps<T>, 'render'> {
+interface AutoCompleteHookedProps<T extends FieldValues, TItem, TItemValue> extends Omit<ControllerProps<T>, 'render'> {
   items: TItem[];
   // since when use this in single value mode TItem s=could support null, we need to be explicit about that
   // here otherwise typescript will error in the code using it in that way
@@ -17,9 +17,11 @@ interface AutoCompleteHookedProps<T extends FieldValues, TItem> extends Omit<Con
   control: Control<T>;
   name: Path<T>;
   setValue: UseFormSetValue<T>;
+  onDelete?: (value: TItemValue) => void;
+  showItemsOnFocus?: boolean;
 }
 
-const AutoCompleteHooked = <T extends FieldValues, TItem extends RenderItemItemConstraint>({
+const AutoCompleteHooked = <T extends FieldValues, TItem extends RenderItemItemConstraint, TItemValue>({
   control,
   items,
   name,
@@ -28,8 +30,10 @@ const AutoCompleteHooked = <T extends FieldValues, TItem extends RenderItemItemC
   setSelectedItem,
   selectedItems,
   setSelectedItems,
+  onDelete,
+  showItemsOnFocus = false,
   ...restOfProps
-}: AutoCompleteHookedProps<T, TItem>) => {
+}: AutoCompleteHookedProps<T, TItem, TItemValue>) => {
   // we are only checking the setSelectedItem since it is valid for selectedItem to be undefined or null
   if (setSelectedItem) {
     return (
@@ -39,6 +43,7 @@ const AutoCompleteHooked = <T extends FieldValues, TItem extends RenderItemItemC
         render={({ field }) => {
           return (
             <AutoComplete
+              showItemsOnFocus={showItemsOnFocus}
               items={items}
               itemToString={(item) => item?.display ?? ''}
               filterItems={autoCompleteUtils.buildFilterItems()}
@@ -69,7 +74,7 @@ const AutoCompleteHooked = <T extends FieldValues, TItem extends RenderItemItemC
       render={() => {
         return (
           <AutoComplete
-            showItemsOnFocus
+            showItemsOnFocus={showItemsOnFocus}
             items={items}
             itemToString={(item) => item?.display ?? ''}
             filterItems={autoCompleteUtils.buildFilterItems(selectedItems)}
@@ -81,6 +86,7 @@ const AutoCompleteHooked = <T extends FieldValues, TItem extends RenderItemItemC
               setSelectedItems,
             )}
             selectedItems={selectedItems}
+            onDelete={onDelete}
           />
         );
       }}

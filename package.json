@@ -12,7 +12,7 @@
     "web:dev": "vite --config ./applications/web/vite.config.ts --port 4000",
     "web:preview": "vite --config ./applications/web/vite.config.ts preview",
     "test:unit": "rm -rf .nyc_output && ./node_modules/.bin/cypress run --component",
-    "test:unit:videos": "./node_modules/.bin/cypress run-ct -C ./cypress-videos..config.ts",
+    "test:unit:videos": "./node_modules/.bin/cypress run-ct -C ./cypress-videos.config.ts",
     "storybook": "start-storybook -p 6006",
     "storybook:build": "build-storybook",
     "prepare": "husky install"

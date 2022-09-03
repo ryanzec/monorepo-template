@@ -9,17 +9,6 @@ export default defineConfig({
       // eslint-disable-next-line @typescript-eslint/no-var-requires
       require('@cypress/code-coverage/task')(on, config);
 
-      // on('dev-server:start', (options) => {
-      //   return startDevServer({
-      //     options,
-      //     viteConfig: {
-      //       configFile: path.resolve(__dirname, '..', '..', 'applications', 'web', 'vite.cypress.config.ts'),
-      //     },
-      //   });
-      // });
-
-      // getCompareSnapshotsPlugin(on, config);
-
       return config;
     },
     devServer: {
@@ -27,7 +16,7 @@ export default defineConfig({
       bundler: 'vite',
       viteConfig,
     },
-    specPattern: 'packages/**/*.cypress.spec.{js,ts,jsx,tsx}',
+    specPattern: 'packages/**/*.cy.{js,ts,jsx,tsx}',
     excludeSpecPattern: ['cypress/**/1-getting-started/*.js', 'cypress/**/2-advanced-examples/*.js'],
   },
   video: false,

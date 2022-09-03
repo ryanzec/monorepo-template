@@ -7,8 +7,7 @@ import { localStorageCacheUtils } from '$/utils/local-storage-cache';
 const authenticationContextMock = authenticationContext.createContext();
 
 const MockConsumerComponent = () => {
-  const { isLoading, isAuthenticated, login, logout, loginRedirectUrl, finishLogin } =
-    authenticationContextMock.useContext();
+  const { isLoading, isAuthenticated, login, logout, loginRedirectUrl } = authenticationContextMock.useContext();
   return (
     <div>
       <button data-id="login-button" onClick={() => login()}>
@@ -57,8 +56,8 @@ describe('authentication context', () => {
 
     cy.mount(<MockComponent />);
 
-    cy.get(selectors.isLoadingCheck).contains('false');
-    cy.get(selectors.isAuthenticatedCheck).contains('true');
+    cy.get(selectors.isLoadingCheck).should('contain', 'false');
+    cy.get(selectors.isAuthenticatedCheck).should('contain', 'true');
 
     cy.get('@getAuthenticationStub').then(() => {
       expect(getAuthenticationStub.callCount).to.equal(1);
@@ -77,8 +76,8 @@ describe('authentication context', () => {
 
     cy.mount(<MockComponent />);
 
-    cy.get(selectors.isLoadingCheck).contains('false');
-    cy.get(selectors.isAuthenticatedCheck).contains('false');
+    cy.get(selectors.isLoadingCheck).should('contain', 'false');
+    cy.get(selectors.isAuthenticatedCheck).should('contain', 'false');
 
     cy.get('@getAuthenticationStub').then(() => {
       expect(getAuthenticationStub.callCount).to.equal(1);
@@ -93,8 +92,8 @@ describe('authentication context', () => {
 
     cy.mount(<MockComponent />);
 
-    cy.get(selectors.isLoadingCheck).contains('false');
-    cy.get(selectors.isAuthenticatedCheck).contains('false');
+    cy.get(selectors.isLoadingCheck).should('contain', 'false');
+    cy.get(selectors.isAuthenticatedCheck).should('contain', 'false');
 
     cy.get('@getAuthenticationStub').then(() => {
       expect(getAuthenticationStub.callCount).to.equal(0);
@@ -118,9 +117,9 @@ describe('authentication context', () => {
 
     cy.get(selectors.loginButton).click();
 
-    cy.get(selectors.isLoadingCheck).contains('false');
-    cy.get(selectors.isAuthenticatedCheck).contains('true');
-    cy.get(selectors.redirectCheck).contains('/home');
+    cy.get(selectors.isLoadingCheck).should('contain', 'false');
+    cy.get(selectors.isAuthenticatedCheck).should('contain', 'true');
+    cy.get(selectors.redirectCheck).should('contain', '/home');
 
     cy.get('@postAuthenticationStub').then(() => {
       expect(postAuthenticationStub.callCount).to.equal(1);
@@ -138,10 +137,10 @@ describe('authentication context', () => {
 
     cy.get(selectors.logoutButton).click();
 
-    cy.get(selectors.isLoadingCheck).contains('false');
-    cy.get(selectors.isAuthenticatedCheck).contains('false');
+    cy.get(selectors.isLoadingCheck).should('contain', 'false');
+    cy.get(selectors.isAuthenticatedCheck).should('contain', 'false');
     cy.get(selectors.redirectCheck)
-      .contains('/login')
+      .should('contain', '/login')
       .then(() => {
         expect(localStorageCacheUtils.get(LOCAL_STORAGE_AUTHENTICATION_TOKEN_KEY)).to.equal(null);
       });
@@ -164,7 +163,7 @@ describe('authentication context', () => {
 
     cy.get(selectors.loginButton).click();
 
-    cy.get(selectors.redirectCheck).contains('/home');
+    cy.get(selectors.redirectCheck).should('contain', '/home');
 
     cy.get(selectors.finishLoginButton).click();
   });

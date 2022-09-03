@@ -28,24 +28,24 @@ describe('use toggled hook', () => {
   it('set is toggled work properly', () => {
     cy.mount(<MockComponent />);
 
-    cy.get(selectors.isToggledCheck).contains('false');
+    cy.get(selectors.isToggledCheck).should('contain', 'false');
 
     cy.get(selectors.setIsToggledButton).click();
 
-    cy.get(selectors.isToggledCheck).contains('true');
+    cy.get(selectors.isToggledCheck).should('contain', 'true');
   });
 
   it('set is toggle work properly', () => {
     cy.mount(<MockComponent />);
 
-    cy.get(selectors.isToggledCheck).contains('false');
+    cy.get(selectors.isToggledCheck).should('contain', 'false');
 
     cy.get(selectors.toggleButton).click();
 
-    cy.get(selectors.isToggledCheck).contains('true');
+    cy.get(selectors.isToggledCheck).should('contain', 'true');
 
     cy.get(selectors.toggleButton).click();
 
-    cy.get(selectors.isToggledCheck).contains('false');
+    cy.get(selectors.isToggledCheck).should('contain', 'false');
   });
 });
