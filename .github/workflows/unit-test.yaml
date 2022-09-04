@@ -11,6 +11,10 @@ jobs:
     runs-on: ubuntu-latest
     container:
       image: cypress/browsers:node16.5.0-chrome94-ff93
+#    strategy:
+#      fail-fast: false
+#      matrix:
+#        containers: [1,2,3,4,5]
     steps:
       - uses: actions/checkout@v3
       - name: Use Node.js ${{ matrix.node-version }}
@@ -19,7 +23,9 @@ jobs:
           node-version: ${{ matrix.node-version }}
       - name: GitHub Action for Yarn
         uses: Borales/actions-yarn@v3
+        with:
+          browser: chrome
 #        with:
 #          cmd: install --immutable
-      - run: npx cypress install
-      - run: yarn test:unit
+#      - run: npx cypress install
+#      - run: yarn test:unit
