@@ -24,11 +24,13 @@ jobs:
       - name: GitHub Action for Yarn
         uses: Borales/actions-yarn@v3
       - run: npx cypress install
+      # this is needed because of weird issues with the container we are using
       - run: chown -R 1001:1001 /github/home/.cache && echo "pwn dat cache"
       - name: Run Component Tests
         uses: cypress-io/github-action@v4
         with:
           parallel: true
+          record: true
           install: false
           options: --user 1001
           browser: chrome
