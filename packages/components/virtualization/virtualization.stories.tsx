@@ -20,7 +20,7 @@ const Card = ({ selectedItemIndex = -1, label = '' }) => {
     { display: 'tes3', value: 33 },
     { display: 'tes4', value: 44 },
   ]);
-  const [selectedItem, setSelectedItem] = useState<SelectValue | null | undefined>(
+  const [selectedItem, setSelectedItem] = useState<SelectValue | null>(
     selectedItemIndex >= 0 ? items[selectedItemIndex] : null,
   );
 

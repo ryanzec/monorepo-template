@@ -75,7 +75,7 @@ const ComplexFormPage = () => {
     { display: 'tes3', value: 33 },
     { display: 'tes4', value: 44 },
   ]);
-  const [selectedAutoCompleteValue, setSelectedAutoCompleteValue] = useState<AutoCompleteValue | null | undefined>();
+  const [selectedAutoCompleteValue, setSelectedAutoCompleteValue] = useState<AutoCompleteValue | null>();
   const {
     control,
     register,

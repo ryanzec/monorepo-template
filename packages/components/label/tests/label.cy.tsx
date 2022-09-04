@@ -7,6 +7,6 @@ describe('label', () => {
   it('works properly', () => {
     cy.mount(cypressUtils.addBasicWrapper(<Label>label</Label>));
 
-    cy.get('[data-id="label"]').contains('label');
+    cy.get('[data-id="label"]').should('contain', 'label');
   });
 });

@@ -1,6 +1,6 @@
 import React, { ReactNode } from 'react';
 
-import Button from '$/components/button';
+import Button from '$/components/button/button';
 
 interface AutoCompleteSelectedItemProps {
   display: ReactNode;

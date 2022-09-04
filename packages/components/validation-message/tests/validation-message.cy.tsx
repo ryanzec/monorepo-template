@@ -7,6 +7,6 @@ describe('label', () => {
   it('works properly', () => {
     cy.mount(cypressUtils.addBasicWrapper(<ValidationMessage>validation message</ValidationMessage>));
 
-    cy.get('[data-id="validation-message"]').contains('validation message');
+    cy.get('[data-id="validation-message"]').should('contain', 'validation message');
   });
 });

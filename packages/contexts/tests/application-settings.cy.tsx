@@ -39,14 +39,14 @@ describe('application settings context', () => {
   it('can set theme', () => {
     cy.mount(<MockComponent />);
 
-    cy.get(selectors.themeCheck).contains('light');
+    cy.get(selectors.themeCheck).should('contain', 'light');
 
     cy.get(selectors.toggleThemeButton).click();
 
-    cy.get(selectors.themeCheck).contains('dark');
+    cy.get(selectors.themeCheck).should('contain', 'dark');
 
     cy.get(selectors.toggleThemeButton).click();
 
-    cy.get(selectors.themeCheck).contains('light');
+    cy.get(selectors.themeCheck).should('contain', 'light');
   });
 });
