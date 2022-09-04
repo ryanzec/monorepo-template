@@ -16,7 +16,7 @@
     "jsx": "react",
     "noEmitOnError": true,
     "target": "esnext",
-    "module": "esnext",
+    "module": "commonjs",
     "types": ["cypress", "cypress-real-events"],
     "paths": {
       "$/*": ["./packages/*"],
