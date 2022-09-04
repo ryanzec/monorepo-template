@@ -11,7 +11,7 @@
     "web:build:check": "tsc",
     "web:dev": "vite --config ./applications/web/vite.config.ts --port 4000",
     "web:preview": "vite --config ./applications/web/vite.config.ts preview",
-    "test:unit": "env TS_NODE_PROJECT=\"tsconfig.json\" mocha --require ts-node/register --require tsconfig-paths/register --config .mocharc.js",
+    "test:unit": "env TS_NODE_PROJECT=\"tsconfig.testing.json\" mocha --require ts-node/register --require tsconfig-paths/register --config .mocharc.js",
     "test:components": "rm -rf .nyc_output && ./node_modules/.bin/cypress run --component",
     "test:components:videos": "./node_modules/.bin/cypress run-ct -C ./cypress-videos.config.ts",
     "storybook": "start-storybook -p 6006",
