@@ -3,6 +3,7 @@ import { defineConfig } from 'cypress';
 import viteConfig from './applications/web/vite.cypress.config';
 
 export default defineConfig({
+  projectId: '9qq6zn',
   component: {
     setupNodeEvents(on: Cypress.PluginEvents, config: Cypress.PluginConfigOptions) {
       // this is just requires to support code coverage in cypress so ignoring
