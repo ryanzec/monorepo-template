@@ -29,7 +29,6 @@ jobs:
         uses: cypress-io/github-action@v4
         with:
           parallel: true
-          record: true
           install: false
           options: --user 1001
           browser: chrome
