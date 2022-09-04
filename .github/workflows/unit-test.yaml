@@ -25,11 +25,13 @@ jobs:
         uses: Borales/actions-yarn@v3
       - run: npx cypress install
       - run: chown -R 1001:1001 /github/home/.cache && echo "pwn dat cache"
-      - name: GitHub Action for Cypress
+      - name: Run Component Tests
         uses: cypress-io/github-action@v4
         with:
+          install: false
           options: --user 1001
           browser: chrome
+          component: true
 #        with:
 #          cmd: install --immutable
 #      - run: npx cypress install
