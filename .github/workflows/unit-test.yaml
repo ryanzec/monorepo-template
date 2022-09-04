@@ -17,13 +17,14 @@ jobs:
 #        containers: [1,2,3,4,5]
     steps:
       - uses: actions/checkout@v3
-      - run: chown -R 1001:1001 /github/home/.cache && echo "pwn dat cache"
       - name: Use Node.js ${{ matrix.node-version }}
         uses: actions/setup-node@v3
         with:
           node-version: ${{ matrix.node-version }}
       - name: GitHub Action for Yarn
         uses: Borales/actions-yarn@v3
+      - run: npx cypress install
+      - run: chown -R 1001:1001 /github/home/.cache && echo "pwn dat cache"
       - name: GitHub Action for Cypress
         uses: cypress-io/github-action@v4
         with:
