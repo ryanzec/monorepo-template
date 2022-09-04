@@ -14,7 +14,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        containers: [1,2,3,4,5]
+        containers: [1,2,3,4]
     steps:
       - uses: actions/checkout@v3
       - name: Use Node.js ${{ matrix.node-version }}
@@ -23,7 +23,6 @@ jobs:
           node-version: ${{ matrix.node-version }}
       - name: GitHub Action for Yarn
         uses: Borales/actions-yarn@v3
-      - run: npx cypress install
       # this is needed because of weird issues with the container we are using
       - run: chown -R 1001:1001 /github/home/.cache && echo "pwn dat cache"
       - name: Run Component Tests
@@ -40,7 +39,3 @@ jobs:
           # Recommended: pass the GitHub token lets this action correctly
           # determine the unique run id necessary to re-run the checks
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-#        with:
-#          cmd: install --immutable
-#      - run: npx cypress install
-#      - run: yarn test:unit
