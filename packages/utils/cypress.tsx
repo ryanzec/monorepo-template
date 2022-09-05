@@ -15,12 +15,6 @@ import Agent = Cypress.Agent;
 
 // this seems to be the standard typing of a cypress stub which is needed for some of the utility method's return data
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
-// type CypressStub = Cypress.Omit<Sinon.SinonStub<any[], any>, 'withArgs'> &
-//   // eslint-disable-next-line @typescript-eslint/no-explicit-any
-//   Cypress.SinonSpyAgent<Sinon.SinonStub<any[], any>> &
-//   // eslint-disable-next-line @typescript-eslint/no-explicit-any
-//   Sinon.SinonStub<any[], any>;
-
 type CypressStub = Omit<sinon.SinonStub<any[], any>, 'withArgs'> & Agent<sinon.SinonStub<any[], any>>;
 
 const buildResponseCollection = (test: Array<StaticResponse | HttpResponseInterceptor | undefined>) => {
