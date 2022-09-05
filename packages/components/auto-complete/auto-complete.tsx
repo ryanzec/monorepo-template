@@ -1,4 +1,4 @@
-import { useCombobox, UseComboboxPropGetters } from 'downshift';
+import { useCombobox, UseComboboxPropGetters, UseComboboxState, UseComboboxStateChangeOptions } from 'downshift';
 import React, { ReactNode, useCallback, useMemo, useState } from 'react';
 
 import SelectedItem from '$/components/auto-complete/auto-complete-selected-item';
@@ -6,8 +6,8 @@ import Input from '$/components/input';
 
 // downshift requires any for the default
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
-const defaultItemToString = (item: any) => {
-  return item ? String(item) : '';
+export const defaultItemToString = (item: any) => {
+  return item !== null && item !== undefined ? String(item) : '';
 };
 
 interface DisplayableAutoCompleteItem {
@@ -30,7 +30,10 @@ export interface AutoCompleteRenderItemParams<T> {
   propGetters: UseComboboxPropGetters<T>;
 }
 
-type SelectProps<T, TItemValue> = React.DetailedHTMLProps<React.HTMLAttributes<HTMLDivElement>, HTMLDivElement> & {
+type AutoCompleteProps<T, TItemValue> = React.DetailedHTMLProps<
+  React.HTMLAttributes<HTMLDivElement>,
+  HTMLDivElement
+> & {
   items: T[];
   itemToString?: (item: T | null) => string;
   filterItems: (params: AutoCompleteFilterItemsParams<T>) => T[];
@@ -41,6 +44,122 @@ type SelectProps<T, TItemValue> = React.DetailedHTMLProps<React.HTMLAttributes<H
   selectedItems?: T[];
   showItemsOnFocus?: boolean;
   onDelete?: (value: TItemValue) => void;
+};
+
+interface InternalIsMultiSelect<T, TItemValue> {
+  selectedItems: AutoCompleteProps<T, TItemValue>['selectedItems'];
+}
+
+export const internalIsMultiSelect = <T, TItemValue>({ selectedItems }: InternalIsMultiSelect<T, TItemValue>) => {
+  return !!selectedItems;
+};
+
+interface InternalIsFilterItems<T, TItemValue> {
+  filterItems: AutoCompleteProps<T, TItemValue>['filterItems'];
+  items: AutoCompleteProps<T, TItemValue>['items'];
+  setAvailableItems: (values: T[]) => void;
+  lastSelectedItem?: T;
+  inputValue?: string;
+}
+
+export const internalFilterItems = <T, TItemValue>({
+  filterItems,
+  items,
+  setAvailableItems,
+  lastSelectedItem,
+  inputValue,
+}: InternalIsFilterItems<T, TItemValue>) => {
+  setAvailableItems(filterItems({ items, inputValue, selectedItem: lastSelectedItem }));
+};
+
+type ComponentFilterItems<T> = (inputValue?: string, lastSelectedItem?: T) => void;
+
+interface InternalDownshiftStateReducer<T, TItemValue> {
+  actionAndChanges: UseComboboxStateChangeOptions<T>;
+  isMultiSelect: boolean;
+  componentFilterItems: ComponentFilterItems<T>;
+  onItemSelected: AutoCompleteProps<T, TItemValue>['onItemSelected'];
+  itemToString: (item: T | null) => string;
+  selectedItem?: T | null;
+}
+
+export const internalDownshiftStateReducer = <T, TItemValue>({
+  actionAndChanges,
+  isMultiSelect,
+  componentFilterItems,
+  onItemSelected,
+  itemToString,
+  selectedItem,
+}: InternalDownshiftStateReducer<T, TItemValue>) => {
+  const { changes, type } = actionAndChanges;
+  // this normalizes null | undefined to just be null which mean we don't have to account for both throughout
+  // our codebase which I think is just a little cleaner
+  const currentSelectedItem = (changes.selectedItem || selectedItem) ?? null;
+  const selectedItemInputValue = isMultiSelect ? '' : itemToString(currentSelectedItem);
+
+  switch (type) {
+    case useCombobox.stateChangeTypes.InputChange:
+      if (changes.inputValue !== undefined) {
+        componentFilterItems(changes.inputValue);
+      }
+
+      return changes;
+
+    case useCombobox.stateChangeTypes.InputKeyDownEscape:
+      if (!isMultiSelect) {
+        onItemSelected(null);
+      }
+
+      return {
+        ...changes,
+        inputValue: '',
+      };
+
+    case useCombobox.stateChangeTypes.InputKeyDownEnter:
+    case useCombobox.stateChangeTypes.ItemClick:
+    case useCombobox.stateChangeTypes.InputBlur:
+      if (!currentSelectedItem) {
+        return {
+          ...changes,
+          // @todo add support for allow not selection values
+          inputValue: '',
+        };
+      }
+
+      onItemSelected(currentSelectedItem);
+
+      if (isMultiSelect) {
+        componentFilterItems(selectedItemInputValue, currentSelectedItem);
+      } else {
+        // reset filtered item so next showing loads all items
+        componentFilterItems();
+      }
+
+      return {
+        ...changes,
+        isOpen: isMultiSelect,
+        inputValue: selectedItemInputValue,
+      };
+
+    default:
+      return changes;
+  }
+};
+
+interface InternalOnFocus<T> {
+  componentFilterItems: ComponentFilterItems<T>;
+  showItemsOnFocus: boolean;
+  openMenu: () => void;
+}
+
+export const internalOnFocus = <T,>({ componentFilterItems, showItemsOnFocus, openMenu }: InternalOnFocus<T>) => {
+  componentFilterItems('');
+
+  if (!showItemsOnFocus) {
+    return;
+  }
+
+  openMenu();
 };
 
 const AutoComplete = <T extends DisplayableAutoCompleteItem, TItemValue>({
@@ -54,28 +173,33 @@ const AutoComplete = <T extends DisplayableAutoCompleteItem, TItemValue>({
   showItemsOnFocus = false,
   onDelete,
   ...restOfProps
-}: SelectProps<T, TItemValue>) => {
+}: AutoCompleteProps<T, TItemValue>) => {
   const [availableItems, setAvailableItems] = useState<T[]>(items);
 
-  const isMultiSelectMode = useMemo((): boolean => {
-    return !!selectedItems;
-  }, [selectedItems]);
+  const isMultiSelect = useMemo(() => internalIsMultiSelect({ selectedItems }), [selectedItems]);
 
-  const internalFilterItems = useCallback(
-    (inputValue?: string, mostRecentSelectedItem?: T) => {
-      if (!filterItems) {
-        return items;
-      }
-
-      setAvailableItems(filterItems({ items, inputValue, selectedItem: mostRecentSelectedItem }));
-    },
+  const componentFilterItems = useCallback(
+    (inputValue?: string, lastSelectedItem?: T) =>
+      internalFilterItems({ items, setAvailableItems, filterItems, inputValue, lastSelectedItem }),
     [items, setAvailableItems, filterItems],
+  );
+
+  const downshiftStateReducer = useCallback(
+    (_state_: UseComboboxState<T>, actionAndChanges: UseComboboxStateChangeOptions<T>) =>
+      internalDownshiftStateReducer({
+        actionAndChanges,
+        isMultiSelect,
+        componentFilterItems: componentFilterItems,
+        onItemSelected,
+        itemToString: itemToString || defaultItemToString,
+        selectedItem,
+      }),
+    [isMultiSelect, componentFilterItems, onItemSelected, itemToString, selectedItem],
   );
 
   const {
     isOpen,
     openMenu,
-    closeMenu,
     highlightedIndex,
     getLabelProps,
     getMenuProps,
@@ -88,77 +212,13 @@ const AutoComplete = <T extends DisplayableAutoCompleteItem, TItemValue>({
     itemToString: itemToString || defaultItemToString,
     // when we are in multi-select mode we don't want to set the selected item as we want the
     // input to always be clear other than when the user is typing in it
-    selectedItem: isMultiSelectMode ? null : selectedItem,
-    stateReducer: (state, actionAndChanges) => {
-      const { changes, type } = actionAndChanges;
-      // this normalizes null | undefined to just be null which mean we don't have to account for both throughout
-      // our codebase which I think is just a little cleaner
-      const currentSelectedItem = (changes.selectedItem || selectedItem) ?? null;
-      const inputValue = isMultiSelectMode ? '' : (itemToString || defaultItemToString)(currentSelectedItem);
-
-      switch (type) {
-        case useCombobox.stateChangeTypes.InputChange:
-          if (changes.inputValue !== undefined) {
-            internalFilterItems(changes.inputValue);
-          }
-
-          return changes;
-
-        case useCombobox.stateChangeTypes.InputKeyDownEscape:
-          if (!isMultiSelectMode) {
-            onItemSelected(null);
-          }
-
-          return {
-            ...changes,
-            inputValue: '',
-          };
-
-        case useCombobox.stateChangeTypes.InputKeyDownEnter:
-        case useCombobox.stateChangeTypes.ItemClick:
-        case useCombobox.stateChangeTypes.InputBlur:
-          if (!currentSelectedItem) {
-            return {
-              ...changes,
-              // @todo add support for allow not selection values
-              inputValue: '',
-            };
-          }
-
-          onItemSelected(currentSelectedItem);
-
-          if (isMultiSelectMode) {
-            internalFilterItems(inputValue, currentSelectedItem);
-          } else {
-            console.log('close');
-            closeMenu();
-
-            // reset filtered item so next showing loads all items
-            internalFilterItems();
-          }
-
-          return {
-            ...changes,
-            isOpen: isMultiSelectMode,
-            inputValue,
-          };
-
-        default:
-          return changes;
-      }
-    },
+    selectedItem: isMultiSelect ? null : selectedItem,
+    stateReducer: downshiftStateReducer,
   });
 
   const onFocus = useCallback(() => {
-    console.log('onfocus');
-    internalFilterItems('');
-
-    if (!showItemsOnFocus) {
-      return;
-    }
-
-    openMenu();
-  }, [showItemsOnFocus, openMenu, internalFilterItems]);
+    internalOnFocus({ showItemsOnFocus, openMenu, componentFilterItems: componentFilterItems });
+  }, [showItemsOnFocus, openMenu, componentFilterItems]);
 
   return (
     <div data-id="auto-complete" {...restOfProps}>

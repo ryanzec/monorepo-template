@@ -2,6 +2,7 @@ import type { IconDefinition } from '@fortawesome/free-solid-svg-icons';
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import React, { useCallback } from 'react';
+import { NavigateFunction, To } from 'react-router-dom';
 
 import { styles } from '$/components/application-frame/application-frame.css';
 import { routerUtils } from '$/utils/router';
@@ -12,11 +13,20 @@ export interface ApplicationFrameNavigationItemProps {
   navigateTo: string;
 }
 
+interface InternalOnNavigateParams {
+  navigate: NavigateFunction;
+  navigateTo: To;
+}
+
+export const internalOnNavigation = ({ navigate, navigateTo }: InternalOnNavigateParams) => {
+  navigate(navigateTo);
+};
+
 const ApplicationFrameNavigationItem = ({ icon, text, navigateTo }: ApplicationFrameNavigationItemProps) => {
   const navigate = routerUtils.useNavigate();
 
   const onNavigate = useCallback(() => {
-    navigate(navigateTo);
+    internalOnNavigation({ navigate, navigateTo });
   }, [navigate, navigateTo]);
 
   return (

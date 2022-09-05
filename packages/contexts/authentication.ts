@@ -26,6 +26,79 @@ const defaultValues: AuthenticationContext = {
   finishLogin: defaultValuesUtils.noop,
 };
 
+interface InternalLoginParams {
+  setIsAuthenticated: (value: boolean) => void;
+  setLoginRedirectUrl: (value: string) => void;
+}
+
+export const internalLogin = async ({ setIsAuthenticated, setLoginRedirectUrl }: InternalLoginParams) => {
+  try {
+    const {
+      data: { authenticationToken },
+    } = await apiUtils.appApi.post('/authenticate');
+
+    localStorageCacheUtils.set(LOCAL_STORAGE_AUTHENTICATION_TOKEN_KEY, authenticationToken);
+
+    // @todo(feature) redirect to attempted original page
+    setIsAuthenticated(true);
+    setLoginRedirectUrl('/home');
+  } catch (error) {
+    // @todo(!!!) error logging
+    setIsAuthenticated(false);
+    setLoginRedirectUrl('/login');
+  }
+};
+
+interface InternalLogoutParams {
+  setIsAuthenticated: (value: boolean) => void;
+  setLoginRedirectUrl: (value: string) => void;
+}
+
+export const internalLogout = ({ setIsAuthenticated, setLoginRedirectUrl }: InternalLogoutParams) => {
+  localStorageCacheUtils.remove(LOCAL_STORAGE_AUTHENTICATION_TOKEN_KEY);
+
+  setIsAuthenticated(false);
+  setLoginRedirectUrl('/login');
+};
+
+interface InternalFinishLoginParams {
+  setLoginRedirectUrl: (value: string) => void;
+}
+
+export const internalFinishLogin = ({ setLoginRedirectUrl }: InternalFinishLoginParams) => {
+  setLoginRedirectUrl('');
+};
+
+interface InternalCheckAuthentication {
+  setIsAuthenticated: (value: boolean) => void;
+  setIsLoading: (value: boolean) => void;
+}
+
+export const internalCheckAuthentication = async ({
+  setIsAuthenticated,
+  setIsLoading,
+}: InternalCheckAuthentication) => {
+  const cachedAuthenticationToken = localStorageCacheUtils.get(LOCAL_STORAGE_AUTHENTICATION_TOKEN_KEY);
+
+  if (!cachedAuthenticationToken) {
+    setIsAuthenticated(false);
+    setIsLoading(false);
+
+    return;
+  }
+
+  try {
+    await apiUtils.appApi.get(`/authenticate/${cachedAuthenticationToken}`);
+
+    setIsAuthenticated(true);
+    setIsLoading(false);
+  } catch (error) {
+    // @todo(feature) authenticate validation error ui notification
+    setIsAuthenticated(false);
+    setIsLoading(false);
+  }
+};
+
 export type CreateAuthenticationContextFunc = () => ReactContextImplementation<AuthenticationContext>;
 
 const createContext: CreateAuthenticationContextFunc = () =>
@@ -34,64 +107,27 @@ const createContext: CreateAuthenticationContextFunc = () =>
     const [isAuthenticated, setIsAuthenticated]: ReactUseState<boolean> = useState<boolean>(
       defaultValues.isAuthenticated,
     );
-    const [loginRedirectUrl, setLoginRedirectUrl]: ReactUseState<string | null> = useState<string | null>(null);
+    const [loginRedirectUrl, setLoginRedirectUrl]: ReactUseState<string> = useState<string>('');
 
     const login = useCallback(async () => {
-      // @todo(!!!) error logging
-
-      const {
-        data: { authenticationToken },
-      } = await apiUtils.appApi.post('/authenticate');
-
-      localStorageCacheUtils.set(LOCAL_STORAGE_AUTHENTICATION_TOKEN_KEY, authenticationToken);
-
-      // @todo(feature) redirect to attempted original page
-      setIsAuthenticated(true);
-      setLoginRedirectUrl('/home');
-    }, [setLoginRedirectUrl]);
+      await internalLogin({ setIsAuthenticated, setLoginRedirectUrl });
+    }, [setIsAuthenticated, setLoginRedirectUrl]);
 
     const logout = useCallback(() => {
-      // @todo(!!!) error logging
-
-      localStorageCacheUtils.remove(LOCAL_STORAGE_AUTHENTICATION_TOKEN_KEY);
-
-      setIsAuthenticated(false);
-      setLoginRedirectUrl('/login');
-    }, []);
+      internalLogout({ setIsAuthenticated, setLoginRedirectUrl });
+    }, [setIsAuthenticated, setLoginRedirectUrl]);
 
     const finishLogin = useCallback(() => {
-      setLoginRedirectUrl(null);
-    }, []);
+      internalFinishLogin({ setLoginRedirectUrl });
+    }, [setLoginRedirectUrl]);
 
     // check for the valid existing authentication
     useEffect(() => {
-      const cachedAuthenticationToken = localStorageCacheUtils.get(LOCAL_STORAGE_AUTHENTICATION_TOKEN_KEY);
-
-      if (!cachedAuthenticationToken) {
-        setIsAuthenticated(false);
-        setIsLoading(false);
-
-        return;
-      }
-
-      const checkAuthentication = async () => {
-        try {
-          await apiUtils.appApi.get(`/authenticate/${cachedAuthenticationToken}`);
-
-          setIsAuthenticated(true);
-          setIsLoading(false);
-        } catch (error) {
-          // @todo(feature) authenticate validation error ui notification
-          setIsAuthenticated(false);
-          setIsLoading(false);
-        }
-      };
-
       // @todo(investigate) the ignored promise here is fine, useEffect does not allow for an async function but
       // @todo(investigate) validating the session require async functionality so until I can think of a different
       // @todo(investigate) pattern here, should be fine
-      checkAuthentication();
-    }, [setIsAuthenticated, setIsLoading, setLoginRedirectUrl]);
+      internalCheckAuthentication({ setIsAuthenticated, setIsLoading });
+    }, [setIsAuthenticated, setIsLoading]);
 
     return {
       isLoading,

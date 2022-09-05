@@ -6,11 +6,20 @@ export interface UseToggle {
   toggle: () => void;
 }
 
+interface InternalToggle {
+  isToggled: UseToggle['isToggled'];
+  setIsToggled: UseToggle['setIsToggled'];
+}
+
+export const internalToggle = ({ isToggled, setIsToggled }: InternalToggle) => {
+  setIsToggled(!isToggled);
+};
+
 export const useToggled = (defaultIsToggled = false): UseToggle => {
   const [isToggled, setIsToggled] = useState<boolean>(defaultIsToggled);
 
   const toggle = useCallback(() => {
-    setIsToggled(!isToggled);
+    internalToggle({ isToggled, setIsToggled });
   }, [isToggled, setIsToggled]);
 
   return {
