@@ -1,7 +1,7 @@
 import axios from 'axios';
 
 const appApi = axios.create({
-  baseURL: window.globalConfiguration?.apiBaseUri,
+  baseURL: window.globalConfiguration?.apiBaseUri || '',
   timeout: 10000,
   headers: {
     'Content-Type': 'application/json',

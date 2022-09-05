@@ -5,6 +5,7 @@ logs
 *.logs
 
 coverage
+mocha-coverage
 
 # development specific data
 .env

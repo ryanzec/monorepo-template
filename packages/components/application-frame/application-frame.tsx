@@ -3,12 +3,37 @@ import React, { Suspense, useCallback } from 'react';
 import ApplicationFrameNavigation from '$/components/application-frame/application-frame-navigation';
 import { styles } from '$/components/application-frame/application-frame.css';
 import Button, { ButtonContext } from '$/components/button';
-import { applicationSettingsContext } from '$/contexts/application-settings';
-import { authenticationContext } from '$/contexts/authentication';
+import { applicationSettingsContext, ApplicationSettingsContext } from '$/contexts/application-settings';
+import { authenticationContext, AuthenticationContext } from '$/contexts/authentication';
 import { ThemeName } from '$/types/theme';
 import { darkTheme, lightTheme } from '$/utils/theme.css';
 
 export type ApplicationFrameProps = React.DetailedHTMLProps<React.HTMLAttributes<HTMLDivElement>, HTMLDivElement>;
+
+interface InternalOnLogoutParams {
+  event: React.MouseEvent<HTMLButtonElement, MouseEvent>;
+  logout: AuthenticationContext['logout'];
+}
+
+export const internalOnLogout = ({ event, logout }: InternalOnLogoutParams) => {
+  event.preventDefault();
+  event.stopPropagation();
+
+  logout();
+};
+
+interface InternalOnToggleTheme {
+  event: React.MouseEvent<HTMLButtonElement, MouseEvent>;
+  theme: ApplicationSettingsContext['theme'];
+  setTheme: ApplicationSettingsContext['setTheme'];
+}
+
+export const internalOnToggleTheme = ({ event, theme, setTheme }: InternalOnToggleTheme) => {
+  event.preventDefault();
+  event.stopPropagation();
+
+  setTheme(theme === 'light' ? ThemeName.DARK : ThemeName.LIGHT);
+};
 
 const ApplicationFrame = ({ children, ...restOfProps }: ApplicationFrameProps) => {
   const { isAuthenticated, logout } = authenticationContext.useContext();
@@ -16,20 +41,14 @@ const ApplicationFrame = ({ children, ...restOfProps }: ApplicationFrameProps) =
 
   const onLogout = useCallback(
     (event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
-      event.preventDefault();
-      event.stopPropagation();
-
-      logout();
+      internalOnLogout({ event, logout });
     },
     [logout],
   );
 
   const onToggleTheme = useCallback(
     (event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
-      event.preventDefault();
-      event.stopPropagation();
-
-      setTheme(theme === 'light' ? ThemeName.DARK : ThemeName.LIGHT);
+      internalOnToggleTheme({ event, theme, setTheme });
     },
     [setTheme, theme],
   );

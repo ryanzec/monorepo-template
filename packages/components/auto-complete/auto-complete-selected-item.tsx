@@ -1,4 +1,4 @@
-import React, { ReactNode } from 'react';
+import React, { ReactNode, useCallback } from 'react';
 
 import Button from '$/components/button/button';
 
@@ -13,19 +13,28 @@ interface AutoCompleteSelectedItemProps {
   onDelete?: (value: any) => void;
 }
 
+interface InternalOnDelete {
+  onDelete: AutoCompleteSelectedItemProps['onDelete'];
+  value: AutoCompleteSelectedItemProps['value'];
+}
+
+export const internalOnDelete = ({ onDelete, value }: InternalOnDelete) => {
+  if (!onDelete) {
+    return;
+  }
+
+  onDelete(value);
+};
+
 const AutoCompleteSelectedItem = ({ display, value, onDelete }: AutoCompleteSelectedItemProps) => {
+  const componentOnDelete = useCallback(() => {
+    internalOnDelete({ onDelete, value });
+  }, [onDelete, value]);
+
   return (
     <span data-id="selected-item">
       {display}
-      {onDelete && (
-        <Button
-          onClick={() => {
-            onDelete(value);
-          }}
-        >
-          Delete
-        </Button>
-      )}
+      {onDelete && <Button onClick={componentOnDelete}>Delete</Button>}
     </span>
   );
 };

@@ -1,3 +1,5 @@
 module.exports = {
-  spec: ['src/**/*.spec.ts', 'packages/**/*.spec.ts'],
+  require: ['ts-node/register', 'tsconfig-paths/register'],
+  spec: ['src/**/*.spec.ts', 'src/**/*.spec.tsx', 'packages/**/*.spec.ts', 'packages/**/*.spec.tsx'],
+  file: ['./mocha-setup.ts'],
 };
