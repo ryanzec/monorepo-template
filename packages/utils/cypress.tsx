@@ -1,9 +1,9 @@
 import type { HttpResponseInterceptor, StaticResponse } from 'cypress/types/net-stubbing';
-import type Sinon from 'cypress/types/sinon';
 
 import * as React from 'react';
 import { DndProvider } from 'react-dnd';
 import { HTML5Backend } from 'react-dnd-html5-backend';
+import sinon from 'sinon';
 
 import ApplicationFrame from '$/components/application-frame';
 import { applicationSettingsContext } from '$/contexts/application-settings';
@@ -21,7 +21,7 @@ import Agent = Cypress.Agent;
 //   // eslint-disable-next-line @typescript-eslint/no-explicit-any
 //   Sinon.SinonStub<any[], any>;
 
-type CypressStub = Omit<Sinon.SinonStub<any[], any>, 'withArgs'> & Agent<Sinon.SinonStub<any[], any>>;
+type CypressStub = Omit<sinon.SinonStub<any[], any>, 'withArgs'> & Agent<sinon.SinonStub<any[], any>>;
 
 const buildResponseCollection = (test: Array<StaticResponse | HttpResponseInterceptor | undefined>) => {
   const responses = test;
