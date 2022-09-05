@@ -10,12 +10,18 @@ export const defaultItemToString = (item: any) => {
   return item !== null && item !== undefined ? String(item) : '';
 };
 
-interface DisplayableAutoCompleteItem {
-  display: ReactNode;
+export interface AutoCompleteItem {
+  display: string;
 
   // this in a generic component so allow any value here
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   value: any;
+
+  // other than the items below that have special meaning, we should allow for any data to be passed into the auto
+  // complete items so that things like customer render items can use additional meta data that could differ for
+  // each use of the auto complete
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  [key: string]: any;
 }
 
 export interface AutoCompleteFilterItemsParams<T> {
@@ -30,67 +36,68 @@ export interface AutoCompleteRenderItemParams<T> {
   propGetters: UseComboboxPropGetters<T>;
 }
 
-type AutoCompleteProps<T, TItemValue> = React.DetailedHTMLProps<
-  React.HTMLAttributes<HTMLDivElement>,
-  HTMLDivElement
-> & {
-  items: T[];
-  itemToString?: (item: T | null) => string;
-  filterItems: (params: AutoCompleteFilterItemsParams<T>) => T[];
-  renderItems: (params: AutoCompleteRenderItemParams<T>) => ReactNode;
-  onItemSelected: (selectedItem: T | null) => void;
-  selectedItem?: T | null;
+type AutoCompleteProps<TItemValue> = React.DetailedHTMLProps<React.HTMLAttributes<HTMLDivElement>, HTMLDivElement> & {
+  items: AutoCompleteItem[];
+  itemToString?: (item: AutoCompleteItem | null) => string;
+  filterItems: (params: AutoCompleteFilterItemsParams<AutoCompleteItem>) => AutoCompleteItem[];
+  renderItems: (params: AutoCompleteRenderItemParams<AutoCompleteItem>) => ReactNode;
+  onItemSelected: (selectedItem: AutoCompleteItem | null) => void;
+  selectedItem?: AutoCompleteItem | null;
   // setting this property automatically set the combobox to work in multiple select mode
-  selectedItems?: T[];
+  selectedItems?: AutoCompleteItem[];
   showItemsOnFocus?: boolean;
   onDelete?: (value: TItemValue) => void;
+  // requiring a selection means the user must select a value from the items list, not allow to enter any value
+  forceSelection?: boolean;
 };
 
-interface InternalIsMultiSelect<T, TItemValue> {
-  selectedItems: AutoCompleteProps<T, TItemValue>['selectedItems'];
+interface InternalIsMultiSelect<TItemValue> {
+  selectedItems: AutoCompleteProps<TItemValue>['selectedItems'];
 }
 
-export const internalIsMultiSelect = <T, TItemValue>({ selectedItems }: InternalIsMultiSelect<T, TItemValue>) => {
+export const internalIsMultiSelect = <TItemValue,>({ selectedItems }: InternalIsMultiSelect<TItemValue>) => {
   return !!selectedItems;
 };
 
-interface InternalIsFilterItems<T, TItemValue> {
-  filterItems: AutoCompleteProps<T, TItemValue>['filterItems'];
-  items: AutoCompleteProps<T, TItemValue>['items'];
-  setAvailableItems: (values: T[]) => void;
-  lastSelectedItem?: T;
+interface InternalIsFilterItems<TItemValue> {
+  filterItems: AutoCompleteProps<TItemValue>['filterItems'];
+  items: AutoCompleteProps<TItemValue>['items'];
+  setAvailableItems: (values: AutoCompleteItem[]) => void;
+  lastSelectedItem?: AutoCompleteItem;
   inputValue?: string;
 }
 
-export const internalFilterItems = <T, TItemValue>({
+export const internalFilterItems = <TItemValue,>({
   filterItems,
   items,
   setAvailableItems,
   lastSelectedItem,
   inputValue,
-}: InternalIsFilterItems<T, TItemValue>) => {
+}: InternalIsFilterItems<TItemValue>) => {
   setAvailableItems(filterItems({ items, inputValue, selectedItem: lastSelectedItem }));
 };
 
 type ComponentFilterItems<T> = (inputValue?: string, lastSelectedItem?: T) => void;
 
-interface InternalDownshiftStateReducer<T, TItemValue> {
-  actionAndChanges: UseComboboxStateChangeOptions<T>;
+interface InternalDownshiftStateReducer<TItemValue> {
+  actionAndChanges: UseComboboxStateChangeOptions<AutoCompleteItem>;
   isMultiSelect: boolean;
-  componentFilterItems: ComponentFilterItems<T>;
-  onItemSelected: AutoCompleteProps<T, TItemValue>['onItemSelected'];
-  itemToString: (item: T | null) => string;
-  selectedItem?: T | null;
+  componentFilterItems: ComponentFilterItems<AutoCompleteItem>;
+  onItemSelected: AutoCompleteProps<TItemValue>['onItemSelected'];
+  itemToString: (item: AutoCompleteItem | null) => string;
+  selectedItem?: AutoCompleteItem | null;
+  forceSelection?: boolean;
 }
 
-export const internalDownshiftStateReducer = <T, TItemValue>({
+export const internalDownshiftStateReducer = <TItemValue,>({
   actionAndChanges,
   isMultiSelect,
   componentFilterItems,
   onItemSelected,
   itemToString,
   selectedItem,
-}: InternalDownshiftStateReducer<T, TItemValue>) => {
+  forceSelection = true,
+}: InternalDownshiftStateReducer<TItemValue>) => {
   const { changes, type } = actionAndChanges;
   // this normalizes null | undefined to just be null which mean we don't have to account for both throughout
   // our codebase which I think is just a little cleaner
@@ -119,10 +126,18 @@ export const internalDownshiftStateReducer = <T, TItemValue>({
     case useCombobox.stateChangeTypes.ItemClick:
     case useCombobox.stateChangeTypes.InputBlur:
       if (!currentSelectedItem) {
+        const inputValue = isMultiSelect || forceSelection ? '' : changes.inputValue;
+
+        if (inputValue) {
+          onItemSelected({
+            display: inputValue,
+            value: inputValue,
+          });
+        }
+
         return {
           ...changes,
-          // @todo add support for allow not selection values
-          inputValue: '',
+          inputValue,
         };
       }
 
@@ -162,7 +177,7 @@ export const internalOnFocus = <T,>({ componentFilterItems, showItemsOnFocus, op
   openMenu();
 };
 
-const AutoComplete = <T extends DisplayableAutoCompleteItem, TItemValue>({
+const AutoComplete = <TItemValue,>({
   items,
   filterItems,
   renderItems,
@@ -172,20 +187,21 @@ const AutoComplete = <T extends DisplayableAutoCompleteItem, TItemValue>({
   selectedItems,
   showItemsOnFocus = false,
   onDelete,
+  forceSelection = true,
   ...restOfProps
-}: AutoCompleteProps<T, TItemValue>) => {
-  const [availableItems, setAvailableItems] = useState<T[]>(items);
+}: AutoCompleteProps<TItemValue>) => {
+  const [availableItems, setAvailableItems] = useState<AutoCompleteItem[]>(items);
 
   const isMultiSelect = useMemo(() => internalIsMultiSelect({ selectedItems }), [selectedItems]);
 
   const componentFilterItems = useCallback(
-    (inputValue?: string, lastSelectedItem?: T) =>
+    (inputValue?: string, lastSelectedItem?: AutoCompleteItem) =>
       internalFilterItems({ items, setAvailableItems, filterItems, inputValue, lastSelectedItem }),
     [items, setAvailableItems, filterItems],
   );
 
   const downshiftStateReducer = useCallback(
-    (_state_: UseComboboxState<T>, actionAndChanges: UseComboboxStateChangeOptions<T>) =>
+    (_state_: UseComboboxState<AutoCompleteItem>, actionAndChanges: UseComboboxStateChangeOptions<AutoCompleteItem>) =>
       internalDownshiftStateReducer({
         actionAndChanges,
         isMultiSelect,
@@ -193,8 +209,9 @@ const AutoComplete = <T extends DisplayableAutoCompleteItem, TItemValue>({
         onItemSelected,
         itemToString: itemToString || defaultItemToString,
         selectedItem,
+        forceSelection,
       }),
-    [isMultiSelect, componentFilterItems, onItemSelected, itemToString, selectedItem],
+    [isMultiSelect, componentFilterItems, onItemSelected, itemToString, selectedItem, forceSelection],
   );
 
   const {
@@ -243,14 +260,7 @@ const AutoComplete = <T extends DisplayableAutoCompleteItem, TItemValue>({
       {selectedItems && (
         <div data-id="selected-items">
           {selectedItems.map((selectedItem) => {
-            return (
-              <SelectedItem
-                key={selectedItem.value}
-                display={selectedItem.display}
-                value={selectedItem.value}
-                onDelete={onDelete}
-              />
-            );
+            return <SelectedItem key={selectedItem.value} item={selectedItem} onDelete={onDelete} />;
           })}
         </div>
       )}

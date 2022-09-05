@@ -3,14 +3,14 @@ import type { FieldValues } from 'react-hook-form/dist/types';
 import React from 'react';
 import { Path, PathValue, UseFormSetValue, ControllerRenderProps } from 'react-hook-form';
 
-import AutoComplete, { AutoCompleteFilterItemsParams, AutoCompleteRenderItemParams } from '$/components/auto-complete';
+import AutoComplete, {
+  AutoCompleteFilterItemsParams,
+  AutoCompleteItem,
+  AutoCompleteRenderItemParams,
+} from '$/components/auto-complete';
 
-interface FilterAutoCompleteItemConstraint {
-  display: string;
-}
-
-const buildFilterItems = <T extends FilterAutoCompleteItemConstraint>(selectedItems?: Array<T>) => {
-  return ({ items, inputValue, selectedItem }: AutoCompleteFilterItemsParams<T>): T[] => {
+const buildFilterItems = (selectedItems?: Array<AutoCompleteItem>) => {
+  return ({ items, inputValue, selectedItem }: AutoCompleteFilterItemsParams<AutoCompleteItem>): AutoCompleteItem[] => {
     console.log('buildFilterItems', selectedItem, selectedItem);
 
     return items.filter(
@@ -22,16 +22,12 @@ const buildFilterItems = <T extends FilterAutoCompleteItemConstraint>(selectedIt
   };
 };
 
-export interface RenderItemItemConstraint {
-  display: string;
-
-  // value can be anything with downshift so ignore it here
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  value: any;
-}
-
-const buildRenderItem = <T extends RenderItemItemConstraint>() => {
-  return ({ items, highlightedIndex, propGetters: { getItemProps } }: AutoCompleteRenderItemParams<T>) => {
+const buildRenderItem = () => {
+  return ({
+    items,
+    highlightedIndex,
+    propGetters: { getItemProps },
+  }: AutoCompleteRenderItemParams<AutoCompleteItem>) => {
     return items.map((item, index) => {
       return (
         <AutoComplete.RenderItem
@@ -45,33 +41,27 @@ const buildRenderItem = <T extends RenderItemItemConstraint>() => {
   };
 };
 
-type ItemSelectedConstraint = {
-  // value can be anything with downshift so ignore it here
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  value: any;
-};
-
-const buildItemSelected = <T,>(setSelectedItem: (value: T) => void) => {
-  return (selectedItem: T) => {
+const buildItemSelected = (setSelectedItem: (value: AutoCompleteItem | null) => void) => {
+  return (selectedItem: AutoCompleteItem | null) => {
     setSelectedItem(selectedItem);
   };
 };
 
-const buildItemSelectedHooked = <T extends ItemSelectedConstraint | null, TFormData extends FieldValues>(
-  setSelectedItem: (value: T) => void,
+const buildItemSelectedHooked = <TFormData extends FieldValues>(
+  setSelectedItem: (value: AutoCompleteItem | null) => void,
   field: ControllerRenderProps<TFormData, Path<TFormData>>,
 ) => {
-  return (selectedItem: T) => {
+  return (selectedItem: AutoCompleteItem | null) => {
     field.onChange(selectedItem?.value || undefined);
     setSelectedItem(selectedItem);
   };
 };
 
-const buildItemSelectedMulti = <T extends ItemSelectedConstraint>(
-  selectedItems: T[],
-  setSelectedItems: (values: T[]) => void,
+const buildItemSelectedMulti = (
+  selectedItems: AutoCompleteItem[],
+  setSelectedItems: (values: AutoCompleteItem[]) => void,
 ) => {
-  return (selectedItem: T | null) => {
+  return (selectedItem: AutoCompleteItem | null) => {
     if (!selectedItem || selectedItems.includes(selectedItem)) {
       return;
     }
@@ -80,13 +70,13 @@ const buildItemSelectedMulti = <T extends ItemSelectedConstraint>(
   };
 };
 
-const buildItemSelectedMultiHooked = <T extends ItemSelectedConstraint, TFormData extends FieldValues>(
+const buildItemSelectedMultiHooked = <TFormData extends FieldValues>(
   formDataKey: Path<TFormData>,
   setValue: UseFormSetValue<TFormData>,
-  selectedItems: T[],
-  setSelectedItems: (values: T[]) => void,
+  selectedItems: AutoCompleteItem[],
+  setSelectedItems: (values: AutoCompleteItem[]) => void,
 ) => {
-  return (selectedItem: T | null) => {
+  return (selectedItem: AutoCompleteItem | null) => {
     if (!selectedItem || selectedItems.includes(selectedItem)) {
       return;
     }

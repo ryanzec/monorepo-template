@@ -1,13 +1,10 @@
 import React, { ReactNode, useCallback } from 'react';
 
+import { AutoCompleteItem } from '$/components/auto-complete/auto-complete';
 import Button from '$/components/button/button';
 
 interface AutoCompleteSelectedItemProps {
-  display: ReactNode;
-
-  // allowing any here as this in a generic component
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  value: any;
+  item: AutoCompleteItem;
 
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   onDelete?: (value: any) => void;
@@ -15,7 +12,7 @@ interface AutoCompleteSelectedItemProps {
 
 interface InternalOnDelete {
   onDelete: AutoCompleteSelectedItemProps['onDelete'];
-  value: AutoCompleteSelectedItemProps['value'];
+  value: AutoCompleteSelectedItemProps['item']['value'];
 }
 
 export const internalOnDelete = ({ onDelete, value }: InternalOnDelete) => {
@@ -26,14 +23,14 @@ export const internalOnDelete = ({ onDelete, value }: InternalOnDelete) => {
   onDelete(value);
 };
 
-const AutoCompleteSelectedItem = ({ display, value, onDelete }: AutoCompleteSelectedItemProps) => {
+const AutoCompleteSelectedItem = ({ item, onDelete }: AutoCompleteSelectedItemProps) => {
   const componentOnDelete = useCallback(() => {
-    internalOnDelete({ onDelete, value });
-  }, [onDelete, value]);
+    internalOnDelete({ onDelete, value: item.value });
+  }, [onDelete, item.value]);
 
   return (
     <span data-id="selected-item">
-      {display}
+      {item.display}
       {onDelete && <Button onClick={componentOnDelete}>Delete</Button>}
     </span>
   );

@@ -3,8 +3,8 @@ import type { ControllerProps, FieldValues } from 'react-hook-form/dist/types';
 import React from 'react';
 import { Control, Controller, Path, UseFormSetValue } from 'react-hook-form';
 
-import AutoComplete from '$/components/auto-complete/auto-complete';
-import { autoCompleteUtils, RenderItemItemConstraint } from '$/utils/auto-complete';
+import AutoComplete, { AutoCompleteItem } from '$/components/auto-complete/auto-complete';
+import { autoCompleteUtils } from '$/utils/auto-complete';
 
 interface AutoCompleteHookedProps<T extends FieldValues, TItem, TItemValue> extends Omit<ControllerProps<T>, 'render'> {
   items: TItem[];
@@ -19,9 +19,11 @@ interface AutoCompleteHookedProps<T extends FieldValues, TItem, TItemValue> exte
   setValue: UseFormSetValue<T>;
   onDelete?: (value: TItemValue) => void;
   showItemsOnFocus?: boolean;
+  // requiring a selection means the user must select a value from the items list, not allow to enter any value
+  forceSelection?: boolean;
 }
 
-const AutoCompleteHooked = <T extends FieldValues, TItem extends RenderItemItemConstraint, TItemValue>({
+const AutoCompleteHooked = <T extends FieldValues, TItemValue>({
   control,
   items,
   name,
@@ -32,17 +34,20 @@ const AutoCompleteHooked = <T extends FieldValues, TItem extends RenderItemItemC
   setSelectedItems,
   onDelete,
   showItemsOnFocus = false,
+  forceSelection = true,
   ...restOfProps
-}: AutoCompleteHookedProps<T, TItem, TItemValue>) => {
+}: AutoCompleteHookedProps<T, AutoCompleteItem, TItemValue>) => {
   // we are only checking the setSelectedItem since it is valid for selectedItem to be undefined or null
   if (setSelectedItem) {
     return (
       <Controller
+        {...restOfProps}
         control={control}
         name={name}
         render={({ field }) => {
           return (
             <AutoComplete
+              forceSelection={forceSelection}
               showItemsOnFocus={showItemsOnFocus}
               items={items}
               itemToString={(item) => item?.display ?? ''}
@@ -74,12 +79,13 @@ const AutoCompleteHooked = <T extends FieldValues, TItem extends RenderItemItemC
       render={() => {
         return (
           <AutoComplete
+            forceSelection={forceSelection}
             showItemsOnFocus={showItemsOnFocus}
             items={items}
             itemToString={(item) => item?.display ?? ''}
             filterItems={autoCompleteUtils.buildFilterItems(selectedItems)}
             renderItems={autoCompleteUtils.buildRenderItem()}
-            onItemSelected={autoCompleteUtils.buildItemSelectedMultiHooked<TItem, T>(
+            onItemSelected={autoCompleteUtils.buildItemSelectedMultiHooked<T>(
               name,
               setValue,
               selectedItems,
