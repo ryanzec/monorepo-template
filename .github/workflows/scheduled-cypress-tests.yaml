@@ -1,0 +1,23 @@
+name: Scheduled Cypress Tests
+
+on:
+  schedule:
+    # Runs at 8pm every day (see https://crontab.guru)
+    - cron: '* 20 * * *'
+jobs:
+  cypress-tests:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        node-version: [16.x]
+    container:
+      image: cypress/browsers:node16.5.0-chrome94-ff93
+    steps:
+      - uses: actions/checkout@v3
+      - name: setup node ${{ matrix.node-version }}
+        uses: actions/setup-node@v3
+        with:
+          node-version: ${{ matrix.node-version }}
+      - name: install packages with yarn
+        uses: Borales/actions-yarn@v3
+      - run: yarn test:components
