@@ -2,8 +2,8 @@ name: Scheduled Cypress Tests
 
 on:
   schedule:
-    # Runs at 8pm every day (see https://crontab.guru)
-    - cron: '* 20 * * *'
+    # Runs at 12:15am UTC every day (see https://crontab.guru)
+    - cron: '15 0 * * *'
 jobs:
   cypress-tests:
     runs-on: ubuntu-latest
