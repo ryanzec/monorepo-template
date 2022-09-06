@@ -6,7 +6,10 @@ import sinon from 'sinon';
 
 import * as component from '$/components/auto-complete/auto-complete';
 
-interface TestInterface {}
+interface TestInterface {
+  display: string;
+  value: string;
+}
 
 describe('auto complete component', () => {
   describe('defaultItemToString', () => {
@@ -45,9 +48,9 @@ describe('auto complete component', () => {
     it('works', () => {
       const filterItemsReturns = [{ id: 'filter test' }];
       const filterItems = sinon.stub().returns(filterItemsReturns);
-      const items: Array<TestInterface> = [{ id: 'test' }];
+      const items: Array<TestInterface> = [{ display: 'test', value: 'test' }];
       const setAvailableItems = sinon.stub();
-      const lastSelectedItem: TestInterface = {};
+      const lastSelectedItem = undefined;
       const inputValue = '';
 
       component.internalFilterItems({ filterItems, items, setAvailableItems, lastSelectedItem, inputValue });
@@ -73,6 +76,7 @@ describe('auto complete component', () => {
         const onItemSelected = sinon.stub();
         const itemToString = sinon.stub();
         const selectedItem = null;
+        const forceSelection = true;
 
         const results = component.internalDownshiftStateReducer({
           actionAndChanges,
@@ -81,6 +85,7 @@ describe('auto complete component', () => {
           onItemSelected,
           itemToString,
           selectedItem,
+          forceSelection,
         });
 
         expect(results).to.deep.equal(actionAndChanges.changes);
@@ -101,6 +106,7 @@ describe('auto complete component', () => {
         const onItemSelected = sinon.stub();
         const itemToString = sinon.stub();
         const selectedItem = null;
+        const forceSelection = true;
 
         const results = component.internalDownshiftStateReducer({
           actionAndChanges,
@@ -109,6 +115,7 @@ describe('auto complete component', () => {
           onItemSelected,
           itemToString,
           selectedItem,
+          forceSelection,
         });
 
         expect(results).to.deep.equal(actionAndChanges.changes);
@@ -132,6 +139,7 @@ describe('auto complete component', () => {
         const onItemSelected = sinon.stub();
         const itemToString = sinon.stub();
         const selectedItem = null;
+        const forceSelection = true;
 
         const results = component.internalDownshiftStateReducer({
           actionAndChanges,
@@ -140,6 +148,7 @@ describe('auto complete component', () => {
           onItemSelected,
           itemToString,
           selectedItem,
+          forceSelection,
         });
 
         expect(results).to.deep.equal({ ...actionAndChanges.changes, inputValue: '' });
@@ -162,6 +171,7 @@ describe('auto complete component', () => {
         const onItemSelected = sinon.stub();
         const itemToString = sinon.stub();
         const selectedItem = null;
+        const forceSelection = true;
 
         const results = component.internalDownshiftStateReducer({
           actionAndChanges,
@@ -170,6 +180,7 @@ describe('auto complete component', () => {
           onItemSelected,
           itemToString,
           selectedItem,
+          forceSelection,
         });
 
         expect(results).to.deep.equal({ ...actionAndChanges.changes, inputValue: '' });
@@ -180,7 +191,7 @@ describe('auto complete component', () => {
     });
 
     describe('enter key', () => {
-      it('handles having no selected item', () => {
+      it('handles having no selected item with force selection', () => {
         const actionAndChanges = {
           changes: {
             inputValue: 't',
@@ -192,6 +203,7 @@ describe('auto complete component', () => {
         const onItemSelected = sinon.stub();
         const itemToString = sinon.stub();
         const selectedItem = null;
+        const forceSelection = true;
 
         const results = component.internalDownshiftStateReducer({
           actionAndChanges,
@@ -200,6 +212,7 @@ describe('auto complete component', () => {
           onItemSelected,
           itemToString,
           selectedItem,
+          forceSelection,
         });
 
         expect(results).to.deep.equal({ ...actionAndChanges.changes, inputValue: '' });
@@ -209,11 +222,45 @@ describe('auto complete component', () => {
         expect(itemToString.getCall(0).args).to.deep.equal([null]);
       });
 
+      it('handles having no selected item without force selection', () => {
+        const actionAndChanges = {
+          changes: {
+            inputValue: 't',
+          },
+          type: useCombobox.stateChangeTypes.InputKeyDownEnter,
+        };
+        const isMultiSelect = false;
+        const componentFilterItems = sinon.stub();
+        const onItemSelected = sinon.stub();
+        const itemToString = sinon.stub();
+        const selectedItem = null;
+        const forceSelection = false;
+
+        const results = component.internalDownshiftStateReducer({
+          actionAndChanges,
+          isMultiSelect,
+          componentFilterItems,
+          onItemSelected,
+          itemToString,
+          selectedItem,
+          forceSelection,
+        });
+
+        expect(results).to.deep.equal(actionAndChanges.changes);
+        expect(componentFilterItems.callCount).to.equal(0);
+        expect(onItemSelected.callCount).to.equal(1);
+        expect(onItemSelected.getCall(0).args).to.deep.equal([
+          { display: actionAndChanges.changes.inputValue, value: actionAndChanges.changes.inputValue },
+        ]);
+        expect(itemToString.callCount).to.equal(1);
+        expect(itemToString.getCall(0).args).to.deep.equal([null]);
+      });
+
       it('handles having selected item for single select', () => {
         const actionAndChanges = {
           changes: {
             inputValue: 't',
-            selectedItem: { id: 'test' },
+            selectedItem: { display: 'test', value: 'test' },
           },
           type: useCombobox.stateChangeTypes.InputKeyDownEnter,
         };
@@ -223,6 +270,7 @@ describe('auto complete component', () => {
         const itemToStringReturn = 'item to string';
         const itemToString = sinon.stub().returns(itemToStringReturn);
         const selectedItem = null;
+        const forceSelection = true;
 
         const results = component.internalDownshiftStateReducer({
           actionAndChanges,
@@ -231,6 +279,7 @@ describe('auto complete component', () => {
           onItemSelected,
           itemToString,
           selectedItem,
+          forceSelection,
         });
 
         expect(results).to.deep.equal({ ...actionAndChanges.changes, inputValue: itemToStringReturn, isOpen: false });
@@ -254,7 +303,8 @@ describe('auto complete component', () => {
         const onItemSelected = sinon.stub();
         const itemToStringReturn = 'item to string';
         const itemToString = sinon.stub().returns(itemToStringReturn);
-        const selectedItem = { id: 'test' };
+        const selectedItem = { display: 'test', value: 'test' };
+        const forceSelection = true;
 
         const results = component.internalDownshiftStateReducer({
           actionAndChanges,
@@ -263,6 +313,7 @@ describe('auto complete component', () => {
           onItemSelected,
           itemToString,
           selectedItem,
+          forceSelection,
         });
 
         expect(results).to.deep.equal({ ...actionAndChanges.changes, inputValue: '', isOpen: true });
@@ -286,7 +337,8 @@ describe('auto complete component', () => {
       const onItemSelected = sinon.stub();
       const itemToStringReturn = 'item to string';
       const itemToString = sinon.stub().returns(itemToStringReturn);
-      const selectedItem = { id: 'test' };
+      const selectedItem = { display: 'test', value: 'test' };
+      const forceSelection = true;
 
       const results = component.internalDownshiftStateReducer({
         actionAndChanges,
@@ -295,6 +347,7 @@ describe('auto complete component', () => {
         onItemSelected,
         itemToString,
         selectedItem,
+        forceSelection,
       });
 
       expect(results).to.deep.equal(actionAndChanges.changes);

@@ -16,7 +16,7 @@ interface SelectValue {
   value: number;
 }
 
-const BasicExample = ({ selectedItemIndex = -1, showItemsOnFocus = false }) => {
+const BasicExample = ({ selectedItemIndex = -1, showItemsOnFocus = false, forceSelection = true }) => {
   const [items] = useState<SelectValue[]>([
     { display: 'test1', value: 11 },
     { display: 'test2', value: 22 },
@@ -34,6 +34,7 @@ const BasicExample = ({ selectedItemIndex = -1, showItemsOnFocus = false }) => {
   return (
     <>
       <AutoComplete
+        forceSelection={forceSelection}
         showItemsOnFocus={showItemsOnFocus}
         items={items}
         itemToString={(item) => item?.display ?? ''}
@@ -62,7 +63,7 @@ export const reactHookFormDataSchema = zodUtils.schemaForType<ReactHookedFormDat
   }),
 );
 
-const BasicHookedExample = ({ selectedItemIndex = -1, showItemsOnFocus = false }) => {
+const BasicHookedExample = ({ selectedItemIndex = -1, showItemsOnFocus = false, forceSelection = true }) => {
   const [items] = useState<SelectValue[]>([
     { display: 'test1', value: 11 },
     { display: 'test2', value: 22 },
@@ -84,6 +85,7 @@ const BasicHookedExample = ({ selectedItemIndex = -1, showItemsOnFocus = false }
   return (
     <>
       <AutoComplete.Hooked
+        forceSelection={forceSelection}
         showItemsOnFocus={showItemsOnFocus}
         name="value"
         selectedItem={selectedItem}
@@ -100,7 +102,7 @@ const BasicHookedExample = ({ selectedItemIndex = -1, showItemsOnFocus = false }
   );
 };
 
-const MultiSelectExample = ({ showItemsOnFocus = false }) => {
+const MultiSelectExample = ({ showItemsOnFocus = false, forceSelection = true }) => {
   const [items] = useState<SelectValue[]>([
     { display: 'test1', value: 11 },
     { display: 'test2', value: 22 },
@@ -120,11 +122,10 @@ const MultiSelectExample = ({ showItemsOnFocus = false }) => {
     [selectedItems, setSelectedItems],
   );
 
-  // console.log('MultiSelectExample', selectedItems);
-
   return (
     <>
       <AutoComplete
+        forceSelection={forceSelection}
         showItemsOnFocus={showItemsOnFocus}
         items={items}
         itemToString={(item) => item?.display ?? ''}
@@ -142,7 +143,7 @@ interface MultiReactHookedFormData {
   values: number[];
 }
 
-const MultiSelectHookedExample = ({ showItemsOnFocus = false }) => {
+const MultiSelectHookedExample = ({ showItemsOnFocus = false, forceSelection = true }) => {
   const [items] = useState<SelectValue[]>([
     { display: 'test1', value: 11 },
     { display: 'test2', value: 22 },
@@ -174,6 +175,7 @@ const MultiSelectHookedExample = ({ showItemsOnFocus = false }) => {
   return (
     <>
       <AutoComplete.Hooked
+        forceSelection={forceSelection}
         showItemsOnFocus={showItemsOnFocus}
         name="values"
         selectedItems={selectedItems}
@@ -349,7 +351,7 @@ describe('auto complete component', () => {
       cy.get(selectors.autoCompleteItems).should('not.exist');
     });
 
-    it('blurring with nothing selected does nothing', () => {
+    it('blurring with input value and nothing selected does nothing with force selection', () => {
       cy.mount(cypressUtils.addBasicWrapper(<BasicExample />));
 
       cy.get(selectors.autoCompleteInput).click();
@@ -358,6 +360,17 @@ describe('auto complete component', () => {
 
       cy.get(selectors.autoCompleteInput).should('have.value', '');
       cy.get(selectors.checkSelectedAutoCompleteValue).should('not.exist');
+    });
+
+    it('blurring with input value and nothing selected uses input value without force selection', () => {
+      cy.mount(cypressUtils.addBasicWrapper(<BasicExample forceSelection={false} />));
+
+      cy.get(selectors.autoCompleteInput).click();
+      cy.get(selectors.autoCompleteInput).type('testing new value');
+      cy.get(selectors.autoCompleteInput).blur();
+
+      cy.get(selectors.autoCompleteInput).should('have.value', 'testing new value');
+      cy.get(selectors.checkSelectedAutoCompleteValue).should('contain', 'testing new value');
     });
 
     it('blurring with selection should select that item', () => {
@@ -534,7 +547,7 @@ describe('auto complete component', () => {
         cy.get(selectors.autoCompleteItems).should('not.exist');
       });
 
-      it('blurring with nothing selected does nothing', () => {
+      it('blurring with input value and nothing selected does nothing with force selection', () => {
         cy.mount(cypressUtils.addBasicWrapper(<BasicHookedExample />));
 
         cy.get(selectors.autoCompleteInput).click();
@@ -544,6 +557,17 @@ describe('auto complete component', () => {
         cy.get(selectors.autoCompleteInput).should('have.value', '');
         cy.get(selectors.checkSelectedAutoCompleteValue).should('not.exist');
         cy.get(selectors.checkFormValue).should('not.exist');
+      });
+
+      it('blurring with input value and nothing selected uses input value without force selection', () => {
+        cy.mount(cypressUtils.addBasicWrapper(<BasicHookedExample forceSelection={false} />));
+
+        cy.get(selectors.autoCompleteInput).click();
+        cy.get(selectors.autoCompleteInput).type('testing new value');
+        cy.get(selectors.autoCompleteInput).blur();
+
+        cy.get(selectors.autoCompleteInput).should('have.value', 'testing new value');
+        cy.get(selectors.checkSelectedAutoCompleteValue).should('contain', 'testing new value');
       });
 
       it('blurring with selection should select that item', () => {
