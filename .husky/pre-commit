@@ -1,2 +1,2 @@
-yarn lint-staged
-yarn web:build:check
+npx lint-staged
+npm run web:build:check

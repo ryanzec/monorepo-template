@@ -23,13 +23,3 @@ cypress/screenshots
 cypress/snapshots/actual
 cypress/snapshots/diff
 **/dist/*
-
-# yarn
-# reference (using Zero-Installs version): https://yarnpkg.com/getting-started/qa#which-files-should-be-gitignored
-.yarn/*
-!.yarn/cache
-!.yarn/patches
-!.yarn/plugins
-!.yarn/releases
-!.yarn/sdks
-!.yarn/versions
