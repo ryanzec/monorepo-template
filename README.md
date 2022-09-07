@@ -10,12 +10,12 @@ Maybe you shouldn't use this but maybe it will be useful to someone for some rea
 
 The following is includes:
 
-- Yarn
 - Vite
 - TypeScript (w/ Babel)
 - Storybook
 - ESLint
 - Cypress (setup for component testing)
+- Mocha / Chai / Sinon Unit Testing
 - Auto Code Formatting
 - Example Application
   - Axios
@@ -43,11 +43,8 @@ These are the following steps to setup this monorepo template.
 
 ## Running Locally
 
-### Enabling Yarn 2+
-- run `corepack enable`
-
 ### Running the Code
-- run `yarn`
+- run `npm install`
 - copy `.evn-template` to `.env` and fill in values
 - copy `applications/web/src/index.html-template` to `applications/web/src/index.html` and fill in values
-- run `yarn start:api` and `yarn start:web`
+- run `npm run start:api` and `npm run start:web`

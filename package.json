@@ -97,6 +97,7 @@
     "lowdb": "3.0.0",
     "mocha": "10.0.0",
     "nodemon": "2.0.19",
+    "npm-check": "6.0.1",
     "nyc": "15.1.0",
     "prettier": "2.7.1",
     "sinon": "14.0.0",
@@ -107,5 +108,9 @@
     "vite": "3.1.0",
     "vite-plugin-istanbul": "3.0.1"
   },
-  "packageManager": "yarn@3.2.1"
+  "overrides": {
+    "@vanilla-extract/vite-plugin": {
+      "vite": "^3"
+    }
+  }
 }

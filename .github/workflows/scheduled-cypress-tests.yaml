@@ -18,6 +18,7 @@ jobs:
         uses: actions/setup-node@v3
         with:
           node-version: ${{ matrix.node-version }}
-      - name: install packages with yarn
-        uses: Borales/actions-yarn@v3
-      - run: yarn test:components
+      - name: install depedencies
+        run: npm ci --ignore-scripts
+      - name: run ui / integration (no backend integration) tests
+        run: npm run test:components
