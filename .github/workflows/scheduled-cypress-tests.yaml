@@ -18,5 +18,7 @@ jobs:
         uses: actions/setup-node@v3
         with:
           node-version: ${{ matrix.node-version }}
-      - run: npm ci
-      - run: npm run test:components
+      - name: install depedencies
+        run: npm ci --only=production
+      - name: run ui / integration (no backend integration) tests
+        run: npm run test:components
