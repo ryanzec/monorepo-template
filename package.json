@@ -11,7 +11,7 @@
     "web:build:check": "tsc",
     "web:dev": "vite --config ./applications/web/vite.config.ts --port 4000",
     "web:preview": "vite --config ./applications/web/vite.config.ts preview",
-    "test:unit": "rm -rf mocha-coverage && env TS_NODE_PROJECT=\"tsconfig.testing.json\" nyc --reporter=html --report-dir mocha-coverage mocha --config .mocharc.js",
+    "test:unit": "rm -rf mocha-coverage && env TS_NODE_PROJECT=\"tsconfig.testing.json\" nyc --reporter=html --report-dir mocha-coverage mocha",
     "test:components": "rm -rf coverage && cypress run --component",
     "test:components:videos": "cypress run-ct -C ./cypress-videos.config.ts",
     "storybook": "start-storybook -p 6006",
