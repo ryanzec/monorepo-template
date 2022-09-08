@@ -1,7 +1,6 @@
 import React, { ReactElement } from 'react';
 import { Navigate } from 'react-router-dom';
 
-import ApplicationFrame from '$/components/application-frame';
 import { authenticationContext } from '$/contexts/authentication';
 
 // need to have a specific interface instead of the generic one as react router types require it
@@ -16,7 +15,7 @@ export const AuthenticatedRoute = ({ children }: AuthenticatedRouteProps) => {
     return <Navigate to="/login" replace />;
   }
 
-  return <ApplicationFrame>{children}</ApplicationFrame>;
+  return children;
 };
 
 export default AuthenticatedRoute;

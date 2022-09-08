@@ -11,9 +11,9 @@ import Label from '$/components/label';
 import ValidationMessage from '$/components/validation-message';
 import { zodUtils } from '$/utils/zod';
 import { FieldId, Todo } from '$/views/complex-form-page/common';
-import { styles } from '$/views/complex-form-page/complex-form-page.css';
 import { DragDropItem } from '$/views/complex-form-page/drag-drop-item';
 import { EmptyDropContainer } from '$/views/complex-form-page/empty-drop-container';
+import { StyledTodoList } from '$/views/complex-form-page/styles';
 
 export interface AutoCompleteValue {
   display: string;
@@ -214,7 +214,7 @@ const ComplexFormPage = () => {
         <Input.Hooked type="datetime" placeholder="Date Time" property="dateTime" register={register} />
         {errors.dateTime?.message && <ValidationMessage>{errors.dateTime.message}</ValidationMessage>}
       </Input.Container>
-      <div className={styles.todoLists}>
+      <StyledTodoList>
         <div data-id="todos">
           <Label>Todos</Label>
           {todoValues.length === 0 && <EmptyDropContainer moveItem={moveItem} fieldId={FieldId.TODOS} />}
@@ -255,7 +255,7 @@ const ComplexFormPage = () => {
               />
             ))}
         </div>
-      </div>
+      </StyledTodoList>
 
       <Button onClick={handleSubmit(onSubmitForm)}>Submit</Button>
     </div>

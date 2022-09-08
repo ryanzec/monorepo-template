@@ -2,22 +2,20 @@ name: Scheduled Cypress Tests
 
 on:
   schedule:
-    # Runs at 8:20am UTC every day (see https://crontab.guru)
-    - cron: '55 8 * * *'
+    # Runs at 12:00am UTC every day (see https://crontab.guru)
+    - cron: '0 0 * * *'
 jobs:
   cypress-tests:
     runs-on: ubuntu-latest
-    strategy:
-      matrix:
-        node-version: [16.x]
     container:
       image: cypress/browsers:node16.5.0-chrome94-ff93
     steps:
       - uses: actions/checkout@v3
-      - name: setup node ${{ matrix.node-version }}
+      - name: input node
         uses: actions/setup-node@v3
         with:
-          node-version: ${{ matrix.node-version }}
+          node-version-file: ".nvmrc"
+          cache: npm
       - name: install depedencies
         run: npm ci --ignore-scripts
       - name: run ui / integration (no backend integration) tests

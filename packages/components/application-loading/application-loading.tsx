@@ -1,13 +1,9 @@
 import React from 'react';
 
-import { styles } from '$/components/application-loading/application-loading.css';
+import { StyledApplicationLoading } from '$/components/application-loading/styles';
 
 const ApplicationLoading = () => {
-  return (
-    <div className={styles.Container} data-id="application-loading">
-      LOADING APPLICATION...
-    </div>
-  );
+  return <StyledApplicationLoading data-id="application-loading">LOADING APPLICATION...</StyledApplicationLoading>;
 };
 
 export default ApplicationLoading;

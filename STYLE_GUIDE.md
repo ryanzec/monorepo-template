@@ -132,9 +132,9 @@ export const dragDropUtils = {
 
 Some specific file have unique naming pattern to better help with tooling:
 
-- cypress testing files - `*.cypress.spec.ts(x)`
+- cypress testing files - `*.cy.ts(x)`
+- mocha testing files - `*.spec.ts(x)`
 - storybook - `*.stories.tsx`
-- vanilla extract styles = `*.css.ts`
 
 ## File Structure
 

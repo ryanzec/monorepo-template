@@ -19,7 +19,7 @@ The following is includes:
 - Auto Code Formatting
 - Example Application
   - Axios
-  - Vanilla Extract Styles
+  - Emotion Styling
   - Font Awesome Icons
   - Immer (data immutability)
   - Inter Font

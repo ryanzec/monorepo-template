@@ -1,12 +1,18 @@
 import React, { Suspense, useCallback } from 'react';
 
 import ApplicationFrameNavigation from '$/components/application-frame/application-frame-navigation';
-import { styles } from '$/components/application-frame/application-frame.css';
+import {
+  StyledActions,
+  StyledApplicationFrame,
+  StyledHeader,
+  StyledLogo,
+  StyledMainContent,
+  StyledSubContainer,
+} from '$/components/application-frame/styles';
 import Button, { ButtonContext } from '$/components/button';
 import { applicationSettingsContext, ApplicationSettingsContext } from '$/contexts/application-settings';
 import { authenticationContext, AuthenticationContext } from '$/contexts/authentication';
-import { ThemeName } from '$/types/theme';
-import { darkTheme, lightTheme } from '$/utils/theme.css';
+import { ThemeName } from '$/utils/style';
 
 export type ApplicationFrameProps = React.DetailedHTMLProps<React.HTMLAttributes<HTMLDivElement>, HTMLDivElement>;
 
@@ -32,7 +38,7 @@ export const internalOnToggleTheme = ({ event, theme, setTheme }: InternalOnTogg
   event.preventDefault();
   event.stopPropagation();
 
-  setTheme(theme === 'light' ? ThemeName.DARK : ThemeName.LIGHT);
+  setTheme(theme === ThemeName.LIGHT ? ThemeName.DARK : ThemeName.LIGHT);
 };
 
 const ApplicationFrame = ({ children, ...restOfProps }: ApplicationFrameProps) => {
@@ -53,30 +59,28 @@ const ApplicationFrame = ({ children, ...restOfProps }: ApplicationFrameProps) =
     [setTheme, theme],
   );
 
-  const themeClassName = theme === 'light' ? lightTheme : darkTheme;
-
   return (
-    <div className={`${styles.Container} ${themeClassName}`} data-id="frame" {...restOfProps}>
+    <StyledApplicationFrame data-id="frame" {...restOfProps}>
       {isAuthenticated && <ApplicationFrameNavigation />}
-      <div className={styles.SubContainer}>
+      <StyledSubContainer>
         {isAuthenticated && (
-          <div className={styles.Header} data-id="header">
-            <div className={styles.Logo}>LOGO TODO</div>
-            <div className={styles.Actions} data-id="actions">
-              <Button data-id="toggle-theme" data-context={ButtonContext.PRIMARY} onClick={onToggleTheme}>
+          <StyledHeader data-id="header">
+            <StyledLogo>LOGO TODO</StyledLogo>
+            <StyledActions data-id="actions">
+              <Button data-id="toggle-theme" context={ButtonContext.PRIMARY} onClick={onToggleTheme}>
                 Toggle Theme (current: {theme})
               </Button>
-              <Button data-id="logout" data-context={ButtonContext.DANGER} onClick={onLogout}>
+              <Button data-id="logout" context={ButtonContext.DANGER} onClick={onLogout}>
                 Logout
               </Button>
-            </div>
-          </div>
+            </StyledActions>
+          </StyledHeader>
         )}
-        <div className={styles.MainContent}>
+        <StyledMainContent>
           <Suspense fallback={'Loading...'}>{children}</Suspense>
-        </div>
-      </div>
-    </div>
+        </StyledMainContent>
+      </StyledSubContainer>
+    </StyledApplicationFrame>
   );
 };
 

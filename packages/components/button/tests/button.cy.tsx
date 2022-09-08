@@ -8,11 +8,7 @@ describe('button', () => {
   it('default group', () => {
     cy.mount(
       cypressUtils.addBasicWrapper(
-        <Button.Group
-          data-context={ButtonContext.PRIMARY}
-          data-size={ButtonSize.MEDIUM}
-          data-variant={ButtonVariant.SOLID}
-        >
+        <Button.Group context={ButtonContext.PRIMARY} size={ButtonSize.MEDIUM} variant={ButtonVariant.SOLID}>
           <Button>test</Button>
           <Button>test2</Button>
         </Button.Group>,
@@ -27,9 +23,9 @@ describe('button', () => {
       cypressUtils.addBasicWrapper(
         <Button.Group
           isAttached={false}
-          data-context={ButtonContext.PRIMARY}
-          data-size={ButtonSize.MEDIUM}
-          data-variant={ButtonVariant.SOLID}
+          context={ButtonContext.PRIMARY}
+          size={ButtonSize.MEDIUM}
+          variant={ButtonVariant.SOLID}
         >
           <Button>test</Button>
           <Button>test2</Button>
@@ -45,9 +41,9 @@ describe('button', () => {
       cypressUtils.addBasicWrapper(
         <Button.Group
           isAttached={true}
-          data-context={ButtonContext.PRIMARY}
-          data-size={ButtonSize.MEDIUM}
-          data-variant={ButtonVariant.SOLID}
+          context={ButtonContext.PRIMARY}
+          size={ButtonSize.MEDIUM}
+          variant={ButtonVariant.SOLID}
         >
           <Button>test</Button>
           <Button>test2</Button>
@@ -62,10 +58,10 @@ describe('button', () => {
     cy.mount(
       cypressUtils.addBasicWrapper(
         <>
-          <Button data-context={ButtonContext.PRIMARY}>primary</Button>
-          <Button data-context={ButtonContext.SAFE}>safe</Button>
-          <Button data-context={ButtonContext.WARNING}>warning</Button>
-          <Button data-context={ButtonContext.DANGER}>danger</Button>
+          <Button context={ButtonContext.PRIMARY}>primary</Button>
+          <Button context={ButtonContext.SAFE}>safe</Button>
+          <Button context={ButtonContext.WARNING}>warning</Button>
+          <Button context={ButtonContext.DANGER}>danger</Button>
         </>,
       ),
     );
@@ -77,9 +73,9 @@ describe('button', () => {
     cy.mount(
       cypressUtils.addBasicWrapper(
         <>
-          <Button data-size={ButtonSize.SMALL}>small</Button>
-          <Button data-size={ButtonSize.MEDIUM}>medium</Button>
-          <Button data-size={ButtonSize.LARGE}>large</Button>
+          <Button size={ButtonSize.SMALL}>small</Button>
+          <Button size={ButtonSize.MEDIUM}>medium</Button>
+          <Button size={ButtonSize.LARGE}>large</Button>
         </>,
       ),
     );
@@ -91,10 +87,10 @@ describe('button', () => {
     cy.mount(
       cypressUtils.addBasicWrapper(
         <>
-          <Button data-variant={ButtonVariant.SOLID}>solid</Button>
-          <Button data-variant={ButtonVariant.OUTLINE}>outline</Button>
-          <Button data-variant={ButtonVariant.GHOST}>ghost</Button>
-          <Button data-variant={ButtonVariant.LINK}>link</Button>
+          <Button variant={ButtonVariant.SOLID}>solid</Button>
+          <Button variant={ButtonVariant.OUTLINE}>outline</Button>
+          <Button variant={ButtonVariant.GHOST}>ghost</Button>
+          <Button variant={ButtonVariant.LINK}>link</Button>
         </>,
       ),
     );
@@ -106,58 +102,62 @@ describe('button', () => {
     cy.mount(
       cypressUtils.addBasicWrapper(
         <>
-          <Button preIcon={<Button.Icon icon={faHouse} />}>pre icon</Button>
-          <Button postIcon={<Button.Icon icon={faHouse} />}>post icon</Button>
+          <Button preIcon={faHouse}>pre icon</Button>
+          <Button postIcon={faHouse}>post icon</Button>
         </>,
       ),
     );
 
-    cy.get('[data-id="button"]:nth-child(1) [data-id="pre-icon"]').should('have.length', 1);
-    cy.get('[data-id="button"]:nth-child(2) [data-id="post-icon"]').should('have.length', 1);
+    cy.get('[data-id="button"]:nth-child(1) [data-id*="icon"][data-id*="pre"]').should('have.length', 1);
+    cy.get('[data-id="button"]:nth-child(2) [data-id*="icon"][data-id*="post"]').should('have.length', 1);
   });
 
   it('loading', () => {
     cy.mount(
       cypressUtils.addBasicWrapper(
         <>
-          <Button data-state={ButtonState.IS_LOADING} loadingIconPosition={ButtonIconPosition.PRE}>
+          <Button state={ButtonState.IS_LOADING} loadingIconPosition={ButtonIconPosition.PRE}>
             pre is loading
           </Button>
-          <Button data-state={ButtonState.IS_LOADING} loadingIconPosition={ButtonIconPosition.POST}>
+          <Button state={ButtonState.IS_LOADING} loadingIconPosition={ButtonIconPosition.POST}>
             post is loading
           </Button>
         </>,
       ),
     );
 
-    cy.get('[data-id="button"]:nth-child(1) [data-id="pre-loading-icon"]').should('have.length', 1);
-    cy.get('[data-id="button"]:nth-child(2) [data-id="post-loading-icon"]').should('have.length', 1);
+    cy.get('[data-id="button"]:nth-child(1) [data-id*="icon"][data-id*="pre"][data-id*="loading"]').should(
+      'have.length',
+      1,
+    );
+    cy.get('[data-id="button"]:nth-child(2) [data-id*="icon"][data-id*="post"][data-id*="loading"]').should(
+      'have.length',
+      1,
+    );
   });
 
   it('loading overrides regular icon', () => {
     cy.mount(
       cypressUtils.addBasicWrapper(
         <>
-          <Button
-            preIcon={<Button.Icon icon={faHouse} />}
-            data-state={ButtonState.IS_LOADING}
-            loadingIconPosition={ButtonIconPosition.PRE}
-          >
+          <Button preIcon={faHouse} state={ButtonState.IS_LOADING} loadingIconPosition={ButtonIconPosition.PRE}>
             pre is loading
           </Button>
-          <Button
-            postIcon={<Button.Icon icon={faHouse} />}
-            data-state={ButtonState.IS_LOADING}
-            loadingIconPosition={ButtonIconPosition.POST}
-          >
+          <Button postIcon={faHouse} state={ButtonState.IS_LOADING} loadingIconPosition={ButtonIconPosition.POST}>
             post is loading
           </Button>
         </>,
       ),
     );
 
-    cy.get('[data-id="button"]:nth-child(1) [data-id="pre-loading-icon"]').should('have.length', 1);
-    cy.get('[data-id="button"]:nth-child(2) [data-id="post-loading-icon"]').should('have.length', 1);
+    cy.get('[data-id="button"]:nth-child(1) [data-id*="icon"][data-id*="pre"][data-id*="loading"]').should(
+      'have.length',
+      1,
+    );
+    cy.get('[data-id="button"]:nth-child(2) [data-id*="icon"][data-id*="post"][data-id*="loading"]').should(
+      'have.length',
+      1,
+    );
   });
 
   it('disabled', () => {

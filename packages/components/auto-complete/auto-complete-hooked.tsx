@@ -4,7 +4,7 @@ import React from 'react';
 import { Control, Controller, Path, UseFormSetValue } from 'react-hook-form';
 
 import AutoComplete, { AutoCompleteItem } from '$/components/auto-complete/auto-complete';
-import { autoCompleteUtils } from '$/utils/auto-complete';
+import { autoCompleteUtils } from '$/components/auto-complete/utils';
 
 interface AutoCompleteHookedProps<T extends FieldValues, TItem, TItemValue> extends Omit<ControllerProps<T>, 'render'> {
   items: TItem[];

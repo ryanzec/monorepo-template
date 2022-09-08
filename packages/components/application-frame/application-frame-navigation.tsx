@@ -4,7 +4,7 @@ import React from 'react';
 import ApplicationFrameNavigationItem, {
   ApplicationFrameNavigationItemProps,
 } from '$/components/application-frame/application-frame-navigation-item';
-import { styles } from '$/components/application-frame/application-frame.css';
+import { StyledNavigation } from '$/components/application-frame/styles';
 
 const navigationItems: ApplicationFrameNavigationItemProps[] = [
   {
@@ -21,11 +21,11 @@ const navigationItems: ApplicationFrameNavigationItemProps[] = [
 
 const ApplicationFrameNavigation = () => {
   return (
-    <div className={styles.Navigation} data-id="navigation">
+    <StyledNavigation data-id="navigation">
       {navigationItems.map((navigationItem) => {
         return <ApplicationFrameNavigationItem key={navigationItem.text} {...navigationItem} />;
       })}
-    </div>
+    </StyledNavigation>
   );
 };
 

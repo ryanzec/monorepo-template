@@ -1,4 +1,4 @@
-import React, { ReactNode, useCallback } from 'react';
+import React, { useCallback } from 'react';
 
 import { AutoCompleteItem } from '$/components/auto-complete/auto-complete';
 import Button from '$/components/button/button';

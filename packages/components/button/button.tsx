@@ -1,101 +1,80 @@
-import { faSpinner } from '@fortawesome/free-solid-svg-icons';
-import React, { ReactNode } from 'react';
+import { faSpinner, IconDefinition } from '@fortawesome/free-solid-svg-icons';
+import React from 'react';
 
 import ButtonIcon from '$/components/button/button-icon';
-import { styles } from '$/components/button/button.css';
-import { ButtonContext, ButtonIconPosition, ButtonSize, ButtonState, ButtonVariant } from '$/components/button/common';
+import {
+  ButtonContext,
+  ButtonIconPosition,
+  ButtonSize,
+  ButtonState,
+  ButtonVariant,
+  DEFAULT_BUTTON_CONTEXT,
+  DEFAULT_BUTTON_ICON_POSITION,
+  DEFAULT_BUTTON_SIZE,
+  DEFAULT_BUTTON_VARIANT,
+} from '$/components/button/common';
 import { useButtonGroupContext } from '$/components/button/hooks';
+import { StyledButton } from '$/components/button/styles';
 
-const isValidAttachedVariant = (variant: ButtonVariant): boolean => {
+export const isValidAttachedVariant = (variant: ButtonVariant): boolean => {
   return variant !== ButtonVariant.GHOST && variant !== ButtonVariant.LINK;
 };
 
-interface ButtonProps extends React.DetailedHTMLProps<React.HTMLAttributes<HTMLButtonElement>, HTMLButtonElement> {
-  'data-context'?: ButtonContext;
-  'data-size'?: ButtonSize;
-  'data-variant'?: ButtonVariant;
-  'data-state'?: ButtonState;
-  preIcon?: ReactNode;
-  postIcon?: ReactNode;
+export interface ButtonProps
+  extends React.DetailedHTMLProps<React.HTMLAttributes<HTMLButtonElement>, HTMLButtonElement> {
+  context?: ButtonContext;
+  size?: ButtonSize;
+  preIcon?: IconDefinition;
+  postIcon?: IconDefinition;
+  variant?: ButtonVariant;
   disabled?: boolean;
   loadingIconPosition?: ButtonIconPosition;
+  state?: ButtonState;
 }
 
-const Button = (props: ButtonProps) => {
+export const Button = (props: ButtonProps) => {
   const buttonGroupContext = useButtonGroupContext();
 
   const {
     children,
-    'data-context': dataContext = ButtonContext.SAFE,
-    'data-size': dataSize = ButtonSize.MEDIUM,
+    context = DEFAULT_BUTTON_CONTEXT,
+    size = DEFAULT_BUTTON_SIZE,
+    state = ButtonState.DEFAULT,
     preIcon,
     postIcon,
-    'data-variant': dataVariant = ButtonVariant.SOLID,
+    variant = DEFAULT_BUTTON_VARIANT,
     disabled = false,
-    'data-state': dataState = ButtonState.DEFAULT,
-    loadingIconPosition = ButtonIconPosition.PRE,
+    loadingIconPosition = DEFAULT_BUTTON_ICON_POSITION,
     ...restOfProps
   } = { ...buttonGroupContext, ...props };
 
   // if button are attached then in order to make sure they look good, we should force all buttons to be the size
   // that was specified in the button group regardless of what the button has defined
-  const useSize = buttonGroupContext.isAttached ? buttonGroupContext['data-size'] : dataSize;
+  const useSize = buttonGroupContext.isAttached ? buttonGroupContext.size : size;
+  const isLoading = state === ButtonState.IS_LOADING;
 
   // certain variant (like ghost and links) don't work well with attached group (as their styling does not make them
   // seem attached) so we need to revert to the group variant if one of those is defined on the button itself
   const useVariant =
-    buttonGroupContext.isAttached && !isValidAttachedVariant(dataVariant)
-      ? buttonGroupContext['data-variant']
-      : dataVariant;
-  const isLoading = dataState === ButtonState.IS_LOADING;
+    buttonGroupContext.isAttached && !isValidAttachedVariant(variant) ? buttonGroupContext.variant : variant;
 
   return (
-    <button
-      className={styles.container}
-      data-context={dataContext}
-      data-size={useSize}
-      data-variant={useVariant}
+    <StyledButton
+      context={context}
+      size={useSize ?? DEFAULT_BUTTON_SIZE}
+      variant={useVariant ?? DEFAULT_BUTTON_VARIANT}
       disabled={disabled || isLoading}
       data-id="button"
       {...restOfProps}
     >
-      {isLoading && loadingIconPosition === ButtonIconPosition.PRE && (
-        <span
-          className={styles.icon}
-          data-id="pre-loading-icon"
-          data-position={ButtonIconPosition.PRE}
-          data-state={dataState}
-        >
-          <ButtonIcon icon={faSpinner} />
-        </span>
-      )}
-      {!isLoading && preIcon && (
-        <span className={styles.icon} data-id="pre-icon" data-position={ButtonIconPosition.PRE} data-state={dataState}>
-          {preIcon}
-        </span>
+      {(preIcon || (isLoading && loadingIconPosition === ButtonIconPosition.PRE)) && (
+        <ButtonIcon position={ButtonIconPosition.PRE} isLoading={isLoading} icon={preIcon || faSpinner} />
       )}
       {children}
-      {!isLoading && postIcon && (
-        <span
-          className={styles.icon}
-          data-id="post-icon"
-          data-position={ButtonIconPosition.POST}
-          data-state={dataState}
-        >
-          {postIcon}
-        </span>
+      {(postIcon || (isLoading && loadingIconPosition === ButtonIconPosition.POST)) && (
+        <ButtonIcon position={ButtonIconPosition.POST} isLoading={isLoading} icon={postIcon ?? faSpinner} />
       )}
-      {isLoading && loadingIconPosition === ButtonIconPosition.POST && (
-        <span
-          className={styles.icon}
-          data-id="post-loading-icon"
-          data-position={ButtonIconPosition.POST}
-          data-state={dataState}
-        >
-          <ButtonIcon icon={faSpinner} />
-        </span>
-      )}
-    </button>
+    </StyledButton>
   );
 };
 

@@ -3,7 +3,7 @@ import React, { useCallback, useEffect } from 'react';
 import Button, { ButtonContext } from '$/components/button';
 import { authenticationContext } from '$/contexts/authentication';
 import { routerUtils } from '$/utils/router';
-import { styles } from '$/views/login-page/login-page.css';
+import { StyledLoginPage } from '$/views/login-page/styles';
 
 const LoginPage = () => {
   const navigate = routerUtils.useNavigate();
@@ -14,6 +14,10 @@ const LoginPage = () => {
   }, [login]);
 
   useEffect(() => {
+    console.log(navigate);
+    console.log(loginRedirectUrl);
+    console.log(finishLogin);
+    console.log('----');
     if (!loginRedirectUrl) {
       return;
     }
@@ -23,11 +27,11 @@ const LoginPage = () => {
   }, [navigate, loginRedirectUrl, finishLogin]);
 
   return (
-    <div className={styles.container} data-id="login-page">
-      <Button data-id="login-button" data-context={ButtonContext.SAFE} onClick={onLogin}>
+    <StyledLoginPage data-id="login-page">
+      <Button data-id="login-button" context={ButtonContext.SAFE} onClick={onLogin}>
         Login
       </Button>
-    </div>
+    </StyledLoginPage>
   );
 };
 
