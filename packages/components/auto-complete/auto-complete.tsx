@@ -140,7 +140,9 @@ export const internalDownshiftStateReducer = <TItemValue extends AutoCompleteIte
       return {
         ...changes,
 
-        // this seems to have issues in certain cases so just going to over using this completely
+        // this seems to have issues in certain cases so just going to skip using this completely since it is not
+        // really required right now
+        // @todo(investigate)
         highlightedIndex: -1,
       };
 
@@ -261,6 +263,21 @@ export const internalOnSelectedItemChange = <TItemValue extends AutoCompleteItem
   }
 };
 
+interface InternalOnInputValueChangeParams<TItemValue extends AutoCompleteItem> {
+  changes: UseComboboxStateChange<TItemValue>;
+  componentFilterItems: ComponentFilterItems<TItemValue>;
+}
+
+export const internalOnInputValueChange = ({ changes, componentFilterItems }: InternalOnInputValueChangeParams) => {
+  if (!changes.inputValue) {
+    componentFilterItems();
+
+    return;
+  }
+
+  componentFilterItems(changes.inputValue);
+};
+
 const AutoComplete = <TItemValue extends AutoCompleteItem>({
   items,
   filterItems,
@@ -285,6 +302,13 @@ const AutoComplete = <TItemValue extends AutoCompleteItem>({
     (inputValue?: string, lastSelectedItem?: TItemValue) =>
       internalFilterItems({ items, setAvailableItems, filterItems, inputValue, lastSelectedItem }),
     [items, setAvailableItems, filterItems],
+  );
+
+  const onInputValueChange = useCallback(
+    (changes: UseComboboxStateChange<TItemValue>) => {
+      internalOnInputValueChange({ componentFilterItems, changes });
+    },
+    [componentFilterItems],
   );
 
   const downshiftStateReducer = useCallback(
@@ -331,15 +355,7 @@ const AutoComplete = <TItemValue extends AutoCompleteItem>({
     items: availableItems,
     itemToString: componentItemToString,
     stateReducer: downshiftStateReducer,
-    // onInputValueChange: (change) => {
-    //   if (!change.inputValue) {
-    //     componentFilterItems();
-    //
-    //     return;
-    //   }
-    //
-    //   componentFilterItems(change.inputValue);
-    // },
+    onInputValueChange,
 
     // when we are in multi-select mode we don't want to set the selected item as we want the
     // input to always be clear other than when the user is typing in it
@@ -398,6 +414,7 @@ const AutoComplete = <TItemValue extends AutoCompleteItem>({
       <ul
         data-id="items"
         {...getMenuProps()}
+        // @todo(refactor) replace with real styling
         style={{ display: isOpen ? 'block' : 'none', height: '200px', border: '1px solid black', overflowY: 'auto' }}
       >
         {isOpen &&

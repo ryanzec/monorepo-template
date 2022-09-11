@@ -283,7 +283,6 @@ const singleSelectTestCases: { [key: string]: (TestComponent: TestComponentType,
     cy.get(selectors.autoCompleteInput).type('{downArrow}{downArrow}');
     cy.get(selectors.autoCompleteInput).type('{enter}');
 
-    cy.get(selectors.autoCompleteInput).should('be.focused');
     cy.get(selectors.autoCompleteItems).should('not.exist');
   },
   'the escape key hides the list': (TestComponent: TestComponentType, isMultiMode = false) => {
@@ -545,7 +544,7 @@ describe('auto complete component', () => {
     // this should have all tests from `basic functionality` with the addition so testing the form values when needed
     // as this uses a component the wraps the main one
     describe('with react hook form integration', () => {
-      // buildSingleSelectTestCases(BasicHookedExample);
+      buildSingleSelectTestCases(BasicHookedExample);
     });
   });
 
@@ -555,7 +554,7 @@ describe('auto complete component', () => {
     buildMultiSelectTestCases(MultiSelectExample);
 
     describe('with react hook form integration', () => {
-      // buildMultiSelectTestCases(MultiSelectExample);
+      buildMultiSelectTestCases(MultiSelectExample);
     });
   });
 });
