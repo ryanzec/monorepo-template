@@ -1,5 +1,6 @@
 import type { HttpResponseInterceptor, StaticResponse } from 'cypress/types/net-stubbing';
 
+import { ThemeProvider } from '@emotion/react';
 import * as React from 'react';
 import { DndProvider } from 'react-dnd';
 import { HTML5Backend } from 'react-dnd-html5-backend';
@@ -8,8 +9,8 @@ import sinon from 'sinon';
 import ApplicationFrame from '$/components/application-frame';
 import { applicationSettingsContext } from '$/contexts/application-settings';
 import { authenticationContext } from '$/contexts/authentication';
-import { ThemeName } from '$/types/theme';
 import { routerUtils } from '$/utils/router';
+import { ThemeName } from '$/utils/style';
 
 import Agent = Cypress.Agent;
 
@@ -39,7 +40,9 @@ const buildResponseCollection = (test: Array<StaticResponse | HttpResponseInterc
 const addBasicWrapper = (jsx: JSX.Element) => {
   return (
     <applicationSettingsContext.Provider>
-      <DndProvider backend={HTML5Backend}>{jsx}</DndProvider>
+      <ThemeProvider theme={{ name: ThemeName.LIGHT }}>
+        <DndProvider backend={HTML5Backend}>{jsx}</DndProvider>
+      </ThemeProvider>
     </applicationSettingsContext.Provider>
   );
 };

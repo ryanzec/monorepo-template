@@ -1,11 +1,17 @@
+import styled from '@emotion/styled';
 import { Identifier } from 'dnd-core';
 import produce from 'immer';
 import React, { useCallback, useRef, useState } from 'react';
 import { useDrag, useDrop } from 'react-dnd';
 import { v4 as uuid } from 'uuid';
 
-import { styles } from '$/components/drag-drop/drag-drop.css';
 import { dragDropUtils } from '$/utils/drag-drop';
+
+const TotoItem = styled.div`
+  border: 1px solid black;
+  padding: 5px;
+  margin: 2px;
+`;
 
 export default {
   title: 'Packages/Components/Drag Drop',
@@ -84,9 +90,9 @@ export const SortingListItem = React.memo(({ item, index, moveItem }: SortingLis
 
   const opacity = isDragging ? 0 : 1;
   return (
-    <div className={styles.todoItem} ref={ref} style={{ opacity }}>
+    <TotoItem ref={ref} style={{ opacity }}>
       {item.name} - {item.isComplete}
-    </div>
+    </TotoItem>
   );
 });
 

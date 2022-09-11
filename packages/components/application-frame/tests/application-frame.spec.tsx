@@ -4,7 +4,7 @@ import React from 'react';
 import sinon from 'sinon';
 
 import * as component from '$/components/application-frame/application-frame';
-import { ThemeName } from '$/types/theme';
+import { ThemeName } from '$/utils/style';
 import { unitTestingUtils } from '$/utils/unit-testing';
 
 describe('application frame component', () => {

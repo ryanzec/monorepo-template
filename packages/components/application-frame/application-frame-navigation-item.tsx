@@ -4,7 +4,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import React, { useCallback } from 'react';
 import { NavigateFunction, To } from 'react-router-dom';
 
-import { styles } from '$/components/application-frame/application-frame.css';
+import { StyledNavigationItem } from '$/components/application-frame/styles';
 import { routerUtils } from '$/utils/router';
 
 export interface ApplicationFrameNavigationItemProps {
@@ -30,8 +30,7 @@ const ApplicationFrameNavigationItem = ({ icon, text, navigateTo }: ApplicationF
   }, [navigate, navigateTo]);
 
   return (
-    <div
-      className={styles.NavigationItem}
+    <StyledNavigationItem
       role="button"
       tabIndex={0}
       data-id="item"
@@ -40,8 +39,8 @@ const ApplicationFrameNavigationItem = ({ icon, text, navigateTo }: ApplicationF
       // this is needed for a11y though not sure what this event should do
       onKeyPress={() => {}}
     >
-      <FontAwesomeIcon className={styles.NavigationItemSvg} icon={icon} /> {text}
-    </div>
+      <FontAwesomeIcon icon={icon} /> {text}
+    </StyledNavigationItem>
   );
 };
 

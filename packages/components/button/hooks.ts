@@ -1,18 +1,24 @@
 import { createContext, useContext } from 'react';
 
-import { ButtonContext, ButtonSize, ButtonVariant } from '$/components/button/common';
+import {
+  ButtonContext,
+  ButtonSize,
+  ButtonVariant,
+  DEFAULT_BUTTON_SIZE,
+  DEFAULT_BUTTON_VARIANT,
+} from '$/components/button/common';
 
 export interface ButtonGroupContextValue {
-  'data-context'?: ButtonContext;
-  'data-size': ButtonSize;
-  'data-variant': ButtonVariant;
+  context?: ButtonContext;
+  size?: ButtonSize;
+  variant?: ButtonVariant;
   disabled?: boolean;
   isAttached?: boolean;
 }
 
 export const ButtonGroupContext = createContext<ButtonGroupContextValue>({
-  'data-variant': ButtonVariant.SOLID,
-  'data-size': ButtonSize.MEDIUM,
+  variant: DEFAULT_BUTTON_VARIANT,
+  size: DEFAULT_BUTTON_SIZE,
 });
 
 export const useButtonGroupContext = (): ButtonGroupContextValue => {

@@ -39,13 +39,13 @@ export const Sizes = () => {
     <>
       <FlexContainer>
         <FlexContainerItem>
-          <Button data-size={ButtonSize.SMALL}>Small</Button>
+          <Button size={ButtonSize.SMALL}>Small</Button>
         </FlexContainerItem>
         <FlexContainerItem>
-          <Button data-size={ButtonSize.MEDIUM}>Medium</Button>
+          <Button size={ButtonSize.MEDIUM}>Medium</Button>
         </FlexContainerItem>
         <FlexContainerItem>
-          <Button data-size={ButtonSize.LARGE}>Large</Button>
+          <Button size={ButtonSize.LARGE}>Large</Button>
         </FlexContainerItem>
       </FlexContainer>
     </>
@@ -56,12 +56,12 @@ Sizes.parameters = { controls: { disable: true } };
 export const Icons = () => {
   return (
     <>
-      <FlexContainer data-direction={FlexContainerDirection.COLUMN}>
+      <FlexContainer direction={FlexContainerDirection.COLUMN}>
         <FlexContainerItem>
-          <Button preIcon={<Button.Icon icon={faHouse} />}>Start Icon</Button>
+          <Button preIcon={faHouse}>Start Icon</Button>
         </FlexContainerItem>
         <FlexContainerItem>
-          <Button postIcon={<Button.Icon icon={faHouse} />}>End Icon</Button>
+          <Button postIcon={faHouse}>End Icon</Button>
         </FlexContainerItem>
       </FlexContainer>
     </>
@@ -72,14 +72,14 @@ Icons.parameters = { controls: { disable: true } };
 export const Loading = () => {
   return (
     <>
-      <FlexContainer data-direction={FlexContainerDirection.COLUMN}>
+      <FlexContainer direction={FlexContainerDirection.COLUMN}>
         <FlexContainerItem>
-          <Button data-state={ButtonState.IS_LOADING} loadingIconPosition={ButtonIconPosition.PRE}>
+          <Button state={ButtonState.IS_LOADING} loadingIconPosition={ButtonIconPosition.PRE}>
             Start Loading
           </Button>
         </FlexContainerItem>
         <FlexContainerItem>
-          <Button data-state={ButtonState.IS_LOADING} loadingIconPosition={ButtonIconPosition.POST}>
+          <Button state={ButtonState.IS_LOADING} loadingIconPosition={ButtonIconPosition.POST}>
             End Loading
           </Button>
         </FlexContainerItem>
@@ -94,16 +94,16 @@ export const Contexts = () => {
     <>
       <FlexContainer>
         <FlexContainerItem>
-          <Button data-context={ButtonContext.PRIMARY}>Primary</Button>
+          <Button context={ButtonContext.PRIMARY}>Primary</Button>
         </FlexContainerItem>
         <FlexContainerItem>
-          <Button data-context={ButtonContext.SAFE}>Safe</Button>
+          <Button context={ButtonContext.SAFE}>Safe</Button>
         </FlexContainerItem>
         <FlexContainerItem>
-          <Button data-context={ButtonContext.WARNING}>Warning</Button>
+          <Button context={ButtonContext.WARNING}>Warning</Button>
         </FlexContainerItem>
         <FlexContainerItem>
-          <Button data-context={ButtonContext.DANGER}>Danger</Button>
+          <Button context={ButtonContext.DANGER}>Danger</Button>
         </FlexContainerItem>
       </FlexContainer>
     </>
@@ -116,85 +116,85 @@ export const Variants = () => {
     <>
       <FlexContainer>
         <FlexContainerItem>
-          <Button data-context={ButtonContext.PRIMARY} data-variant={ButtonVariant.SOLID}>
+          <Button context={ButtonContext.PRIMARY} variant={ButtonVariant.SOLID}>
             Solid
           </Button>
         </FlexContainerItem>
         <FlexContainerItem>
-          <Button data-context={ButtonContext.PRIMARY} data-variant={ButtonVariant.OUTLINE}>
+          <Button context={ButtonContext.PRIMARY} variant={ButtonVariant.OUTLINE}>
             Outline
           </Button>
         </FlexContainerItem>
         <FlexContainerItem>
-          <Button data-context={ButtonContext.PRIMARY} data-variant={ButtonVariant.GHOST}>
+          <Button context={ButtonContext.PRIMARY} variant={ButtonVariant.GHOST}>
             Ghost
           </Button>
         </FlexContainerItem>
         <FlexContainerItem>
-          <Button data-context={ButtonContext.PRIMARY} data-variant={ButtonVariant.LINK}>
+          <Button context={ButtonContext.PRIMARY} variant={ButtonVariant.LINK}>
             Link
           </Button>
         </FlexContainerItem>
         <br />
         <FlexContainerItem>
-          <Button data-context={ButtonContext.SAFE} data-variant={ButtonVariant.SOLID}>
+          <Button context={ButtonContext.SAFE} variant={ButtonVariant.SOLID}>
             Solid
           </Button>
         </FlexContainerItem>
         <FlexContainerItem>
-          <Button data-context={ButtonContext.SAFE} data-variant={ButtonVariant.OUTLINE}>
+          <Button context={ButtonContext.SAFE} variant={ButtonVariant.OUTLINE}>
             Outline
           </Button>
         </FlexContainerItem>
         <FlexContainerItem>
-          <Button data-context={ButtonContext.SAFE} data-variant={ButtonVariant.GHOST}>
+          <Button context={ButtonContext.SAFE} variant={ButtonVariant.GHOST}>
             Ghost
           </Button>
         </FlexContainerItem>
         <FlexContainerItem>
-          <Button data-context={ButtonContext.SAFE} data-variant={ButtonVariant.LINK}>
+          <Button context={ButtonContext.SAFE} variant={ButtonVariant.LINK}>
             Link
           </Button>
         </FlexContainerItem>
         <br />
         <FlexContainerItem>
-          <Button data-context={ButtonContext.WARNING} data-variant={ButtonVariant.SOLID}>
+          <Button context={ButtonContext.WARNING} variant={ButtonVariant.SOLID}>
             Solid
           </Button>
         </FlexContainerItem>
         <FlexContainerItem>
-          <Button data-context={ButtonContext.WARNING} data-variant={ButtonVariant.OUTLINE}>
+          <Button context={ButtonContext.WARNING} variant={ButtonVariant.OUTLINE}>
             Outline
           </Button>
         </FlexContainerItem>
         <FlexContainerItem>
-          <Button data-context={ButtonContext.WARNING} data-variant={ButtonVariant.GHOST}>
+          <Button context={ButtonContext.WARNING} variant={ButtonVariant.GHOST}>
             Ghost
           </Button>
         </FlexContainerItem>
         <FlexContainerItem>
-          <Button data-context={ButtonContext.WARNING} data-variant={ButtonVariant.LINK}>
+          <Button context={ButtonContext.WARNING} variant={ButtonVariant.LINK}>
             Link
           </Button>
         </FlexContainerItem>
         <br />
         <FlexContainerItem>
-          <Button data-context={ButtonContext.DANGER} data-variant={ButtonVariant.SOLID}>
+          <Button context={ButtonContext.DANGER} variant={ButtonVariant.SOLID}>
             Solid
           </Button>
         </FlexContainerItem>
         <FlexContainerItem>
-          <Button data-context={ButtonContext.DANGER} data-variant={ButtonVariant.OUTLINE}>
+          <Button context={ButtonContext.DANGER} variant={ButtonVariant.OUTLINE}>
             Outline
           </Button>
         </FlexContainerItem>
         <FlexContainerItem>
-          <Button data-context={ButtonContext.DANGER} data-variant={ButtonVariant.GHOST}>
+          <Button context={ButtonContext.DANGER} variant={ButtonVariant.GHOST}>
             Ghost
           </Button>
         </FlexContainerItem>
         <FlexContainerItem>
-          <Button data-context={ButtonContext.DANGER} data-variant={ButtonVariant.LINK}>
+          <Button context={ButtonContext.DANGER} variant={ButtonVariant.LINK}>
             Link
           </Button>
         </FlexContainerItem>
@@ -208,39 +208,26 @@ Variants.parameters = { controls: { disable: true } };
 export const Groups = () => {
   return (
     <>
-      <FlexContainer data-direction={FlexContainerDirection.COLUMN}>
+      <FlexContainer direction={FlexContainerDirection.COLUMN}>
         <FlexContainerItem>
           <div>Not Attached</div>
-          <Button.Group
-            data-context={ButtonContext.PRIMARY}
-            data-variant={ButtonVariant.OUTLINE}
-            data-size={ButtonSize.MEDIUM}
-          >
+          <Button.Group context={ButtonContext.PRIMARY} variant={ButtonVariant.OUTLINE} size={ButtonSize.MEDIUM}>
             <Button>Derived From Group</Button>
             <Button
-              data-context={ButtonContext.PRIMARY}
-              data-variant={ButtonVariant.SOLID}
-              data-state={ButtonState.IS_LOADING}
-              preIcon={<Button.Icon icon={faHouse} />}
+              context={ButtonContext.PRIMARY}
+              variant={ButtonVariant.SOLID}
+              state={ButtonState.IS_LOADING}
+              preIcon={faHouse}
             >
               Primary
             </Button>
-            <Button data-context={ButtonContext.SAFE} data-variant={ButtonVariant.LINK} data-size={ButtonSize.LARGE}>
+            <Button context={ButtonContext.SAFE} variant={ButtonVariant.LINK} size={ButtonSize.LARGE}>
               Safe
             </Button>
-            <Button
-              data-context={ButtonContext.WARNING}
-              data-variant={ButtonVariant.GHOST}
-              postIcon={<Button.Icon icon={faHouse} />}
-            >
+            <Button context={ButtonContext.WARNING} variant={ButtonVariant.GHOST} postIcon={faHouse}>
               Warning
             </Button>
-            <Button
-              data-context={ButtonContext.DANGER}
-              data-variant={ButtonVariant.SOLID}
-              data-size={ButtonSize.SMALL}
-              disabled
-            >
+            <Button context={ButtonContext.DANGER} variant={ButtonVariant.SOLID} size={ButtonSize.SMALL} disabled>
               Danger
             </Button>
           </Button.Group>
@@ -248,36 +235,27 @@ export const Groups = () => {
         <FlexContainerItem>
           <div>Attached</div>
           <Button.Group
-            data-context={ButtonContext.PRIMARY}
-            data-variant={ButtonVariant.OUTLINE}
-            data-size={ButtonSize.MEDIUM}
+            context={ButtonContext.PRIMARY}
+            variant={ButtonVariant.OUTLINE}
+            size={ButtonSize.MEDIUM}
             isAttached
           >
             <Button>Derived From Group</Button>
             <Button
-              data-context={ButtonContext.PRIMARY}
-              data-variant={ButtonVariant.SOLID}
-              data-state={ButtonState.IS_LOADING}
-              preIcon={<Button.Icon icon={faHouse} />}
+              context={ButtonContext.PRIMARY}
+              variant={ButtonVariant.SOLID}
+              state={ButtonState.IS_LOADING}
+              preIcon={faHouse}
             >
               Primary
             </Button>
-            <Button data-context={ButtonContext.SAFE} data-variant={ButtonVariant.LINK} data-size={ButtonSize.LARGE}>
+            <Button context={ButtonContext.SAFE} variant={ButtonVariant.LINK} size={ButtonSize.LARGE}>
               Safe
             </Button>
-            <Button
-              data-context={ButtonContext.WARNING}
-              data-variant={ButtonVariant.GHOST}
-              postIcon={<Button.Icon icon={faHouse} />}
-            >
+            <Button context={ButtonContext.WARNING} variant={ButtonVariant.GHOST} postIcon={faHouse}>
               Warning
             </Button>
-            <Button
-              data-context={ButtonContext.DANGER}
-              data-variant={ButtonVariant.SOLID}
-              data-size={ButtonSize.SMALL}
-              disabled
-            >
+            <Button context={ButtonContext.DANGER} variant={ButtonVariant.SOLID} size={ButtonSize.SMALL} disabled>
               Danger
             </Button>
           </Button.Group>

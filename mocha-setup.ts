@@ -1,4 +1,7 @@
 // make typescript aware of the global configuration that is injected into the window object
+import '@emotion/react';
+import { ThemeName } from './packages/utils/style';
+
 declare global {
   interface Window {
     globalConfiguration?: {
@@ -13,11 +16,10 @@ declare global {
 // @ts-ignore-error
 global.window = {};
 
-// we need to disable vanilla extract for unit testing as we don't testing it will unit tests and it causes issues
-// eslint-disable-next-line @typescript-eslint/ban-ts-comment
-// @ts-ignore-error
-require.extensions['.css.ts'] = function () {
-  return null;
-};
-
-export {};
+// not sure why mocha does not pickup the types from packages/types/styles.d.ts but it does not so manually adding it
+// here
+declare module '@emotion/react' {
+  export interface Theme {
+    name: ThemeName;
+  }
+}

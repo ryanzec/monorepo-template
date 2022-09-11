@@ -9,17 +9,15 @@ on:
 jobs:
   web-application-unit-tests:
     runs-on: ubuntu-latest
-    strategy:
-      matrix:
-        node-version: [16.x]
     container:
       image: cypress/browsers:node16.5.0-chrome94-ff93
     steps:
       - uses: actions/checkout@v3
-      - name: setup node ${{ matrix.node-version }}
+      - name: input node
         uses: actions/setup-node@v3
         with:
-          node-version: ${{ matrix.node-version }}
+          node-version-file: ".nvmrc"
+          cache: npm
       - name: install depedencies
         run: npm ci --ignore-scripts
       - name: run unit tests

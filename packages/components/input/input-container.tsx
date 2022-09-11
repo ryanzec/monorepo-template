@@ -1,6 +1,6 @@
 import React, { RefObject } from 'react';
 
-import { styles } from '$/components/input/input.css';
+import { StyledInputContainer } from '$/components/input/styles';
 
 type InputContainerProps = React.DetailedHTMLProps<React.HTMLAttributes<HTMLDivElement>, HTMLDivElement> & {
   selfRef?: RefObject<HTMLDivElement>;
@@ -8,9 +8,9 @@ type InputContainerProps = React.DetailedHTMLProps<React.HTMLAttributes<HTMLDivE
 
 const InputContainer = ({ children, selfRef, ...restOfProps }: InputContainerProps) => {
   return (
-    <div className={styles.inputContainer} data-id="input-container" ref={selfRef} {...restOfProps}>
+    <StyledInputContainer ref={selfRef} data-id="input-container" {...restOfProps}>
       {children}
-    </div>
+    </StyledInputContainer>
   );
 };
 

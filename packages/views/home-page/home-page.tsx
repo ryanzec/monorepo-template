@@ -35,32 +35,34 @@ const HomePage = () => {
       <label>
         Password <input type="password" {...register('password', { required: true })} />
       </label>
-      <Button data-context={ButtonContext.SAFE} onClick={handleSubmit(onSubmitForm)}>
-        Process Form
-      </Button>
-      <Button
-        data-context={ButtonContext.SAFE}
-        disabled={isToggled}
-        data-id="test-api"
-        onClick={async () => {
-          // @todo(feature) backend token validation
-          const response = await apiUtils.appApi.get('/pawns');
+      <Button.Group>
+        <Button context={ButtonContext.SAFE} onClick={handleSubmit(onSubmitForm)}>
+          Process Form
+        </Button>
+        <Button
+          context={ButtonContext.SAFE}
+          disabled={isToggled}
+          data-id="test-api"
+          onClick={async () => {
+            // @todo(feature) backend token validation
+            const response = await apiUtils.appApi.get('/pawns');
 
-          console.log(response);
+            console.log(response);
 
-          setLoadedPawns(response.data);
-        }}
-      >
-        Test API
-      </Button>
-      <Button
-        data-context={ButtonContext.DANGER}
-        onClick={() => {
-          toggle();
-        }}
-      >
-        Toggle API Button
-      </Button>
+            setLoadedPawns(response.data);
+          }}
+        >
+          Test API
+        </Button>
+        <Button
+          context={ButtonContext.DANGER}
+          onClick={() => {
+            toggle();
+          }}
+        >
+          Toggle API Button
+        </Button>
+      </Button.Group>
     </>
   );
 };

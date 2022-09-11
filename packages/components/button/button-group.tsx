@@ -1,8 +1,8 @@
 import React from 'react';
 
-import { styles } from '$/components/button/button.css';
-import { ButtonVariant } from '$/components/button/common';
+import { DEFAULT_BUTTON_CONTEXT, DEFAULT_BUTTON_SIZE, DEFAULT_BUTTON_VARIANT } from '$/components/button/common';
 import { ButtonGroupContext, ButtonGroupContextValue } from '$/components/button/hooks';
+import { StyledButtonGroup } from '$/components/button/styles';
 
 interface ButtonGroupProps
   extends ButtonGroupContextValue,
@@ -11,30 +11,24 @@ interface ButtonGroupProps
 const ButtonGroup = ({
   children,
   isAttached = false,
-  'data-variant': dataVariant = ButtonVariant.SOLID,
-  'data-size': dataSize,
-  'data-context': dataContext,
+  variant = DEFAULT_BUTTON_VARIANT,
+  size = DEFAULT_BUTTON_SIZE,
+  context = DEFAULT_BUTTON_CONTEXT,
   ...restOfProps
 }: ButtonGroupProps) => {
   return (
     <ButtonGroupContext.Provider
       value={{
         isAttached,
-        'data-variant': dataVariant,
-        'data-size': dataSize,
-        'data-context': dataContext,
+        variant,
+        size,
+        context: context,
         disabled: restOfProps.disabled,
       }}
     >
-      <div
-        className={styles.group}
-        data-id="button-group"
-        role="group"
-        data-attached={isAttached ? 'true' : 'false'}
-        {...restOfProps}
-      >
+      <StyledButtonGroup data-id="button-group" role="group" isAttached={isAttached} {...restOfProps}>
         {children}
-      </div>
+      </StyledButtonGroup>
     </ButtonGroupContext.Provider>
   );
 };

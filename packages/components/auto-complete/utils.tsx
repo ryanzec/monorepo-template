@@ -1,18 +1,25 @@
 import type { FieldValues } from 'react-hook-form/dist/types';
 
+import produce from 'immer';
+import remove from 'lodash/remove';
 import React from 'react';
 import { Path, PathValue, UseFormSetValue, ControllerRenderProps } from 'react-hook-form';
 
-import AutoComplete, {
+import {
   AutoCompleteFilterItemsParams,
   AutoCompleteItem,
   AutoCompleteRenderItemParams,
-} from '$/components/auto-complete';
+} from '$/components/auto-complete/auto-complete';
+import RenderItem from '$/components/auto-complete/auto-complete-render-item';
+
+// downshift requires any for the default
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+export const defaultItemToString = (item: any) => {
+  return item !== null && item !== undefined ? String(item) : '';
+};
 
 const buildFilterItems = (selectedItems?: Array<AutoCompleteItem>) => {
   return ({ items, inputValue, selectedItem }: AutoCompleteFilterItemsParams<AutoCompleteItem>): AutoCompleteItem[] => {
-    console.log('buildFilterItems', selectedItem, selectedItem);
-
     return items.filter(
       (item) =>
         selectedItem !== item &&
@@ -30,7 +37,7 @@ const buildRenderItem = () => {
   }: AutoCompleteRenderItemParams<AutoCompleteItem>) => {
     return items.map((item, index) => {
       return (
-        <AutoComplete.RenderItem
+        <RenderItem
           key={item.value}
           item={item}
           itemProps={getItemProps({ item, index })}
@@ -93,6 +100,34 @@ const buildItemSelectedMultiHooked = <TFormData extends FieldValues>(
   };
 };
 
+interface DeleteSelectedItemParams<TAutoCompleteItem extends AutoCompleteItem, TFormData extends FieldValues> {
+  name: Path<TFormData>;
+  valueToDelete: TAutoCompleteItem['value'];
+  selectedItems: Array<TAutoCompleteItem>;
+  setValue: UseFormSetValue<TFormData>;
+  setSelectedItems: (values: Array<TAutoCompleteItem>) => void;
+}
+
+const deleteSelectedItem = <TAutoCompleteItem extends AutoCompleteItem, TFormData extends FieldValues>({
+  name,
+  valueToDelete,
+  selectedItems,
+  setValue,
+  setSelectedItems,
+}: DeleteSelectedItemParams<TAutoCompleteItem, TFormData>) => {
+  const newItems = produce(selectedItems, (draftState) => {
+    remove(draftState, { value: valueToDelete });
+  });
+  const newItemValues = newItems.map((severity) => {
+    return severity.value;
+  });
+
+  // since this is a generic react hook form configured component, we need to as
+  // to avoid typescript errors
+  setValue(name, newItemValues as PathValue<TFormData, Path<TFormData>>);
+  setSelectedItems(newItems);
+};
+
 export const autoCompleteUtils = {
   buildFilterItems,
   buildRenderItem,
@@ -100,4 +135,6 @@ export const autoCompleteUtils = {
   buildItemSelectedHooked,
   buildItemSelectedMulti,
   buildItemSelectedMultiHooked,
+  deleteSelectedItem,
+  defaultItemToString,
 };

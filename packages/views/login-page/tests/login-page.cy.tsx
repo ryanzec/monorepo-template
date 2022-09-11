@@ -51,6 +51,9 @@ describe('login page', () => {
 
     cy.get(selectors.loginPage).should('exist');
 
+    // seems like I need this for the useEffect to trigger
+    cy.wait(0);
+
     cy.get('@useAuthenticationContextStub').then(() => {
       // one of calls comes from the application frame
       expect(useAuthenticationContextStub.callCount).to.equal(2);

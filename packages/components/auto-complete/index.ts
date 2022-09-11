@@ -9,4 +9,6 @@ export type {
   AutoCompleteItem,
 } from '$/components/auto-complete/auto-complete';
 
+export { autoCompleteUtils } from '$/components/auto-complete/utils';
+
 export default Object.assign(AutoComplete, { Hooked, RenderItem, SelectedItem });

@@ -30,6 +30,7 @@
     "cypress",
     "cypress-real-events",
     "@testing-library/cypress"
+
   ],
   "exclude": ["**/*.cypress.spec.{ts,tsx}","node_modules"],
 }

@@ -1,6 +1,5 @@
 import path from 'path';
 
-import { vanillaExtractPlugin } from '@vanilla-extract/vite-plugin';
 import react from '@vitejs/plugin-react';
 
 const baseConfiguration = {
@@ -9,7 +8,13 @@ const baseConfiguration = {
       $: path.join(__dirname, 'packages'),
     },
   },
-  plugins: [vanillaExtractPlugin(), react()],
+  plugins: [
+    react({
+      babel: {
+        plugins: ['@emotion/babel-plugin'],
+      },
+    }),
+  ],
   server: {
     watch: {
       ignored: ['**/coverage/**'],
