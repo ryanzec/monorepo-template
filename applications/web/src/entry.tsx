@@ -1,5 +1,6 @@
 import '@fontsource/inter';
-import './normalize.css';
+import '$/styles/variables.css';
+import '$/styles/normalize.css';
 
 import React, { StrictMode } from 'react';
 import { DndProvider } from 'react-dnd';

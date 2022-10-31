@@ -1,7 +1,7 @@
 import React, { useCallback } from 'react';
 
 import { applicationSettingsContext } from '$/contexts/application-settings';
-import { ThemeName } from '$/utils/style';
+import { ThemeName } from '$/types/styles';
 
 const applicationSettingsContextTest = applicationSettingsContext.createContext();
 

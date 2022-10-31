@@ -8,13 +8,7 @@ const baseConfiguration = {
       $: path.join(__dirname, 'packages'),
     },
   },
-  plugins: [
-    react({
-      babel: {
-        plugins: ['@emotion/babel-plugin'],
-      },
-    }),
-  ],
+  plugins: [react()],
   server: {
     watch: {
       ignored: ['**/coverage/**'],

@@ -3,7 +3,7 @@ import React, { memo } from 'react';
 import { useDrop } from 'react-dnd';
 
 import { DragDropType } from '$/utils/drag-drop';
-import { FieldId, DragItem, MoveItem } from '$/views/complex-form-page/common';
+import { FieldId, DragItem, MoveItem } from '$/views/complex-form-page/utils';
 
 export interface DragDropItemProps {
   moveItem: MoveItem;

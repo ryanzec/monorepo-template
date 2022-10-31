@@ -1,0 +1,306 @@
+:root {
+  --border-radius-1x: 3px;
+  --border-radius-2x: 5px;
+  --border-radius-3x: 10px;
+  --border-radius-pill: 999px;
+  --border-radius-round: 50%;
+
+  --spacing-1x: 4px;
+  --spacing-2x: 8px;
+  --spacing-3x: 12px;
+  --spacing-4x: 16px;
+  --spacing-5x: 20px;
+  --spacing-6x: 24px;
+  --spacing-7x: 28px;
+  --spacing-8x: 32px;
+
+  --icon-size-1x: 16px;
+  --icon-size-2x: 24px;
+  --icon-size-3x: 32px;
+
+  --color-white: white;
+  --color-black: black;
+  --color-transparent: transparent;
+
+  /* general palettes */
+  --color-palette-green-light4: #edf6ed;
+  --color-palette-green-light3: #caeac8;
+  --color-palette-green-light2: #89da7f;
+  --color-palette-green-light1: #6abd60;
+  --color-palette-green-base: #54a14c;
+  --color-palette-green-dark1: #44883d;
+  --color-palette-green-dark2: #377531;
+  --color-palette-green-dark3: #1f461b;
+  --color-palette-green-dark4: #0d2d0a;
+
+  --color-palette-blue-light4: #e5ecf5;
+  --color-palette-blue-light3: #bbd4f1;
+  --color-palette-blue-light2: #61a0e7;
+  --color-palette-blue-light1: #4c8ace;
+  --color-palette-blue-base: #4079b7;
+  --color-palette-blue-dark1: #346396;
+  --color-palette-blue-dark2: #294e77;
+  --color-palette-blue-dark3: #19334f;
+  --color-palette-blue-dark4: #0a213a;
+
+  --color-palette-orange-light4: #fdf7f0;
+  --color-palette-orange-light3: #f5e0ca;
+  --color-palette-orange-light2: #ef9f4f;
+  --color-palette-orange-light1: #e88b2e;
+  --color-palette-orange-base: #de7d1c;
+  --color-palette-orange-dark1: #b96714;
+  --color-palette-orange-dark2: #93510e;
+  --color-palette-orange-dark3: #522c06;
+  --color-palette-orange-dark4: #2d1803;
+
+  --color-palette-red-light4: #f6ecec;
+  --color-palette-red-light3: #f5d1d1;
+  --color-palette-red-light2: #ee7777;
+  --color-palette-red-light1: #e15b5b;
+  --color-palette-red-base: #dc4444;
+  --color-palette-red-dark1: #c23838;
+  --color-palette-red-dark2: #9f2a2a;
+  --color-palette-red-dark3: #491010;
+  --color-palette-red-dark4: #2f0808;
+
+  --color-palette-gray-light4: #e9e9e9;
+  --color-palette-gray-light3: #d2d2d2;
+  --color-palette-gray-light2: #afafaf;
+  --color-palette-gray-light1: #919191;
+  --color-palette-gray-base: #777777;
+  --color-palette-gray-dark1: #636363;
+  --color-palette-gray-dark2: #484848;
+  --color-palette-gray-dark3: #282828;
+  --color-palette-gray-dark4: #191919;
+
+  /* text */
+  --color-text-primary: black;
+  --color-text-alternative: white;
+  --color-text-link: var(--color-palette-blue-dark1);
+  --color-text-link-hover: var(--color-palette-blue-dark3);
+
+  /* application frame */
+  --application-frame-container-backgound-color: var(--color-palette-gray-dark3);
+  --application-frame-container-color: var(--color-palette-gray-light2);
+  --application-frame-header-background-color: var(--color-palette-gray-dark4);
+  --application-frame-navigation-item-color: var(--color-palette-gray-light1);
+  --application-frame-navigation-item-color-active: var(--color-palette-gray-light3);
+  --application-frame-navigation-item-color-hover: var(--color-palette-gray-light3);
+
+  /* button */
+  --button-link-color: var(--color-text-link);
+  --button-link-background-color: var(--color-transparent);
+  --button-link-border-color: var(--color-transparent);
+  --button-link-background-color-hover: var(--color-transparent);
+  --button-link-background-color-pressed: var(--color-transparent);
+
+  --button-primary-solid-color: var(--color-text-alternative);
+  --button-primary-solid-background-color: var(--color-palette-blue-base);
+  --button-primary-solid-border-color: var(--color-transparent);
+  --button-primary-solid-background-color-hover: var(--color-palette-blue-dark1);
+  --button-primary-solid-background-color-pressed: var(--color-palette-blue-dark2);
+  --button-primary-outline-color: var(--color-palette-blue-dark1);
+  --button-primary-outline-background-color: var(--color-transparent);
+  --button-primary-outline-border-color: var(--color-palette-blue-dark1);
+  --button-primary-outline-background-color-hover: var(--color-palette-blue-light4);
+  --button-primary-outline-background-color-pressed: var(--color-palette-blue-light3);
+
+  --button-safe-solid-color: var(--color-text-alternative);
+  --button-safe-solid-background-color: var(--color-palette-green-base);
+  --button-safe-solid-border-color: var(--color-transparent);
+  --button-safe-solid-background-color-hover: var(--color-palette-green-dark1);
+  --button-safe-solid-background-color-pressed: var(--color-palette-green-dark2);
+  --button-safe-outline-color: var(--color-palette-green-dark1);
+  --button-safe-outline-background-color: var(--color-transparent);
+  --button-safe-outline-border-color: var(--color-palette-green-dark1);
+  --button-safe-outline-background-color-hover: var(--color-palette-green-light4);
+  --button-safe-outline-background-color-pressed: var(--color-palette-green-light3);
+
+  --button-warning-solid-color: var(--color-text-alternative);
+  --button-warning-solid-background-color: var(--color-palette-orange-base);
+  --button-warning-solid-border-color: var(--color-transparent);
+  --button-warning-solid-background-color-hover: var(--color-palette-orange-dark1);
+  --button-warning-solid-background-color-pressed: var(--color-palette-orange-dark2);
+  --button-warning-outline-color: var(--color-palette-orange-dark1);
+  --button-warning-outline-background-color: var(--color-transparent);
+  --button-warning-outline-border-color: var(--color-palette-orange-dark1);
+  --button-warning-outline-background-color-hover: var(--color-palette-orange-light4);
+  --button-warning-outline-background-color-pressed: var(--color-palette-orange-light3);
+
+  --button-danger-solid-color: var(--color-text-alternative);
+  --button-danger-solid-background-color: var(--color-palette-red-base);
+  --button-danger-solid-border-color: var(--color-transparent);
+  --button-danger-solid-background-color-hover: var(--color-palette-red-dark1);
+  --button-danger-solid-background-color-pressed: var(--color-palette-red-dark2);
+  --button-danger-outline-color: var(--color-palette-red-dark1);
+  --button-danger-outline-background-color: var(--color-transparent);
+  --button-danger-outline-border-color: var(--color-palette-red-dark1);
+  --button-danger-outline-background-color-hover: var(--color-palette-red-light4);
+  --button-danger-outline-background-color-pressed: var(--color-palette-red-light3);
+
+  /* input */
+  --input-border-color: var(--color-black);
+  --input-border-color-active: var(--color-palette-blue-dark1);
+}
+
+/*
+ * @todo(refactor) these are just a copy of the root variable, need actually dark mode
+ */
+[data-theme="dark"] {
+  /* general palettes */
+  --color-palette-green-light4: #edf6ed;
+  --color-palette-green-light3: #caeac8;
+  --color-palette-green-light2: #89da7f;
+  --color-palette-green-light1: #6abd60;
+  --color-palette-green-base: #54a14c;
+  --color-palette-green-dark1: #44883d;
+  --color-palette-green-dark2: #377531;
+  --color-palette-green-dark3: #1f461b;
+  --color-palette-green-dark4: #0d2d0a;
+
+  --color-palette-blue-light4: #e5ecf5;
+  --color-palette-blue-light3: #bbd4f1;
+  --color-palette-blue-light2: #61a0e7;
+  --color-palette-blue-light1: #4c8ace;
+  --color-palette-blue-base: #4079b7;
+  --color-palette-blue-dark1: #346396;
+  --color-palette-blue-dark2: #294e77;
+  --color-palette-blue-dark3: #19334f;
+  --color-palette-blue-dark4: #0a213a;
+
+  --color-palette-orange-light4: #fdf7f0;
+  --color-palette-orange-light3: #f5e0ca;
+  --color-palette-orange-light2: #ef9f4f;
+  --color-palette-orange-light1: #e88b2e;
+  --color-palette-orange-base: #de7d1c;
+  --color-palette-orange-dark1: #b96714;
+  --color-palette-orange-dark2: #93510e;
+  --color-palette-orange-dark3: #522c06;
+  --color-palette-orange-dark4: #2d1803;
+
+  --color-palette-red-light4: #f6ecec;
+  --color-palette-red-light3: #f5d1d1;
+  --color-palette-red-light2: #ee7777;
+  --color-palette-red-light1: #e15b5b;
+  --color-palette-red-base: #dc4444;
+  --color-palette-red-dark1: #c23838;
+  --color-palette-red-dark2: #9f2a2a;
+  --color-palette-red-dark3: #491010;
+  --color-palette-red-dark4: #2f0808;
+
+  --color-palette-gray-light4: #e9e9e9;
+  --color-palette-gray-light3: #d2d2d2;
+  --color-palette-gray-light2: #afafaf;
+  --color-palette-gray-light1: #919191;
+  --color-palette-gray-base: #777777;
+  --color-palette-gray-dark1: #636363;
+  --color-palette-gray-dark2: #484848;
+  --color-palette-gray-dark3: #282828;
+  --color-palette-gray-dark4: #191919;
+
+  /* text */
+  --color-text-primary: white;
+  --color-text-alternative: black;
+  --color-text-link: var(--color-palette-blue-light1);
+  --color-text-link-hover: var(--color-palette-blue-light3);
+
+  /* application frame */
+  --application-frame-container-backgound-color: var(--color-palette-gray-dark3);
+  --application-frame-container-color: var(--color-palette-gray-light2);
+  --application-frame-header-background-color: var(--color-palette-gray-dark4);
+  --application-frame-navigation-item-color: var(--color-palette-gray-light1);
+  --application-frame-navigation-item-color-active: var(--color-palette-gray-light3);
+  --application-frame-navigation-item-color-hover: var(--color-palette-gray-light3);
+
+  /* button */
+  --button-link-color: var(--color-text-link);
+  /*
+  might not need these
+  --button-link-background-color: var(--color-transparent);
+  --button-link-border-color: var(--color-transparent);
+  --button-link-background-color-hover: var(--color-transparent);
+  --button-link-background-color-pressed: var(--color-transparent);*/
+
+  /* @todo(refactor) using orange just for testing theme functionality */
+  --button-primary-solid-color: var(--color-text-alternative);
+  --button-primary-solid-background-color: var(--color-palette-orange-base);
+  --button-primary-solid-border-color: var(--color-transparent);
+  --button-primary-solid-background-color-hover: var(--color-palette-orange-dark1);
+  --button-primary-solid-background-color-pressed: var(--color-palette-orange-dark2);
+  --button-primary-outline-color: var(--color-palette-orange-dark1);
+  --button-primary-outline-background-color: var(--color-transparent);
+  --button-primary-outline-border-color: var(--color-palette-orange-dark1);
+  --button-primary-outline-background-color-hover: var(--color-palette-orange-light4);
+  --button-primary-outline-background-color-pressed: var(--color-palette-orange-light3);
+
+  --button-safe-solid-color: var(--color-text-alternative);
+  --button-safe-solid-background-color: var(--color-palette-orange-base);
+  --button-safe-solid-border-color: var(--color-transparent);
+  --button-safe-solid-background-color-hover: var(--color-palette-orange-dark1);
+  --button-safe-solid-background-color-pressed: var(--color-palette-orange-dark2);
+  --button-safe-outline-color: var(--color-palette-orange-dark1);
+  --button-safe-outline-background-color: var(--color-transparent);
+  --button-safe-outline-border-color: var(--color-palette-orange-dark1);
+  --button-safe-outline-background-color-hover: var(--color-palette-orange-light4);
+  --button-safe-outline-background-color-pressed: var(--color-palette-orange-light3);
+
+  --button-warning-solid-color: var(--color-text-alternative);
+  --button-warning-solid-background-color: var(--color-palette-orange-base);
+  --button-warning-solid-border-color: var(--color-transparent);
+  --button-warning-solid-background-color-hover: var(--color-palette-orange-dark1);
+  --button-warning-solid-background-color-pressed: var(--color-palette-orange-dark2);
+  --button-warning-outline-color: var(--color-palette-orange-dark1);
+  --button-warning-outline-background-color: var(--color-transparent);
+  --button-warning-outline-border-color: var(--color-palette-orange-dark1);
+  --button-warning-outline-background-color-hover: var(--color-palette-orange-light4);
+  --button-warning-outline-background-color-pressed: var(--color-palette-orange-light3);
+
+  --button-danger-solid-color: var(--color-text-alternative);
+  --button-danger-solid-background-color: var(--color-palette-orange-base);
+  --button-danger-solid-border-color: var(--color-transparent);
+  --button-danger-solid-background-color-hover: var(--color-palette-orange-dark1);
+  --button-danger-solid-background-color-pressed: var(--color-palette-orange-dark2);
+  --button-danger-outline-color: var(--color-palette-orange-dark1);
+  --button-danger-outline-background-color: var(--color-transparent);
+  --button-danger-outline-border-color: var(--color-palette-orange-dark1);
+  --button-danger-outline-background-color-hover: var(--color-palette-orange-light4);
+  --button-danger-outline-background-color-pressed: var(--color-palette-orange-light3);
+
+  /* input */
+  --input-border-color: var(--color-black);
+  --input-border-color-active: var(--color-palette-blue-dark1);
+}
+
+/* theme agnostic variables */
+:root {
+  /* application frame */
+  --application-frame-header-padding: var(--spacing-2x);
+  --application-frame-header-height: 45px;
+  --application-frame-main-contain-padding: var(--spacing-5x);
+  --application-frame-navigation-padding: var(--spacing-3x);
+  --application-frame-navigation-width: 60px;
+  --application-frame-navigation-icon-height: var(--icon-size-2x);
+  --application-frame-navigation-item-padding-bottom: var(--spacing-4x);
+  --application-frame-navigation-item-svg-margin-bottom: var(--spacing-1x);
+
+  /* button */
+  --button-container-small-padding: var(--spacing-1x) var(--spacing-2x);
+  --button-container-medium-padding: var(--spacing-2x) var(--spacing-3x);
+  --button-container-large-padding: var(--spacing-2x) var(--spacing-5x);
+  --button-container-small-font-size: 12px;
+  --button-container-medium-font-size: 14px;
+  --button-container-large-font-size: 24px;
+  --button-container-border-radius: var(--border-radius-2x);
+  --button-icon-pre-margin: 0 var(--spacing-1x) 0 0;
+  --button-icon-post-margin: 0 0 0 var(--spacing-1x);
+  --button-group-unattached-margin-right: var(--spacing-1x);
+
+  /* input */
+  --input-container-padding-bottom: var(--spacing-4x);
+
+  /* label */
+  --label-container-padding-bottom: var(--spacing-1x);
+
+  /* validation message */
+  --validation-message-container-padding-top: var(--spacing-1x);
+}

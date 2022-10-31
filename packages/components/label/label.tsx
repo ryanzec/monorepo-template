@@ -1,14 +1,15 @@
+import classnames from 'classnames';
 import React from 'react';
 
-import { StyledLabel } from '$/components/label/styles';
+import styles from '$/components/label/label.module.css';
 
 type LabelProps = React.DetailedHTMLProps<React.HTMLAttributes<HTMLLabelElement>, HTMLLabelElement>;
 
 const Label = ({ children, ...restOfProps }: LabelProps) => {
   return (
-    <StyledLabel data-id="label" {...restOfProps}>
+    <label data-id="label" className={classnames(styles['label'])} {...restOfProps}>
       {children}
-    </StyledLabel>
+    </label>
   );
 };
 

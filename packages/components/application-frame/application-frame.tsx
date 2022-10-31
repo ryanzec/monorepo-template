@@ -1,18 +1,12 @@
+import classnames from 'classnames';
 import React, { Suspense, useCallback } from 'react';
 
 import ApplicationFrameNavigation from '$/components/application-frame/application-frame-navigation';
-import {
-  StyledActions,
-  StyledApplicationFrame,
-  StyledHeader,
-  StyledLogo,
-  StyledMainContent,
-  StyledSubContainer,
-} from '$/components/application-frame/styles';
+import styles from '$/components/application-frame/application-frame.module.css';
 import Button, { ButtonContext } from '$/components/button';
 import { applicationSettingsContext, ApplicationSettingsContext } from '$/contexts/application-settings';
 import { authenticationContext, AuthenticationContext } from '$/contexts/authentication';
-import { ThemeName } from '$/utils/style';
+import { ThemeName } from '$/types/styles';
 
 export type ApplicationFrameProps = React.DetailedHTMLProps<React.HTMLAttributes<HTMLDivElement>, HTMLDivElement>;
 
@@ -60,27 +54,27 @@ const ApplicationFrame = ({ children, ...restOfProps }: ApplicationFrameProps) =
   );
 
   return (
-    <StyledApplicationFrame data-id="frame" {...restOfProps}>
+    <div data-id="application-frame" className={classnames(styles['application-frame'])} {...restOfProps}>
       {isAuthenticated && <ApplicationFrameNavigation />}
-      <StyledSubContainer>
+      <div className={classnames(styles['sub-container'])}>
         {isAuthenticated && (
-          <StyledHeader data-id="header">
-            <StyledLogo>LOGO TODO</StyledLogo>
-            <StyledActions data-id="actions">
+          <div data-id="header" className={classnames(styles['header'])}>
+            <div className={classnames(styles['header-logo'])}>LOGO TODO</div>
+            <div className={classnames(styles['header-actions'])} data-id="actions">
               <Button data-id="toggle-theme" context={ButtonContext.PRIMARY} onClick={onToggleTheme}>
                 Toggle Theme (current: {theme})
               </Button>
               <Button data-id="logout" context={ButtonContext.DANGER} onClick={onLogout}>
                 Logout
               </Button>
-            </StyledActions>
-          </StyledHeader>
+            </div>
+          </div>
         )}
-        <StyledMainContent>
+        <div className={classnames(styles['main-content'])}>
           <Suspense fallback={'Loading...'}>{children}</Suspense>
-        </StyledMainContent>
-      </StyledSubContainer>
-    </StyledApplicationFrame>
+        </div>
+      </div>
+    </div>
   );
 };
 

@@ -1,9 +1,10 @@
 import { faSpinner } from '@fortawesome/free-solid-svg-icons';
-import { FontAwesomeIconProps } from '@fortawesome/react-fontawesome';
+import { FontAwesomeIcon, FontAwesomeIconProps } from '@fortawesome/react-fontawesome';
+import classnames from 'classnames';
 import React from 'react';
 
-import { ButtonIconPosition, DEFAULT_BUTTON_ICON_POSITION } from '$/components/button/common';
-import { StyledButtonIcon } from '$/components/button/styles';
+import styles from '$/components/button/button.module.css';
+import { ButtonIconPosition, DEFAULT_BUTTON_ICON_POSITION } from '$/components/button/utils';
 
 export interface ButtonIconProps extends FontAwesomeIconProps {
   position?: ButtonIconPosition;
@@ -22,10 +23,13 @@ const ButtonIcon = ({
   dataId += position === ButtonIconPosition.PRE ? ' pre' : ' post';
 
   return (
-    <StyledButtonIcon
+    <FontAwesomeIcon
       data-id={dataId}
-      position={position}
-      isLoading={isLoading}
+      className={classnames(styles['icon'], {
+        [styles['icon-pre']]: position === ButtonIconPosition.PRE,
+        [styles['icon-post']]: position === ButtonIconPosition.POST,
+        [styles['icon-is-loading']]: isLoading,
+      })}
       icon={isLoading ? faSpinner : icon}
       {...restOfProps}
     />

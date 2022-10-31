@@ -1,14 +1,15 @@
+import classnames from 'classnames';
 import React from 'react';
 
-import { StyledValidationMessage } from '$/components/validation-message/styles';
+import styles from '$/components/validation-message/validation-message.module.css';
 
 type ValidationMessageProps = React.DetailedHTMLProps<React.HTMLAttributes<HTMLDivElement>, HTMLDivElement>;
 
 const ValidationMessage = ({ children, ...restOfProps }: ValidationMessageProps) => {
   return (
-    <StyledValidationMessage data-id="validation-message" {...restOfProps}>
+    <div data-id="validation-message" className={classnames(styles['validation-message'])} {...restOfProps}>
       {children}
-    </StyledValidationMessage>
+    </div>
   );
 };
 

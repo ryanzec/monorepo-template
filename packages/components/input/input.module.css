@@ -1,0 +1,18 @@
+.container {
+  display: block;
+  &:not(:last-child) {
+    padding-bottom: var(--input-container-padding-bottom);
+  }
+
+  .input {
+    border: 1px solid var(--input-border-color);
+    border-radius: var(--border-radius-2x);
+    padding: var(--spacing-1x);
+    outline: none;
+
+    &:active {
+      /* @todo(refactor) variable */
+      border: 1px solid var(--input-border-color-active);
+    }
+  }
+}

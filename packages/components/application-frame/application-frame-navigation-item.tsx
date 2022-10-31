@@ -1,10 +1,11 @@
 import type { IconDefinition } from '@fortawesome/free-solid-svg-icons';
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import classnames from 'classnames';
 import React, { useCallback } from 'react';
 import { NavigateFunction, To } from 'react-router-dom';
 
-import { StyledNavigationItem } from '$/components/application-frame/styles';
+import styles from '$/components/application-frame/application-frame.module.css';
 import { routerUtils } from '$/utils/router';
 
 export interface ApplicationFrameNavigationItemProps {
@@ -30,8 +31,9 @@ const ApplicationFrameNavigationItem = ({ icon, text, navigateTo }: ApplicationF
   }, [navigate, navigateTo]);
 
   return (
-    <StyledNavigationItem
+    <div
       role="button"
+      className={classnames(styles['navigation-item'])}
       tabIndex={0}
       data-id="item"
       key={text}
@@ -40,7 +42,7 @@ const ApplicationFrameNavigationItem = ({ icon, text, navigateTo }: ApplicationF
       onKeyPress={() => {}}
     >
       <FontAwesomeIcon icon={icon} /> {text}
-    </StyledNavigationItem>
+    </div>
   );
 };
 

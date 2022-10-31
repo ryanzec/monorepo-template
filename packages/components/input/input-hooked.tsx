@@ -1,7 +1,8 @@
+import classnames from 'classnames';
 import React from 'react';
 import { UseFormRegister, Path, FieldValues } from 'react-hook-form';
 
-import { StyledInput } from '$/components/input/styles';
+import styles from '$/components/input/input.module.css';
 
 interface InputProps<TFormData extends FieldValues> {
   property: Path<TFormData>;
@@ -13,7 +14,15 @@ const InputHooked = <TFormData extends FieldValues>({
   register,
   ...restOfProps
 }: InputProps<TFormData> & React.DetailedHTMLProps<React.InputHTMLAttributes<HTMLInputElement>, HTMLInputElement>) => {
-  return <StyledInput data-id="input" {...register(property)} {...restOfProps} autoComplete="off" />;
+  return (
+    <input
+      data-id="input"
+      className={classnames(styles['input'])}
+      {...register(property)}
+      {...restOfProps}
+      autoComplete="off"
+    />
+  );
 };
 
 export default InputHooked;

@@ -1,8 +1,9 @@
+import classnames from 'classnames';
 import React from 'react';
 
-import { DEFAULT_BUTTON_CONTEXT, DEFAULT_BUTTON_SIZE, DEFAULT_BUTTON_VARIANT } from '$/components/button/common';
+import styles from '$/components/button/button.module.css';
 import { ButtonGroupContext, ButtonGroupContextValue } from '$/components/button/hooks';
-import { StyledButtonGroup } from '$/components/button/styles';
+import { DEFAULT_BUTTON_CONTEXT, DEFAULT_BUTTON_SIZE, DEFAULT_BUTTON_VARIANT } from '$/components/button/utils';
 
 interface ButtonGroupProps
   extends ButtonGroupContextValue,
@@ -26,9 +27,14 @@ const ButtonGroup = ({
         disabled: restOfProps.disabled,
       }}
     >
-      <StyledButtonGroup data-id="button-group" role="group" isAttached={isAttached} {...restOfProps}>
+      <div
+        data-id="button-group"
+        role="group"
+        className={classnames(styles['group'], { [styles['is-attached']]: isAttached })}
+        {...restOfProps}
+      >
         {children}
-      </StyledButtonGroup>
+      </div>
     </ButtonGroupContext.Provider>
   );
 };

@@ -1,8 +1,8 @@
 import { useState } from 'react';
 
 import { CustomReactContext, ReactContextImplementation, ReactUseState } from '$/types/react';
+import { ThemeName } from '$/types/styles';
 import { reactUtils } from '$/utils/react';
-import { ThemeName } from '$/utils/style';
 
 export interface ApplicationSettingsContext {
   theme: ThemeName;

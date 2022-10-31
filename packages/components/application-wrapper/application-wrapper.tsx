@@ -1,4 +1,3 @@
-import { ThemeProvider } from '@emotion/react';
 import React, { lazy } from 'react';
 import { BrowserRouter, Navigate, Route, Routes } from 'react-router-dom';
 
@@ -7,13 +6,7 @@ import ApplicationLoading from '$/components/application-loading';
 import ApplicationRoute from '$/components/application-route';
 import { applicationSettingsContext } from '$/contexts/application-settings';
 import { authenticationContext } from '$/contexts/authentication';
-import { ThemeName } from '$/utils/style';
-
-declare module '@emotion/react' {
-  export interface Theme {
-    name: ThemeName;
-  }
-}
+import { ThemeName } from '$/types/styles';
 
 // the general recommendation for React.lazy() is to us it for large / single use views / components
 const HomePage = lazy(() => import('$/views/home-page/home-page'));
@@ -26,7 +19,7 @@ const ApplicationWrapper = () => {
   const { isLoading } = authenticationContext.useContext();
 
   return (
-    <ThemeProvider theme={{ name: theme }}>
+    <div data-theme={theme}>
       <BrowserRouter>
         <ApplicationFrame>
           {isLoading && <ApplicationLoading />}
@@ -69,7 +62,7 @@ const ApplicationWrapper = () => {
           )}
         </ApplicationFrame>
       </BrowserRouter>
-    </ThemeProvider>
+    </div>
   );
 };
 

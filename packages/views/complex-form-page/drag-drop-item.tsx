@@ -6,8 +6,8 @@ import { FieldErrors, UseFormRegister } from 'react-hook-form';
 import Input from '$/components/input';
 import ValidationMessage from '$/components/validation-message';
 import { dragDropUtils, DragDropType } from '$/utils/drag-drop';
-import { DragItem, FieldId, MoveItem, Todo } from '$/views/complex-form-page/common';
 import { ComplexFormData } from '$/views/complex-form-page/complex-form-page';
+import { DragItem, FieldId, MoveItem, Todo } from '$/views/complex-form-page/utils';
 
 export interface DragDropItemProps {
   item: Todo;

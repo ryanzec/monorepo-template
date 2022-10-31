@@ -1,7 +1,4 @@
 // make typescript aware of the global configuration that is injected into the window object
-import '@emotion/react';
-import { ThemeName } from './packages/utils/style';
-
 declare global {
   interface Window {
     globalConfiguration?: {
@@ -15,11 +12,3 @@ declare global {
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
 // @ts-ignore-error
 global.window = {};
-
-// not sure why mocha does not pickup the types from packages/types/styles.d.ts but it does not so manually adding it
-// here
-declare module '@emotion/react' {
-  export interface Theme {
-    name: ThemeName;
-  }
-}

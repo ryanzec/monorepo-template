@@ -6,7 +6,7 @@ import {
   ButtonVariant,
   DEFAULT_BUTTON_SIZE,
   DEFAULT_BUTTON_VARIANT,
-} from '$/components/button/common';
+} from '$/components/button/utils';
 
 export interface ButtonGroupContextValue {
   context?: ButtonContext;

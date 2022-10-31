@@ -17,7 +17,7 @@
     "noEmitOnError": true,
     "target": "esnext",
     "module": "esnext",
-    "types": ["cypress", "cypress-real-events"],
+    "types": ["cypress", "cypress-real-events", "vite/client"],
     "paths": {
       "$/*": ["./packages/*"],
     }
