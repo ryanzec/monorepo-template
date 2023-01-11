@@ -8,24 +8,14 @@ import {
   PointerSensor,
   useSensor,
   useSensors,
-  useDroppable,
   DragOverEvent,
-  closestCorners,
   pointerWithin,
-  UniqueIdentifier,
 } from '@dnd-kit/core';
-import {
-  SortableContext,
-  useSortable,
-  verticalListSortingStrategy,
-  sortableKeyboardCoordinates,
-} from '@dnd-kit/sortable';
-import { CSS } from '@dnd-kit/utilities';
-import classnames from 'classnames';
+import { SortableContext, verticalListSortingStrategy, sortableKeyboardCoordinates } from '@dnd-kit/sortable';
 import produce from 'immer';
 import find from 'lodash/find';
 import remove from 'lodash/remove';
-import React, { memo, useCallback, useState } from 'react';
+import React, { useCallback, useState } from 'react';
 import { Virtuoso } from 'react-virtuoso';
 import { v4 as uuid } from 'uuid';
 

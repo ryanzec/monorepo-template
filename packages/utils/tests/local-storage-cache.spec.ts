@@ -1,4 +1,4 @@
-import 'mocha';
+import { expect, describe, it } from 'vitest';
 
 import { localStorageCacheUtils } from '$/utils/local-storage-cache';
 

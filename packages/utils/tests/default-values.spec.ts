@@ -1,5 +1,4 @@
-import 'mocha';
-import { expect } from 'chai';
+import { expect, describe, it } from 'vitest';
 
 import { defaultValuesUtils } from '$/utils/default-values';
 

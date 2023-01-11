@@ -3,7 +3,7 @@ import React, { useCallback, useRef } from 'react';
 import { useForm } from 'react-hook-form';
 import { BehaviorSubject } from 'rxjs';
 
-import Button, { ButtonContext, ButtonState } from '$/components/button';
+import Button, { ButtonContext } from '$/components/button';
 import { User } from '$/data-models/user';
 import { reactHooks } from '$/hooks';
 import { JsonApiState, jsonApiStoreUtils } from '$/stores/json-api-store';

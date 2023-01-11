@@ -13,17 +13,14 @@ import {
   useSensors,
 } from '@dnd-kit/core';
 import { sortableKeyboardCoordinates } from '@dnd-kit/sortable';
-import classnames from 'classnames';
-import React, { memo, useCallback, useState } from 'react';
-import { Path, UseFormRegister } from 'react-hook-form';
+import React, { useCallback, useState } from 'react';
+import { UseFormRegister } from 'react-hook-form';
 
-import DragDrop from '$/components/drag-drop';
-import Input from '$/components/input';
 import { dragDropUtils } from '$/utils/drag-drop';
 import { ComplexFormData } from '$/views/complex-form-view/complex-form-view';
 import styles from '$/views/complex-form-view/complex-form-view.module.css';
 import ContainerDisplay from '$/views/complex-form-view/container-display';
-import { FieldId, FormTodo, Todo } from '$/views/complex-form-view/utils';
+import { FieldId, FormTodo } from '$/views/complex-form-view/utils';
 
 export interface TodoItemsProps extends React.DetailedHTMLProps<React.HTMLAttributes<HTMLDivElement>, HTMLDivElement> {
   todoItems: FormTodo[];
@@ -33,7 +30,14 @@ export interface TodoItemsProps extends React.DetailedHTMLProps<React.HTMLAttrib
   errors: FieldErrors<ComplexFormData>;
 }
 
-const TodoItems = ({ todoItems, completedTodoItems, moveItem, register, errors, ...restOfProps }: TodoItemsProps) => {
+const TodoItems = ({
+  todoItems,
+  completedTodoItems,
+  moveItem,
+  register,
+  errors: _errors_,
+  ...restOfProps
+}: TodoItemsProps) => {
   const [activeDragItem, setActiveDragItem] = useState<FormTodo | null>(null);
   const sensors = useSensors(
     useSensor(PointerSensor),

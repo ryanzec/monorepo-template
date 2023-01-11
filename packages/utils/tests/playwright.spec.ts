@@ -1,5 +1,4 @@
-import 'mocha';
-import { expect } from 'chai';
+import { expect, describe, it } from 'vitest';
 
 describe('playwright utils', () => {
   it('this is just for testing stuff so tests are overkill for this right now', () => {

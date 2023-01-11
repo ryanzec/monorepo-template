@@ -1,19 +1,16 @@
-import { UniqueIdentifier, useDroppable } from '@dnd-kit/core';
+import { useDroppable } from '@dnd-kit/core';
 import { SortableContext, verticalListSortingStrategy } from '@dnd-kit/sortable';
 import React from 'react';
 
-interface DroppableItem {
-  id: UniqueIdentifier;
-  [key: string]: any;
-}
+import { DragDropItem } from '$/utils/drag-drop';
 
-interface DroppableContainerProps<TItemData extends DroppableItem>
+interface DroppableContainerProps<TItemData extends DragDropItem>
   extends React.DetailedHTMLProps<React.HTMLAttributes<HTMLDivElement>, HTMLDivElement> {
   items: TItemData[];
   dropId: string;
 }
 
-const DroppableContainer = <TItemData extends DroppableItem>({
+const DroppableContainer = <TItemData extends DragDropItem>({
   dropId,
   items,
   className,

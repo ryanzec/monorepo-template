@@ -4,13 +4,15 @@ import find from 'lodash/find';
 
 export interface DragDropItem {
   id: UniqueIdentifier;
+
+  // this is for a generic item so when need to allow anything
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   [key: string]: any;
 }
 
-const getContainerId = <TGroupedItems extends Record<string, any>, TItem extends DragDropItem>(
-  items: TGroupedItems,
-  itemId: UniqueIdentifier,
-) => {
+// this is for a generic item so when need to allow anything
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+const getContainerId = <TGroupedItems extends Record<string, any>>(items: TGroupedItems, itemId: UniqueIdentifier) => {
   return (Object.keys(items) as Array<keyof TGroupedItems>).find((key) => find(items[key], { id: itemId }));
 };
 
@@ -18,7 +20,9 @@ const getItemIndex = <TItem extends DragDropItem>(items: TItem[], itemId?: Uniqu
   return items.findIndex((item) => item.id === itemId);
 };
 
-const groupedArrayMove = <TGroupedItems extends Record<string, Array<Record<string, any>>>, TItem extends DragDropItem>(
+// this is for a generic item so when need to allow anything
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+const groupedArrayMove = <TGroupedItems extends Record<string, Array<Record<string, any>>>>(
   items: TGroupedItems,
   activeId: UniqueIdentifier,
   overId: UniqueIdentifier,
@@ -38,6 +42,8 @@ const groupedArrayMove = <TGroupedItems extends Record<string, Array<Record<stri
   return items;
 };
 
+// this is for a generic item so when need to allow anything
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 const arrayMove = <TItems extends Array<Record<string, any>>>(
   items: TItems,
   activeId: UniqueIdentifier,

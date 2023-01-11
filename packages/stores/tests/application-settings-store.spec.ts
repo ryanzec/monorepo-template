@@ -1,6 +1,5 @@
-import 'mocha';
-import { expect } from 'chai';
 import { BehaviorSubject } from 'rxjs';
+import { expect, describe, it } from 'vitest';
 
 import { applicationSettingsStoreUtils } from '$/stores/application-settings-store';
 import { ThemeName } from '$/types/styles';
